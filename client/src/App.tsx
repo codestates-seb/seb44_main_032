@@ -1,9 +1,13 @@
+import { Routes, Route } from 'react-router-dom';
+
+import Login from "./page/Login/Login"
+
 function App() {
 
   return (
-    <>
-   <div>라우팅 여기서</div>
-    </>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+    </Routes>
   )
 }
 
