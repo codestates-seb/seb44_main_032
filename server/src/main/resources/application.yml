@@ -8,12 +8,13 @@ spring:
         format_sql: true
     hibernate:          # 데이터베이스 스키마 업데이트 동작을 지정
       ddl-auto: update  # 엔티티 정의를 기반으로 스키마를 자동으로 업데이트
+    url: jdbc:mysql://localhost:3306/planet?serverTimezone=UTC&characterEncoding=UTF-8
 
   datasource:
-    url: #jdbc:mysql://localhost:3306/mydatabase?characterEncoding=UTF-8&serverTimezone=UTC
-    username: #admin
-    password: #test1234
     driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/planet?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: bbeum55s!
 
 logging:                             #로그 파일 설정구성
   file:

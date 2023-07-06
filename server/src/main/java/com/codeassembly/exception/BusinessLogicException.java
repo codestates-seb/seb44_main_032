@@ -1,4 +1,4 @@
-package com.codeassembly.Exception;
+package com.codeassembly.exception;
 
 import lombok.Getter;
 

@@ -1,6 +1,6 @@
 package com.codeassembly.response;
 
-import com.codeassembly.Exception.ExceptionCode;
+import com.codeassembly.exception.ExceptionCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
