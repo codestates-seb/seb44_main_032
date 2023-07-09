@@ -38,11 +38,11 @@ function Login() {
     //     token: 'your_token_here',
     //   },
     // };
-    const { token } = response.body;
+    const { token } = response.data;
     saveToken(token); // 토큰 저장
     navigate('/');
     console.log(response);
-    return response.body;
+    return response.data;
   }
 
   function formSubmitLoginHandler() {
@@ -83,13 +83,16 @@ function Login() {
         <LogoImg src={Logo} />
         <LoginInputSection>
           <LoginInputText>이메일</LoginInputText>
-          <LoginInput value={email} onChange={e => setEmail(e.target.value)} />
+          <LoginInput
+            value={email}
+            onChange={(e: any) => setEmail(e.target.value)}
+          />
           {isEmailError && <ErrorText>{errorMessage}</ErrorText>}
           <LoginInputText>비밀번호</LoginInputText>
           <LoginInput
             type="password"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e: any) => setPassword(e.target.value)}
           />
           {errorMessage && !isEmailError && (
             <ErrorText>{errorMessage}</ErrorText>
