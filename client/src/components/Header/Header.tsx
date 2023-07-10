@@ -7,40 +7,50 @@ import logo from '../../assets/logo.png';
 const HeaderContainer = styled.div`
   position: fixed;
   display: flex;
-  flex-direction: row;
   align-items: center;
   width: 100%;
   height: 67px;
   font-size: 16px;
+  @media screen and (max-width: 600px) {
+    font-size: 14px;
+  }
 `;
 
 const Logo = styled.img`
-  width: 120px;
+  width: 140px;
   height: 20px;
-  margin-left: 100px;
+  margin-left: 40px;
   cursor: pointer;
 `;
 
-const Nav = styled.div`
+const Nav = styled.nav`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 100%;
-  margin-left: 60px;
+  margin-left: 40px;
+  @media screen and (max-width: 600px) {
+    margin-left: 20px;
+  }
 `;
 
 const LeftContainer = styled.div`
   display: flex;
-  gap: 60px;
-  text-decoration: none;
+  gap: 40px;
+  @media screen and (max-width: 600px) {
+    gap: 20px;
+  }
 `;
 
 const RightContainer = styled.div`
   display: flex;
-  gap: 60px;
-  margin-right: 100px;
+  gap: 40px;
+  margin-right: 40px;
+  @media screen and (max-width: 600px) {
+    gap: 20px;
+  }
 `;
 
 const Links = styled(Link)`
