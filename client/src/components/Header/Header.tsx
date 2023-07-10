@@ -11,8 +11,11 @@ const HeaderContainer = styled.div`
   width: 100%;
   height: 67px;
   font-size: 16px;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 767px) {
     font-size: 14px;
+  }
+  @media screen and (max-width: 440px) {
+    font-size: 10px;
   }
 `;
 
@@ -21,6 +24,9 @@ const Logo = styled.img`
   height: 20px;
   margin-left: 40px;
   cursor: pointer;
+  @media screen and (max-width: 540px) {
+    margin-left: 20px;
+  }
 `;
 
 const Nav = styled.nav`
@@ -31,7 +37,7 @@ const Nav = styled.nav`
   width: 100%;
   height: 100%;
   margin-left: 40px;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 540px) {
     margin-left: 20px;
   }
 `;
@@ -39,7 +45,7 @@ const Nav = styled.nav`
 const LeftContainer = styled.div`
   display: flex;
   gap: 40px;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 540px) {
     gap: 20px;
   }
 `;
@@ -48,8 +54,11 @@ const RightContainer = styled.div`
   display: flex;
   gap: 40px;
   margin-right: 40px;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 540px) {
     gap: 20px;
+  }
+  @media screen and (max-width: 540px) {
+    margin-right: 20px;
   }
 `;
 
