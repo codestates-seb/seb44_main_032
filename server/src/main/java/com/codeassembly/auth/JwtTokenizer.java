@@ -168,4 +168,9 @@ public class JwtTokenizer {
         return generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
     }
 
+//    //토큰 무효화 로직 구현
+//    public void invalidateToken(String token) {
+//
+//    }
+
 }

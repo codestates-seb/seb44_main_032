@@ -39,6 +39,9 @@ public class UserDto extends Auditable {
     @NoArgsConstructor
     public static class Patch {
         private long userId;
+        @NotBlank
+        @Email
+        private String email;
         private String password;
         private String name;
         private String nickname;
