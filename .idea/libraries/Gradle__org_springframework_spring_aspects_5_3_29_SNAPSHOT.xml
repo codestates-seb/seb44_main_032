@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: org.springframework:spring-aspects:5.3.29-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework/spring-aspects/5.3.29-SNAPSHOT/72acb87758bf4f079075ba3b17f0c065d31718fb/spring-aspects-5.3.29-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework/spring-aspects/5.3.29-SNAPSHOT/a8537f334b5b4110014167c685c3c9b5e2e06d15/spring-aspects-5.3.29-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework/spring-aspects/5.3.29-SNAPSHOT/f879698df90d7257c7bf4ebcd75b43f9025d5f3b/spring-aspects-5.3.29-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework/spring-aspects/5.3.29-SNAPSHOT/24cbcb36e3588115667425d36a33d659df12d11a/spring-aspects-5.3.29-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

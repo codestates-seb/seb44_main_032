@@ -1,6 +1,8 @@
 package com.codeassembly.user.userEntity;
 
 import com.codeassembly.Exception.BusinessLogicException;
+import com.codeassembly.community.entity.Community;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,7 @@ import com.codeassembly.Exception.ExceptionCode;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -32,6 +34,10 @@ public class User {
     private UserStatus userStatus = UserStatus.USER_EXIST;
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Community> communities = new ArrayList<>();
 
     public static void checkExistEmail(Optional<User> targetUser) {
         if(targetUser.isPresent())

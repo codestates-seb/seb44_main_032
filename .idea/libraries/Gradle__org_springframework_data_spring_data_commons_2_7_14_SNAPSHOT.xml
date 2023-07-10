@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: org.springframework.data:spring-data-commons:2.7.14-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/2.7.14-SNAPSHOT/5812a3c9d3d8ec89055315c768224caae47a2a6f/spring-data-commons-2.7.14-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/2.7.14-SNAPSHOT/fdc22e335dbb6a5e2d371c04c5c149237ac09337/spring-data-commons-2.7.14-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/2.7.14-SNAPSHOT/b685b4c17da8bd6955ebcbc665cc50794aad09f6/spring-data-commons-2.7.14-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/2.7.14-SNAPSHOT/b1f6763640963bbbdf5dbbf11e2b5b26f36e18ef/spring-data-commons-2.7.14-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
