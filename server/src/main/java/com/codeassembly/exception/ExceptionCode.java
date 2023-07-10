@@ -7,7 +7,9 @@ public enum ExceptionCode {
     USER_EXISTS(409, "Already User exists"),
     UNMATCHED_WRITER(403, "글 작성자가 아닙니다."),
     UNAUTHORIZED(403, "권한이 없습니다."),
-    ;
+    UNMATCHED_COMMUNITY_WRITER(403, "커뮤니티 작성자가 아닙니다."),
+    COMMUNITY_NOT_FOUND(404, "Community not found")
+;
 
     @Getter
     private int status;

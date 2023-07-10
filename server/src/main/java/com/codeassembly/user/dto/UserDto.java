@@ -1,12 +1,12 @@
 package com.codeassembly.user.dto;
 
 import com.codeassembly.audit.Auditable;
+import com.codeassembly.user.entity.User;
 import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-
 
 @Builder
 @AllArgsConstructor
@@ -14,8 +14,8 @@ import javax.validation.constraints.Pattern;
 public class UserDto extends Auditable {
 
     //회원 가입 로직에 인증과 관련된 코드 추가
-    @Getter
     @AllArgsConstructor
+    @Getter
     public static class Post {
         @NotBlank
         @Email
@@ -54,5 +54,7 @@ public class UserDto extends Auditable {
         private String email;
         private String name;
         private String nickname;
+
     }
+
 }

@@ -78,7 +78,6 @@ public class UserService extends Auditable {
         return findUser;
     }
 
-
     //회원 탈퇴
     public void deleteUser(long userId) {
         User findUser = findUser(userId);

@@ -1,11 +1,16 @@
 package com.codeassembly.user.entity;
 
 import com.codeassembly.audit.Auditable;
+import com.codeassembly.community.entity.Community;
+import com.codeassembly.exception.BusinessLogicException;
+import com.codeassembly.exception.ExceptionCode;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -13,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "users")
 public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,5 +39,14 @@ public class User extends Auditable {
     // user 권한 부여
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Community> communities = new ArrayList<>();
+
+    public static void checkExistEmail(Optional<User> targetUser) {
+        if(targetUser.isPresent())
+            throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
+    }
 
 }

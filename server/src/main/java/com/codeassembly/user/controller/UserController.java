@@ -1,6 +1,5 @@
 package com.codeassembly.user.controller;
 
-
 import com.codeassembly.auth.JwtTokenizer;
 import com.codeassembly.auth.service.TokenBlacklistService;
 import com.codeassembly.exception.ExceptionCode;
@@ -86,6 +85,5 @@ public class UserController {
     }
 
 }
-
 
 

@@ -38,3 +38,7 @@ out/
 
 ### Custom ###
 com/codeassembly/utils/InitData.java
+
+###user제외###
+/user/
+

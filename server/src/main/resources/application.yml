@@ -10,28 +10,63 @@ spring:
       ddl-auto: update  # 엔티티 정의를 기반으로 스키마를 자동으로 업데이트
     url: jdbc:mysql://localhost:3306/planet?serverTimezone=UTC&characterEncoding=UTF-8
 
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/planet?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: bbeum55s!
+    password: al5364485!
 
-logging:                             #로그 파일 설정구성
-  file:
-    name: logs/logging.log
-  level:
-    spring:
-      server:
-        auth: debug
 
 jwt:                                 #key 설정 및 토큰 만료 시간 설정
   key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30
-  refresh-token-expiration-minutes: 600
+  refresh-token-expiration-minutes: 420
 
 mail:
   address:
     admin: admin@gmail.com
+
+# AWS 설정
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2  # AWS 기본 리전을 설정
+    stack:
+      auto: false # Spring Cloud를 실행하면, 서버 구성을 자동화하는 CloudFormation이 실행되는데 이를 사용하지 않으므로 false로 설정
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error # 해당 클래스에서 예외가 발생하면 로그를 출력하지 않음
+
+---
+# Multipart 설정
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB # 요청한 파일 한 개의 크기
+      max-request-size: 100MB # 요청한 파일 전체의 크기
+
+---
+# LOCAL 설정
+spring.config.activate.on-profile: "profiles-local"
+spring:
+  s3:
+    bucket: kongsbucket
+    access-key: AKIAZ73XJMWYBK2PVC42
+    secret-key:
+
+---
+# DEV 설정
+
+spring:
+  s3:
+    bucket: kongsbucket
+    access-key: AKIAZ73XJMWYBK2PVC42
+    secret-key:
 
 
 #  security:
