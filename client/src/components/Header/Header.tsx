@@ -4,17 +4,16 @@ import { useState } from 'react';
 
 import logo from '../../assets/logo.png';
 
-const HeaderContainer = styled.div`
+const HeaderContainer = styled.header`
   position: fixed;
+  z-index: 10;
   display: flex;
   align-items: center;
   width: 100%;
   height: 67px;
   font-size: 16px;
-  @media screen and (max-width: 767px) {
-    font-size: 14px;
-  }
-  @media screen and (max-width: 440px) {
+
+  @media screen and (max-width: 460px) {
     font-size: 10px;
   }
 `;
@@ -24,20 +23,22 @@ const Logo = styled.img`
   height: 20px;
   margin-left: 40px;
   cursor: pointer;
-  @media screen and (max-width: 540px) {
+  @media screen and (max-width: 500px) {
     margin-left: 20px;
+  }
+  @media screen and (max-width: 460px) {
+    width: 120px;
   }
 `;
 
 const Nav = styled.nav`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 100%;
   margin-left: 40px;
-  @media screen and (max-width: 540px) {
+  @media screen and (max-width: 600px) {
     margin-left: 20px;
   }
 `;
@@ -45,7 +46,7 @@ const Nav = styled.nav`
 const LeftContainer = styled.div`
   display: flex;
   gap: 40px;
-  @media screen and (max-width: 540px) {
+  @media screen and (max-width: 600px) {
     gap: 20px;
   }
 `;
@@ -54,10 +55,10 @@ const RightContainer = styled.div`
   display: flex;
   gap: 40px;
   margin-right: 40px;
-  @media screen and (max-width: 540px) {
+  @media screen and (max-width: 600px) {
     gap: 20px;
   }
-  @media screen and (max-width: 540px) {
+  @media screen and (max-width: 500px) {
     margin-right: 20px;
   }
 `;
