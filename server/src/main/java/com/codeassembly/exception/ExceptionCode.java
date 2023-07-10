@@ -1,12 +1,13 @@
-package com.codeassembly.Exception;
+package com.codeassembly.exception;
 
 import lombok.Getter;
 
 public enum ExceptionCode {
     USER_NOT_FOUND(404, "User not found"),
     USER_EXISTS(409, "Already User exists"),
-    UNMATCHED_WRITER(403, "스토리 작성자가 아닙니다."),
-;
+    UNMATCHED_WRITER(403, "글 작성자가 아닙니다."),
+    UNAUTHORIZED(403, "권한이 없습니다."),
+    ;
 
     @Getter
     private int status;
