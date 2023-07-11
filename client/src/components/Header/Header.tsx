@@ -12,8 +12,8 @@ const HeaderContainer = styled.header`
   width: 100%;
   height: 67px;
   font-size: 16px;
-
-  @media screen and (max-width: 460px) {
+  background-color: white;
+  @media screen and (max-width: 480px) {
     font-size: 10px;
   }
 `;
@@ -23,11 +23,12 @@ const Logo = styled.img`
   height: 20px;
   margin-left: 40px;
   cursor: pointer;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 520px) {
     margin-left: 20px;
   }
-  @media screen and (max-width: 460px) {
-    width: 120px;
+  @media screen and (max-width: 480px) {
+    width: 100px;
+    height: 14px;
   }
 `;
 
@@ -58,7 +59,7 @@ const RightContainer = styled.div`
   @media screen and (max-width: 600px) {
     gap: 20px;
   }
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 520px) {
     margin-right: 20px;
   }
 `;
