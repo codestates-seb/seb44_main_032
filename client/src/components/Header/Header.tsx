@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-
+import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import logo from '../../assets/logo.png';
 
 const HeaderContainer = styled.header`
@@ -70,7 +69,23 @@ const Links = styled(Link)`
 `;
 
 function Header() {
+  const location = useLocation();
   const [isLogin, setIsLogin] = useState<boolean>(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    console.log(token);
+    if (token) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [location]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLogin(false);
+  };
 
   return (
     <HeaderContainer>
@@ -83,17 +98,19 @@ function Header() {
           <Links to="/community">커뮤니티</Links>
         </LeftContainer>
         <RightContainer>
-          <Links
-            to="/login"
-            onClick={() => {
-              setIsLogin(!isLogin);
-            }}
-          >
-            {isLogin ? '로그아웃' : '로그인'}
-          </Links>
-          <Links to={isLogin ? '/mypage' : '/signup'}>
-            {isLogin ? '마이페이지' : '회원가입'}
-          </Links>
+          {isLogin ? (
+            <>
+              <Links to="/mypage">마이페이지</Links>
+              <Links to="/" onClick={handleLogout}>
+                로그아웃
+              </Links>
+            </>
+          ) : (
+            <>
+              <Links to="/login">로그인</Links>
+              <Links to="/signup">회원가입</Links>
+            </>
+          )}
         </RightContainer>
       </Nav>
     </HeaderContainer>
