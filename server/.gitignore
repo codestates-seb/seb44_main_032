@@ -35,3 +35,13 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Custom ###
+com/codeassembly/utils/InitData.java
+
+###user제외###
+/user/
+
+###client 제외###
+client/
+
