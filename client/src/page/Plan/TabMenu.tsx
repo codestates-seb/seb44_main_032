@@ -38,7 +38,7 @@ const TabMenuContainer = styled.div`
   margin-left: 120px; //196에서 변경
   display: flex;
   flex-wrap: wrap;
-  border: 1px solid green;//임시
+  /* border: 1px solid green;//임시 */
   @media (max-width: 500px) {
     margin-left: 60px;
   }
@@ -63,13 +63,12 @@ const PlanContainer = styled.div`
 const TabContent = styled.div`
   /* padding: 20px; */
   background-color: #f9f9f9;
-  border: 1px solid red;//임시
+  /* border: 1px solid red;//임시 */
 
   display: flex;
   flex-wrap: wrap;
-  /* @media (max-width: 500px) {
-    flex-direction: column; 하면 글쓰기 버튼이 탭옆에 딱 붙어서 안떨어짐
-  } */
+
+
   
 `;
 
@@ -79,17 +78,18 @@ const PageContainer = styled.div`
   align-items: flex-start;
   height: 100vh;
   /* width: 100vh; 와이드가 고정되면 글쓰기 버튼 및 탭 하단 일정카드가 고정됨 그래서 비활성화 */
-  border: 1px solid blue;//임시
-  /* @media (max-width: 500px) {
-     justify-content: center;
-  } */
+  /* border: 1px solid blue;//임시 */
+  @media (max-width: 500px) {
+     overflow: auto;
+     /* justify-content: center; */
+  }
 `;
 
 const ContentContainer = styled.div`
   flex-grow: 1;
   
   margin-left: 120px;//196에서 변경 
-  border: 1px solid pink;//임시
+  /* border: 1px solid pink;//임시 */
 
   flex-wrap: wrap;
   /* display: flex; 이건 탭이 아래로 길어짐*/
