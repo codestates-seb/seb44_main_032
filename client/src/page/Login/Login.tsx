@@ -1,12 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Logo from '../../assets/logo.png';
 import googleIcon from '../../assets/Login/google.png';
 import kakaoIcon from '../../assets/Login/kakao.png';
 import githubIcon from '../../assets/Login/github.png';
 import { useMutation, UseMutationResult } from 'react-query';
-import axios from 'axios';
 
 type LoginRequest = {
   email: string;
@@ -17,22 +16,49 @@ type LoginResponse = {
   token: string;
 };
 
+async function getAuthUrl(provider: string) {
+  // 해당 프로바이더의 인증 URL을 가져옴
+  const response = await fetch(`/api/auth/${provider}`);
+  const data = await response.json();
+  window.location.href = data.url;
+}
+
+async function getToken(code: string): Promise<LoginResponse> {
+  // 코드를 사용하여 토큰을 가져옴
+  const response = await fetch(`/api/auth/token?code=${code}`);
+  const data = await response.json();
+  return data;
+}
+
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isEmailError, setEmailError] = useState(false);
-  const [isPasswordError, setPasswordError] = useState(false);
 
   const loginMutation: UseMutationResult<LoginResponse, unknown, LoginRequest> =
     useMutation(login);
 
+  useEffect(() => {
+    // URL 매개변수에서 코드를 가져와 토큰을 얻음
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    if (code) {
+      getToken(code)
+        .then(data => {
+          saveToken(data.token);
+          navigate('/');
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    }
+  }, []);
+
   async function login(loginRequest: LoginRequest): Promise<LoginResponse> {
+    // 로그인 요청을 보냄 (실제 백엔드 API 호출)
     const response = await axios.post('/user/login', loginRequest);
-    // 더미데이터 사용 code
     // const response = {
-    //   body: {
+    //   data: {
     //     memberId: 1,
     //     password: 1234,
     //     token: 'your_token_here',
@@ -46,57 +72,63 @@ function Login() {
   }
 
   function formSubmitLoginHandler() {
+    // 폼 제출 시 유효성을 검사하고 로그인 요청을 보냄
     if (!email && !password) {
-      setErrorMessage('이메일과 비밀번호를 모두 입력해주세요.');
+      alert('이메일과 비밀번호를 모두 입력해주세요.');
     } else if (!isValidEmail(email)) {
-      setEmailError(true);
-      setErrorMessage('이메일을 잘못 입력하셨습니다.');
+      alert('이메일을 잘못 입력하셨습니다.');
     } else if (!isValidPassword(password)) {
-      setEmailError(false);
-      setPasswordError(true);
-      setErrorMessage('비밀번호가 틀렸습니다.');
+      alert('비밀번호가 틀렸습니다.');
     } else {
-      setEmailError(false);
-      setPasswordError(false);
       loginMutation.mutate({ email, password });
     }
   }
 
   function isValidEmail(email: string) {
-    // 이메일 형식을 정규식으로 검사
+    // 이메일 유효성 검사 (정규식 사용)
     console.log(email);
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     return emailRegex.test(email);
   }
 
   function isValidPassword(password: string) {
-    return password.length >= 8;
+    // 패스워드 유효성 검사
+    const isLongEnough = password.length >= 8; // 최소 8자 이상
+
+    const specialCharacterRegex = /[!@#$%^&*(),.?":{}|<>]/g;
+    const specialCharacterCount = (password.match(specialCharacterRegex) || [])
+      .length;
+    const hasEnoughSpecialCharacters = specialCharacterCount >= 2; // 최소 2개의 특수 문자
+
+    return isLongEnough && hasEnoughSpecialCharacters;
   }
 
   function saveToken(token: string): void {
+    // 토큰을 로컬 스토리지에 저장
     localStorage.setItem('token', token);
+  }
+
+  function handleOAuthLogin(provider: string) {
+    // OAuth 로그인 버튼 클릭 시 해당 프로바이더의 인증 URL을 가져옴
+    getAuthUrl(provider);
   }
 
   return (
     <LoginSection>
       <LoginForm>
-        <LogoImg src={Logo} />
+        <LogoImg src={Logo} alt="logo" />
         <LoginInputSection>
           <LoginInputText>이메일</LoginInputText>
           <LoginInput
             value={email}
             onChange={(e: any) => setEmail(e.target.value)}
           />
-          {isEmailError && <ErrorText>{errorMessage}</ErrorText>}
           <LoginInputText>비밀번호</LoginInputText>
           <LoginInput
             type="password"
             value={password}
             onChange={(e: any) => setPassword(e.target.value)}
           />
-          {errorMessage && !isEmailError && (
-            <ErrorText>{errorMessage}</ErrorText>
-          )}
         </LoginInputSection>
         <LoginBorder />
         <LoginButtonSection>
@@ -104,9 +136,15 @@ function Login() {
           <SignUpButton to="/signup">회원가입</SignUpButton>
         </LoginButtonSection>
         <LoginOAuthSection>
-          <OAuthGoogle>Log in with Google</OAuthGoogle>
-          <OAuthKakao>Log in with Kakao</OAuthKakao>
-          <OAuthGithub>Log in with Github</OAuthGithub>
+          <OAuthGoogle onClick={() => handleOAuthLogin('google')}>
+            Log in with Google
+          </OAuthGoogle>
+          <OAuthKakao onClick={() => handleOAuthLogin('kakao')}>
+            Log in with Kakao
+          </OAuthKakao>
+          <OAuthGithub onClick={() => handleOAuthLogin('github')}>
+            Log in with Github
+          </OAuthGithub>
         </LoginOAuthSection>
       </LoginForm>
     </LoginSection>
@@ -133,7 +171,7 @@ const LoginForm = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-bottom: 30px;
+  margin-bottom: 60px;
   box-shadow: 3px 4px 4px rgb(152, 221, 227, 0.25);
 `;
 
@@ -219,8 +257,8 @@ const SignUpButton = styled(Link)`
 const LoginOAuthSection = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 48px;
   padding: 16px;
-  margin-top: 28px;
 `;
 
 const OAuthGoogle = styled.button`
@@ -281,11 +319,4 @@ const OAuthGithub = styled.button`
   background-color: white;
   box-shadow: 2px 4px 4px rgb(152, 221, 227, 0.25);
   cursor: pointer;
-`;
-
-const ErrorText = styled.div`
-  margin-top: 8px;
-  font-size: 12px;
-  color: #545454;
-  text-align: right;
 `;
