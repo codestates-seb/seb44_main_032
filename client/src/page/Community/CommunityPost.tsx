@@ -1,25 +1,99 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 import PostTab from '../../components/Community/PostTab';
 import PostEditor from '../../components/Community/PostEditor';
 
+type FormData = {
+  title: string;
+  category: string;
+  content: string;
+};
+
 function CommunityPost() {
-  const [formData, setFormData] = useState({ content: '' });
+  const token = localStorage.getItem('user');
+  const navigate = useNavigate();
+  const userId = localStorage.getItem('userId');
+  const [formData, setFormData] = useState<FormData>({
+    title: '',
+    category: '',
+    content: '',
+  });
+
+  function titleInputHandler(e: React.ChangeEvent<HTMLInputElement>) {
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      title: e.target.value,
+    }));
+  }
+
+  function submitHandler(e: React.FormEvent) {
+    e.preventDefault();
+
+    if (formData.title.length === 0) {
+      alert('제목을 입력해주세요.');
+      return;
+    }
+
+    if (formData.category.length === 0) {
+      alert('카테고리를 선택해주세요.');
+      return;
+    }
+
+    if (formData.content.length === 0) {
+      alert('본문 내용을 입력해주세요.');
+      return;
+    }
+
+    axios
+      .post(`/community/registration/${userId}`, formData, {
+        headers: {
+          Auth: token,
+        },
+      })
+      .then(() => {
+        navigate('/community');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  function handleCancel() {
+    const confirmCancel = window.confirm('작성 중인 내용을 취소하시겠습니까?');
+    if (confirmCancel) {
+      navigate('/community');
+    }
+  }
 
   return (
     <PostSection>
       <PostForm>
         <PostText>제목</PostText>
-        <TitleInput />
+        <TitleInput onChange={titleInputHandler} />
         <PostText>카테고리</PostText>
-        <PostTab />
+        <PostTab
+          onCategorySelect={(category: string) =>
+            setFormData(prevFormData => ({
+              ...prevFormData,
+              category,
+            }))
+          }
+          selectedCategory={formData.category}
+        />
         <PostText>내용</PostText>
         <PostEditor formData={formData} setFormData={setFormData} />
-        <PostButton>등록</PostButton>
+        <ButtonWrapper>
+          <CancelButton onClick={handleCancel}>취소</CancelButton>
+          <PostButton onClick={submitHandler}>등록</PostButton>
+        </ButtonWrapper>
       </PostForm>
     </PostSection>
   );
 }
+
+export default CommunityPost;
 
 const PostSection = styled.section`
   display: flex;
@@ -31,12 +105,11 @@ const PostSection = styled.section`
 `;
 
 const PostForm = styled.div`
-  padding: 8px;
-  margin-top: 40px;
   display: flex;
+  padding: 4px;
+  margin-top: 40px;
   height: 540px;
-  max-width: 970px;
-  width: 100%;
+  width: 970px;
   flex-direction: column;
   border: 1px solid pink;
 `;
@@ -50,23 +123,36 @@ const PostText = styled.text`
 const TitleInput = styled.input`
   border: 1px solid #98dde3;
   border-radius: 8px;
-  height: 45px;
+  height: 50px;
   max-width: 430px;
-  width: 100%;
   margin-bottom: 28px;
+  padding-inline-start: 7px;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+  height: 50px;
 `;
 
 const PostButton = styled.button`
   padding: 6px;
-  margin-top: 24px;
   border-radius: 8px;
   border: 0px;
-  width: 48px;
-  height: 45px;
+  width: 69px;
   background-color: #98dde3;
   color: white;
   cursor: pointer;
-  margin-left: auto;
+  margin-left: 12px;
 `;
 
-export default CommunityPost;
+const CancelButton = styled.button`
+  padding: 6px;
+  border-radius: 8px;
+  border: 0px;
+  width: 69px;
+  background-color: #eea9a9;
+  color: white;
+  cursor: pointer;
+`;

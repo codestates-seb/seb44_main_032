@@ -1,13 +1,13 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
-function PostTab() {
-  const [selectedCategory, setSelectedCategory] = useState('');
+interface PostTabProps {
+  selectedCategory: string;
+  onCategorySelect: (category: string) => void;
+}
 
+function PostTab({ selectedCategory, onCategorySelect }: PostTabProps) {
   function handleClick(category: string) {
-    setSelectedCategory(prevCategory =>
-      prevCategory === category ? '' : category,
-    );
+    onCategorySelect(category === selectedCategory ? '' : category);
   }
 
   return (

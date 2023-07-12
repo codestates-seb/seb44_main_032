@@ -1,15 +1,15 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, Dispatch, SetStateAction } from 'react';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 
-interface FormData {
+type FormData = {
   content: string;
-}
+};
 
-interface PostEditorProps {
+type PostEditorProps = {
   formData: FormData;
-  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
-}
+  setFormData: Dispatch<SetStateAction<FormData>>;
+};
 
 function PostEditor(props: PostEditorProps) {
   const { formData, setFormData } = props;
