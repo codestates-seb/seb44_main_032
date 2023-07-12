@@ -22,7 +22,6 @@ public class Comment extends Auditable {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String commentBody;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
     private User user;
@@ -30,6 +29,4 @@ public class Comment extends Auditable {
     @ManyToOne
     @JoinColumn(name = "communityId")
     private Community community;
-
-
 }

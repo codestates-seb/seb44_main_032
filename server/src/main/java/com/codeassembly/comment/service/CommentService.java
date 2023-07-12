@@ -10,7 +10,6 @@ import com.codeassembly.exception.ExceptionCode;
 import com.codeassembly.user.entity.User;
 import com.codeassembly.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
