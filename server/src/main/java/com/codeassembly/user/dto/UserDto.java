@@ -31,7 +31,6 @@ public class UserDto extends Auditable {
 
         @NotBlank(message = "별명은 공백이 아니어야 합니다.")
         private String nickname;
-
     }
 
     @Getter

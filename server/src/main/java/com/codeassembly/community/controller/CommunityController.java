@@ -30,7 +30,7 @@ public class CommunityController {
     @PostMapping("/registration/{userId}")
     public ResponseEntity createCommunity(@PathVariable("userId") Long userId,
                                           @Valid @RequestBody CommunityDto.Post requestBody
-                                          ){
+    ){
         Community community =mapper.communityPostDtoToCommunity(requestBody);
         Community createdCommunity =communityService.createdCommunity(userId, community);
         CommunityDto.Response response = mapper.communityToResponseDto(createdCommunity);
@@ -40,7 +40,7 @@ public class CommunityController {
     }
     @PatchMapping("/edit/{userId}")
     public ResponseEntity updateCommunity(@PathVariable("userId") Long userId,
-                                         @Valid @RequestBody CommunityDto.Patch requestBody){
+                                          @Valid @RequestBody CommunityDto.Patch requestBody){
         Community community = mapper.communityPatchDtoToCommunity(requestBody);
         Community updateCommunity = communityService.updateCommunity(userId, community);
         return new ResponseEntity<>(mapper.communityToResponseDto(updateCommunity), HttpStatus.OK);

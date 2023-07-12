@@ -1,12 +1,14 @@
 package com.codeassembly.community.entity;
 
 import com.codeassembly.audit.Auditable;
+import com.codeassembly.comment.entity.Comment;
 import com.codeassembly.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "Community")
 @NoArgsConstructor
@@ -21,7 +23,7 @@ public class Community extends Auditable {
     @Column(nullable = false)
     private int views; //조회수
     @ManyToOne(fetch = FetchType.LAZY) //유저와 n:1
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
 
 
@@ -31,4 +33,8 @@ public class Community extends Auditable {
             this.user.getCommunities().add(this);
         }
     }
+
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
+    private List<Comment> comments;
+
 }
