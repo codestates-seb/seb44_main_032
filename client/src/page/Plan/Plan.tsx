@@ -14,7 +14,7 @@ const PlanSection = styled.div`//페이지 전체
     padding: 128px 0;//196px
     justify-content: flex-start; //고정
     align-items: center; //수직 가운데 정렬
-    border: 1px solid yellow;//임시
+    /* border: 1px solid yellow;//임시 */
     /* flex-wrap: wrap; X */
      @media (max-width: 500px) {
      padding: 64px 0;
@@ -29,7 +29,7 @@ const PlanSection = styled.div`//페이지 전체
 const TabMenuWrapper = styled.div`
   display: flex; /* 자식 요소를 수평으로 배치하기 위해 flexbox 사용 */
   align-items: center; /* 자식 요소들을 수직 가운데로 정렬 */
-  border: 1px solid black; //임시
+  /* border: 1px solid black; //임시 */
   position: relative;
 `;
 
