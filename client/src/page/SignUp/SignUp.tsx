@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation, UseMutationResult } from 'react-query';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -21,8 +21,23 @@ type SignUpResponse = {
   password: string;
   name: string;
   nickname: string;
+  token: string;
   createdAt: string;
 };
+
+async function getAuthUrl(provider: string) {
+  // 해당 프로바이더의 인증 URL을 가져옴
+  const response = await fetch(`/api/auth/${provider}`);
+  const data = await response.json();
+  window.location.href = data.url;
+}
+
+async function getToken(code: string): Promise<SignUpResponse> {
+  // 코드를 사용하여 토큰을 가져옴
+  const response = await fetch(`/api/auth/token?code=${code}`);
+  const data = await response.json();
+  return data;
+}
 
 function SignUp() {
   const navigate = useNavigate();
@@ -30,17 +45,28 @@ function SignUp() {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [nickname, setNickname] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isNicknameError, setNicknameError] = useState(false);
-  const [isEmailError, setEmailError] = useState(false);
-  const [isPasswordError, setPasswordError] = useState(false);
-  const [isEmailDuplicate, setEmailDuplicate] = useState(false);
 
   const signUpMutation: UseMutationResult<
     SignUpResponse,
     unknown,
     SignUpRequest
   > = useMutation(signUp);
+
+  useEffect(() => {
+    // URL 매개변수에서 코드를 가져와 토큰을 얻음
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    if (code) {
+      getToken(code)
+        .then(data => {
+          saveToken(data.token);
+          navigate('/');
+        })
+        .catch(error => {
+          alert(error.message);
+        });
+    }
+  }, []);
 
   async function signUp(signUpRequest: SignUpRequest): Promise<SignUpResponse> {
     const response = await axios.post('/user/join', signUpRequest);
@@ -52,38 +78,38 @@ function SignUp() {
     //     nickname: '유닝',
     //     password: '12345678',
     //     createdAt: '몇일',
+    //     token: 'your_token_here',
     //   },
     // };
+    const { token } = response.data;
+    saveToken(token); // 토큰 저장
     navigate('/login'); // 회원 가입이 완료되면 로그인 페이지로 이동
     console.log(response);
     return response.data;
   }
 
   function formSubmitSignUpHandler() {
-    if (!email || !password || !nickname) {
-      setErrorMessage('모든 내용을 입력해주세요.');
+    if (!email || !password || !nickname || !name) {
+      alert('모든 내용을 입력해주세요.');
     } else if (!validateNickname(nickname)) {
-      setNicknameError(true);
-      setErrorMessage('닉네임은 2글자 이상이어야 합니다.');
+      alert('닉네임은 2글자 이상이어야 합니다.');
     } else if (!isValidEmail(email)) {
-      setNicknameError(false);
-      setEmailError(true);
-      setErrorMessage('이메일 형식이 잘 못 되었습니다.');
+      alert('이메일 형식이 잘 못 되었습니다.');
+    } else if (!validateName(name)) {
+      alert('이름은 1글자 이상이어야 합니다.');
     } else if (!isValidPassword(password)) {
-      setNicknameError(false);
-      setEmailError(false);
-      setPasswordError(true);
-      setErrorMessage('비밀번호는 8자 이상이어야 합니다.');
+      alert('비밀번호는 특수문자 2글자 포함해서 8자 이상이어야 합니다.');
     } else {
-      setNicknameError(false);
-      setEmailError(false);
-      setPasswordError(false);
       signUpMutation.mutate({ email, password, name, nickname });
     }
   }
 
   function validateNickname(nickname: string) {
     return nickname.length >= 2;
+  }
+
+  function validateName(name: string) {
+    return name.length > 1;
   }
 
   function isValidEmail(email: string) {
@@ -93,39 +119,53 @@ function SignUp() {
   }
 
   function isValidPassword(password: string) {
-    return password.length >= 8;
+    // 패스워드 유효성 검사
+    const isLongEnough = password.length >= 8; // 최소 8자 이상
+
+    const specialCharacterRegex = /[!@#$%^&*(),.?":{}|<>]/g;
+    const specialCharacterCount = (password.match(specialCharacterRegex) || [])
+      .length;
+    const hasEnoughSpecialCharacters = specialCharacterCount >= 2; // 최소 2개의 특수 문자
+
+    return isLongEnough && hasEnoughSpecialCharacters;
+  }
+
+  function saveToken(token: string): void {
+    // 토큰을 로컬 스토리지에 저장
+    localStorage.setItem('token', token);
+  }
+
+  function handleOAuthLogin(provider: string) {
+    // OAuth 로그인 버튼 클릭 시 해당 프로바이더의 인증 URL을 가져옴
+    getAuthUrl(provider);
   }
 
   return (
     <SignUpSection>
       <SignUpForm>
-        <LogoImg src={Logo} />
+        <LogoImg src={Logo} alt="logo" />
         <SignUpInputSection>
           <SignUpInputText>닉네임</SignUpInputText>
           <SignUpInput
             value={nickname}
             onChange={(e: any) => setNickname(e.target.value)}
           />
-          {isNicknameError && <ErrorText>{errorMessage}</ErrorText>}
+          <SignUpInputText>이름</SignUpInputText>
+          <SignUpInput
+            value={name}
+            onChange={(e: any) => setName(e.target.value)}
+          />
           <SignUpInputText>이메일</SignUpInputText>
           <SignUpInput
             value={email}
             onChange={(e: any) => setEmail(e.target.value)}
           />
-          {isEmailError && <ErrorText>{errorMessage}</ErrorText>}
-          {isEmailDuplicate && (
-            <ErrorText>이메일이 이미 사용 중입니다.</ErrorText>
-          )}
           <SignUpInputText>비밀번호</SignUpInputText>
           <SignUpInput
             type="password"
             value={password}
             onChange={(e: any) => setPassword(e.target.value)}
           />
-          {errorMessage &&
-            !isNicknameError &&
-            !isEmailError &&
-            !isEmailDuplicate && <ErrorText>{errorMessage}</ErrorText>}
         </SignUpInputSection>
         <SignUpBorder />
         <SignUpButtonSection>
@@ -135,9 +175,15 @@ function SignUp() {
           <LoginButton to="/login">로그인</LoginButton>
         </SignUpButtonSection>
         <SignUpOAuthSection>
-          <OAuthGoogle>Log in with Google</OAuthGoogle>
-          <OAuthKakao>Log in with Kakao</OAuthKakao>
-          <OAuthGithub>Log in with Github</OAuthGithub>
+          <OAuthGoogle onClick={() => handleOAuthLogin('google')}>
+            Log in with Google
+          </OAuthGoogle>
+          <OAuthKakao onClick={() => handleOAuthLogin('kakao')}>
+            Log in with Kakao
+          </OAuthKakao>
+          <OAuthGithub onClick={() => handleOAuthLogin('github')}>
+            Log in with Github
+          </OAuthGithub>
         </SignUpOAuthSection>
       </SignUpForm>
     </SignUpSection>
@@ -157,28 +203,27 @@ const SignUpSection = styled.div`
 const SignUpForm = styled.div`
   background-color: #fbfbfb;
   border-radius: 25px;
-  height: 480px;
-  max-width: 430px;
-  width: 100%;
+  height: 520px;
+  max-width: 400px;
   margin: 16px;
+  width: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-bottom: 80px;
+  margin-bottom: 60px;
   box-shadow: 3px 4px 4px rgb(152, 221, 227, 0.25);
 `;
 
 const LogoImg = styled.img`
   width: 176px;
-  margin-top: 20px;
-  padding: 24px;
+  margin-top: 16px;
+  padding: 16px;
 `;
 
 const SignUpInputSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
-  margin-top: 16px;
 `;
 
 const SignUpInputText = styled.div`
@@ -186,6 +231,7 @@ const SignUpInputText = styled.div`
   justify-content: start;
   font-size: 16px;
   margin-top: 20px;
+  margin-bottom: 8px;
   max-width: 500px;
 `;
 
@@ -249,8 +295,8 @@ const SignUpButton = styled.button`
 const SignUpOAuthSection = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 16px;
   padding: 16px;
-  margin-top: 28px;
 `;
 
 const OAuthGoogle = styled.button`
@@ -311,11 +357,4 @@ const OAuthGithub = styled.button`
   background-color: white;
   box-shadow: 2px 4px 4px rgb(152, 221, 227, 0.25);
   cursor: pointer;
-`;
-
-const ErrorText = styled.div`
-  margin-top: 8px;
-  font-size: 12px;
-  color: #545454;
-  text-align: right;
 `;
