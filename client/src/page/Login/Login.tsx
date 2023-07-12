@@ -6,6 +6,7 @@ import googleIcon from '../../assets/Login/google.png';
 import kakaoIcon from '../../assets/Login/kakao.png';
 import githubIcon from '../../assets/Login/github.png';
 import { useMutation, UseMutationResult } from 'react-query';
+import axios from 'axios';
 
 type LoginRequest = {
   email: string;
