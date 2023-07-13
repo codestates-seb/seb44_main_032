@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import styled from 'styled-components';
 
 import Login from './page/Login/Login';
 import SignUp from './page/SignUp/SignUp';
@@ -11,7 +12,7 @@ import Main from './page/Main/Main';
 
 function App() {
   return (
-    <>
+    <StyledDiv>
       <Header />
       <Routes>
         <Route path="/" element={<Main />} />
@@ -22,8 +23,12 @@ function App() {
         <Route path="/community/:id/edit" element={<CommunityEdit />} />
         <Route path="/community/post" element={<CommunityPost />} />
       </Routes>
-    </>
+    </StyledDiv>
   );
 }
 
 export default App;
+
+const StyledDiv = styled.div`
+  background-color: #f9f9f9;
+`;
