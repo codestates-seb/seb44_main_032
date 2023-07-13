@@ -15,7 +15,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/planet?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: al5364485!
+    password: bbeum55s!
 
 
 jwt:                                 #key 설정 및 토큰 만료 시간 설정

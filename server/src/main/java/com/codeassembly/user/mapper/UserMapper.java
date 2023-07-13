@@ -13,7 +13,7 @@ import java.util.List;
 public interface UserMapper {
 
     User userDtoPostTOUser(UserDto.Post requestBody);
-    User userDtoPatchTOUser(UserDto.Patch requestBody);
+    UserDto.Patch userDtoPatchTOUser(UserDto.Patch requestBody);
     UserDto.Response userTOUserDTOResponse(User user);
     List<UserDto.Response> usersToUserDtoResponse(List<User> users);
     LoginResponseDto loginToLoginResponseDto(User user);
