@@ -1,6 +1,7 @@
 package com.codeassembly.user.entity;
 
 import com.codeassembly.audit.Auditable;
+import com.codeassembly.comment.entity.Comment;
 import com.codeassembly.community.entity.Community;
 import com.codeassembly.exception.BusinessLogicException;
 import com.codeassembly.exception.ExceptionCode;
@@ -18,7 +19,6 @@ import java.util.Optional;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
 public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,5 +48,8 @@ public class User extends Auditable {
         if(targetUser.isPresent())
             throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
     }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
 }

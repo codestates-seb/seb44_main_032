@@ -21,13 +21,13 @@ public class CustomAuthorityUtils {
     private final List<String> USER_ROLES_STRING = List.of("USER");
 
 
-    // 메모리 상의 Role을 기반으로 권한 정보 생성.
-    public List<GrantedAuthority> createAuthorities(String email) {
-        if(email.equals(adminMailAddress)) {
-            return ADMIN_ROLES;
-        }
-        return USER_ROLE;
-    }
+//    // 메모리 상의 Role을 기반으로 권한 정보 생성.
+//    public List<GrantedAuthority> createAuthorities(String email) {
+//        if(email.equals(adminMailAddress)) {
+//            return ADMIN_ROLES;
+//        }
+//        return USER_ROLE;
+//    }
 
     // DB에 저장된 Role을 기반으로 권한 정보 생성
     public List<GrantedAuthority> createAuthorities(List<String> roles) {
