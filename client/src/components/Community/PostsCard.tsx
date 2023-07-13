@@ -8,7 +8,9 @@ function PostsCard({
 }: {
   post: {
     communityId: number;
-    nickname: string;
+    writer: {
+      nickname: string;
+    };
     title: string;
     content: string;
     likes: number;
@@ -18,9 +20,9 @@ function PostsCard({
 }) {
   return (
     <PostsCardContainer to={`/community/${post.communityId}`}>
-      <Nickname>{post.nickname}</Nickname>
+      <Nickname>{post.writer.nickname}</Nickname>
       <Title>{post.title}</Title>
-      <Content>{post.content + post.content + post.content}</Content>
+      <Content>{post.content}</Content>
       <BottomContainer>
         <ButtonsContainer>
           <LikesContainer>
