@@ -5,6 +5,7 @@ import logo from '../../assets/logo.png';
 
 const HeaderContainer = styled.header`
   position: fixed;
+  top: 0;
   z-index: 10;
   display: flex;
   align-items: center;
