@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: org.springframework.boot:spring-boot-starter-data-redis:2.7.14-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-data-redis/2.7.14-SNAPSHOT/895122983b21c5187bed3d9e6d9c8c5238d8af7a/spring-boot-starter-data-redis-2.7.14-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-data-redis/2.7.14-SNAPSHOT/44f7e75ebe735d2dc32bcef937b166e9dc343464/spring-boot-starter-data-redis-2.7.14-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-data-redis/2.7.14-SNAPSHOT/88dd82c304d920c113628c46f206816ae109390b/spring-boot-starter-data-redis-2.7.14-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-data-redis/2.7.14-SNAPSHOT/23f0fbe71e0d0b619011547813cdfef5ca4b4130/spring-boot-starter-data-redis-2.7.14-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

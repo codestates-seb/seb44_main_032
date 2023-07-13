@@ -1,12 +1,15 @@
 package com.codeassembly.community.entity;
 
 import com.codeassembly.audit.Auditable;
+import com.codeassembly.communitylike.entity.LikeCommunity;
 import com.codeassembly.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(name = "Community")
 @NoArgsConstructor
@@ -24,6 +27,9 @@ public class Community extends Auditable {
     @JoinColumn(name = "userId")
     private User user;
 
+    @Column(nullable = false)
+    private int liked; //조회수
+    private String category;
 
     public void setUser(User user) {
         this.user = user;

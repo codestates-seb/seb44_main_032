@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: org.springframework.data:spring-data-redis:2.7.14-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-redis/2.7.14-SNAPSHOT/b2a17e86110ef05a0317d9a5cdd8d4563bce160e/spring-data-redis-2.7.14-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-redis/2.7.14-SNAPSHOT/c8f10e9a1dab85ec84b07e641d921d4fa6179a22/spring-data-redis-2.7.14-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-redis/2.7.14-SNAPSHOT/41b1a69d2e5172d6bd223f4497ea22ab2b37b9bb/spring-data-redis-2.7.14-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-redis/2.7.14-SNAPSHOT/5c167dc8d90b1a571371240859c005dc6581f9e1/spring-data-redis-2.7.14-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

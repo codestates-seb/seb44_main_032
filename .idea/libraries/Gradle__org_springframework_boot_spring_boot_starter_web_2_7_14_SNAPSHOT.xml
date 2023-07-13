@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: org.springframework.boot:spring-boot-starter-web:2.7.14-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-web/2.7.14-SNAPSHOT/4cdcdb34b5ce954c42cf087a2d94efe8ac7f3502/spring-boot-starter-web-2.7.14-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-web/2.7.14-SNAPSHOT/5641c3f720c6bdf373eb0bc0cb5b5cbefc97c786/spring-boot-starter-web-2.7.14-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-web/2.7.14-SNAPSHOT/80b25b7c858a411230d5107e1354f3341c56d1b7/spring-boot-starter-web-2.7.14-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-web/2.7.14-SNAPSHOT/7da51b02dd960ad10f08163d54a58d7c8555a577/spring-boot-starter-web-2.7.14-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

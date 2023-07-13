@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: org.springframework.data:spring-data-keyvalue:2.7.14-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-keyvalue/2.7.14-SNAPSHOT/f9d3b58ea7ae0c909b3c0c767564930db59aa33c/spring-data-keyvalue-2.7.14-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-keyvalue/2.7.14-SNAPSHOT/ed443ba0e6f19ff1877751380519109794c35256/spring-data-keyvalue-2.7.14-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-keyvalue/2.7.14-SNAPSHOT/e9d2fa05a2a73fd6b7603a33b2f086f96630001e/spring-data-keyvalue-2.7.14-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-keyvalue/2.7.14-SNAPSHOT/3aa1595589a3d4d332c06b156df0f32261254967/spring-data-keyvalue-2.7.14-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
