@@ -80,6 +80,8 @@ public class UserService extends Auditable {
 
     //회원 탈퇴
     public void deleteUser(long userId) {
+        verifyExistsUser(userId); // 회원이 존재하는지 확인
+
         User findUser = findUser(userId);
         userRepository.delete(findUser);
     }

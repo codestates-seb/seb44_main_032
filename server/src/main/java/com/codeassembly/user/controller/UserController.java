@@ -1,8 +1,6 @@
 package com.codeassembly.user.controller;
 
 import com.codeassembly.auth.JwtTokenizer;
-import com.codeassembly.auth.service.TokenBlacklistService;
-import com.codeassembly.exception.ExceptionCode;
 import com.codeassembly.response.SingleResponseDto;
 import com.codeassembly.user.dto.UserDto;
 import com.codeassembly.user.entity.User;
@@ -30,7 +28,6 @@ public class UserController {
     private final UserService userService;
     private final UserMapper mapper;
     private final JwtTokenizer jwtTokenizer;
-    private final TokenBlacklistService tokenBlacklistService;
 
     //회원가입
     @PostMapping("/join")
@@ -45,18 +42,21 @@ public class UserController {
     //회원정보 수정
     @PatchMapping("/edit/{userId}")
     public ResponseEntity patchUser(@PathVariable("userId") @Positive long userId,
-                                    @Valid @RequestBody UserDto.Patch requestBody ,
+                                    @Valid @RequestBody UserDto.Patch requestBody,
                                     @RequestHeader("Authorization") String token) {
 //        test용
 //        userId = 8L;
+
         requestBody.setUserId(userId);
-        User updatedUser = mapper.userDtoPatchTOUser(requestBody);
+        String getToken = jwtTokenizer.getUsername(token);
+        User updatedUser = userService.updateUser(mapper.userDtoPatchTOUser(requestBody));
         UserDto.Response response = mapper.userTOUserDTOResponse(updatedUser);
+
 
         // 토큰 정보를 응답에 포함시킴
         Map<String, Object> responsePatch = new HashMap<>();
-        responsePatch.put("token", token);
-        responsePatch.put("test", userId);
+        responsePatch.put("token", getToken);
+//        responsePatch.put("test", userId);
         responsePatch.put("user", response);
 
         return new ResponseEntity<>(new SingleResponseDto<>(responsePatch), HttpStatus.OK);
@@ -64,25 +64,24 @@ public class UserController {
 
     //회원 탈퇴
     @DeleteMapping("/delete/{userId}")
-    public ResponseEntity deleteUser(@PathVariable("userId") @Positive long userId,
-                                    @RequestHeader("Authorization") String token) {
+    public ResponseEntity deleteUser(@PathVariable("userId") @Positive long userId) {
 //        userId = 8L;
         userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     //회원 로그아웃 블랙리스트로
-    @PostMapping("/logout")
-    public ResponseEntity logout(@RequestHeader("Authorization") String token) {
-        String jwt = token.substring(7); // Bearer 제거
-        // 토큰이 블랙리스트에 있는 경우
-        if (tokenBlacklistService.isTokenBlacklisted(jwt)) {
-            return new ResponseEntity<>(ExceptionCode.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
-        } else { // 토큰을 블랙리스트에 추가
-            tokenBlacklistService.addTokenToBlacklist(jwt);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-    }
+//    @PostMapping("/logout/logout")
+//    public ResponseEntity logout(@RequestHeader("Authorization") String token) {
+//        String jwt = token.substring(7); // Bearer 제거
+//        // 토큰이 블랙리스트에 있는 경우
+//        if (tokenBlacklistService.isTokenBlacklisted(jwt)) {
+//            return new ResponseEntity<>(ExceptionCode.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+//        } else { // 토큰을 블랙리스트에 추가
+//            tokenBlacklistService.addTokenToBlacklist(jwt);
+//            return new ResponseEntity<>(HttpStatus.OK);
+//        }
+//    }
 
 }
 
