@@ -1,0 +1,65 @@
+const posts = {
+  result: [
+    {
+      communityId: 1,
+      nickname: '복실한 사모예드',
+      title: '워터밤 가면 좋겠다',
+      content: '워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고',
+      likes: 3,
+      comments: 3,
+      createdAt: '2023-07-01',
+    },
+    {
+      communityId: 2,
+      nickname: '복실한 사모예드',
+      title: 'blablabla',
+      content: '워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고',
+      likes: 3,
+      comments: 3,
+      createdAt: '2023-07-01',
+    },
+    {
+      communityId: 3,
+      nickname: '복실한 사모예드',
+      title: '워터밤 가면 좋겠다',
+      content: '워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고',
+      createdAt: '2023-07-01',
+    },
+    {
+      communityId: 4,
+      nickname: '복실한 사모예드',
+      title: '워터밤 가면 좋겠다',
+      content: '워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고',
+      createdAt: '2023-07-01',
+    },
+    {
+      communityId: 5,
+      nickname: '복실한 사모예드',
+      title: '워터밤 가면 좋겠다',
+      content: '워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고',
+      createdAt: '2023-07-01',
+    },
+    // {
+    //   communityId: 6,
+    //   nickname: '복실한 사모예드',
+    //   title: '워터밤 가면 좋겠다',
+    //   content: '워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고',
+    //   createdAt: '2023-07-01',
+    // },
+    // {
+    //   communityId: 7,
+    //   nickname: '복실한 사모예드',
+    //   title: '워터밤 가면 좋겠다',
+    //   content: '워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고',
+    //   createdAt: '2023-07-01',
+    // },
+    // {
+    //   communityId: 8,
+    //   nickname: '복실한 사모예드',
+    //   title: '워터밤 가면 좋겠다',
+    //   content: '워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고',
+    //   createdAt: '2023-07-01',
+    // },
+  ],
+};
+export default posts;
