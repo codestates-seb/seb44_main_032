@@ -1,32 +1,25 @@
-import { useEffect, useRef, Dispatch, SetStateAction } from 'react';
-
-type FormData = {
-  content: string;
-};
+import { useEffect, useRef } from 'react';
 
 type PostEditorProps = {
-  formData: FormData;
-  setFormData: Dispatch<SetStateAction<FormData>>;
+  content: string;
+  setContent: (newContent: string) => void;
 };
 
 function PostEditor(props: PostEditorProps) {
-  const { formData, setFormData } = props;
+  const { content, setContent } = props;
   const editorRef = useRef<any>(null);
 
   useEffect(() => {
     const editorInstance = editorRef.current?.getInstance();
     if (editorInstance) {
-      editorInstance.setMarkdown(formData.content);
+      editorInstance.setMarkdown(content);
     }
-  }, [formData.content]);
+  }, [content]);
 
   function onChange() {
     const data = editorRef.current?.getInstance().getMarkdown();
     if (data) {
-      setFormData({
-        ...formData,
-        content: data,
-      });
+      setContent(data);
     }
   }
 
