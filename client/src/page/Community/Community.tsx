@@ -48,6 +48,9 @@ const UpperBar = styled.div`
   justify-content: space-between;
   padding: 16px;
   width: 900px;
+  @media screen and (max-width: 1000px) {
+    width: 800px;
+  }
 `;
 
 const StyledSearchBar = styled.div`

@@ -55,6 +55,13 @@ const PostsCardContainer = styled(Link)`
   background-color: white;
   border-radius: 8px;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  @media screen and (max-width: 1000px) {
+    width: 744px;
+  }
+  @media screen and (max-width: 800px) {
+    width: 644px;
+    height: 68px;
+  }
 `;
 
 const Title = styled.div`
