@@ -1,0 +1,71 @@
+{
+    
+    "data": [
+        {
+          "communityId" : 1,
+          "title" : "글 제목",
+          "createdAt" : "2023-00-00T00:00:00.000000",
+          "writer" : { 
+            "memberId" : 1,
+            "nickname" : "hgd1"
+          },
+          "commnetIdr" : 1,
+          "pageInfo": {
+            "page" : 1,
+            "size" : 10,
+            "totalElements" : 1,
+            "totalPages" : 1
+          }
+        },
+        {
+          "communityId" : 2,
+          "title" : "글 제목",
+          "createdAt" : "2023-00-00T00:00:00.000000",
+          "writer" : { 
+            "memberId" : 1,
+            "nickname" : "hgd1"
+          },
+          "commnetIdr" : 1,
+          "pageInfo": {
+            "page" : 1,
+            "size" : 10,
+            "totalElements" : 1,
+            "totalPages" : 1
+          }
+        },
+        
+        {
+          "communityId" : 3,
+          "title" : "글 제목",
+          "createdAt" : "2023-00-00T00:00:00.000000",
+          "writer" : { 
+            "memberId" : 1,
+            "nickname" : "hgd1"
+          },
+          "commnetIdr" : 1,
+          "pageInfo": {
+            "page" : 1,
+            "size" : 10,
+            "totalElements" : 1,
+            "totalPages" : 1
+          }
+        },
+        
+        {
+          "communityId" : 4,
+          "title" : "글 제목",
+          "createdAt" : "2023-00-00T00:00:00.000000",
+          "writer" : { 
+            "memberId" : 1,
+            "nickname" : "hgd1"
+          },
+          "commnetIdr" : 1,
+          "pageInfo": {
+            "page" : 1,
+            "size" : 10,
+            "totalElements" : 1,
+            "totalPages" : 1
+          }
+        }
+      ]
+}
