@@ -29,4 +29,6 @@ public class Comment extends Auditable {
     @ManyToOne
     @JoinColumn(name = "communityId")
     private Community community;
+
+    private Long liked;
 }
