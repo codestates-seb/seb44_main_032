@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 
 import PostsCard from '../../components/Community/PostsCard';
-import posts from '../../assets/data/dummyData';
 import WriteButton from '../../components/Community/WriteButton';
+import FakeCommunity from '../../fakeApi/fakeCommunity';
 
 const CommunityContainer = styled.div`
   display: flex;
@@ -16,6 +16,7 @@ const CommunityContainer = styled.div`
   padding: 16px;
   gap: 16px;
   overflow: auto;
+  background-color: #f9f9f9;
 `;
 
 const ButtonGroup = styled.div`
@@ -74,9 +75,12 @@ const RightContainer = styled.div`
   gap: 24px;
 `;
 
+const fakeData = new FakeCommunity();
+
 function Community() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [currentData, setCurrentData] = useState(posts?.result);
+  const [currentData, setCurrentData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [currentKeyword, setCurrentKeyword] = useState('');
   const menus = [
     { name: '당일치기', key: 'one-day' },
@@ -86,6 +90,26 @@ function Community() {
   ];
 
   const filter = searchParams.get('filter');
+
+  const getCommunityList = async () => {
+    const result = await fakeData.getCommunityList();
+    setCurrentData(result.data);
+    setFilteredData(result.data);
+  };
+
+  const onChange = async e => {
+    const v = e.target.value;
+    await setCurrentKeyword(v);
+    if (!v) {
+      return setFilteredData(currentData);
+    }
+    const result = await fakeData.getCommunitySearch(v);
+    await setFilteredData(result.data);
+  };
+
+  useEffect(() => {
+    getCommunityList();
+  }, []);
 
   return (
     <CommunityContainer>
@@ -115,27 +139,15 @@ function Community() {
               color="#98DDE3"
               size="28px"
             ></PiMagnifyingGlassBold>
-            <Input
-              value={currentKeyword}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                const v = e.target.value;
-                setCurrentKeyword(v);
-                if (!v) {
-                  setCurrentData(posts?.result);
-                } else {
-                  // TODO: send v to BE for search
-                  setCurrentData(posts?.result);
-                }
-              }}
-            />
+            <Input value={currentKeyword} onChange={onChange} />
           </StyledSearchBar>
           <WriteButton></WriteButton>
         </RightContainer>
       </UpperBar>
-      {!currentData.length ? (
+      {!filteredData.length ? (
         <div>no result</div>
       ) : (
-        currentData.map(post => <PostsCard post={post} key={post.title} />)
+        filteredData.map(post => <PostsCard post={post} key={post.title} />)
       )}
     </CommunityContainer>
   );
