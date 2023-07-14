@@ -1,6 +1,4 @@
 import { useEffect, useRef, Dispatch, SetStateAction } from 'react';
-import { Editor } from '@toast-ui/react-editor';
-import '@toast-ui/editor/dist/toastui-editor.css';
 
 type FormData = {
   content: string;
@@ -32,24 +30,7 @@ function PostEditor(props: PostEditorProps) {
     }
   }
 
-  return (
-    <Editor
-      initialValue={formData.content}
-      previewStyle="tab"
-      height="400px"
-      initialEditType="markdown"
-      useCommandShortcut={false}
-      hideModeSwitch={true}
-      ref={editorRef}
-      onChange={onChange}
-      toolbarItems={[
-        ['bold', 'italic'],
-        ['link', 'quote', 'image'],
-        ['ol', 'ul'],
-      ]}
-      language="ko-KR"
-    />
-  );
+  return <div>에디터</div>;
 }
 
 export default PostEditor;
