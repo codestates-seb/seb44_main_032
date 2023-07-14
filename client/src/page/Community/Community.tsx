@@ -117,7 +117,7 @@ function Community() {
             ></PiMagnifyingGlassBold>
             <Input
               value={currentKeyword}
-              onChange={e => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 const v = e.target.value;
                 setCurrentKeyword(v);
                 if (!v) {

@@ -23,6 +23,8 @@ const posts = {
       nickname: '복실한 사모예드',
       title: '워터밤 가면 좋겠다',
       content: '워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고',
+      likes: 3,
+      comments: 3,
       createdAt: '2023-07-01',
     },
     {
@@ -30,6 +32,8 @@ const posts = {
       nickname: '복실한 사모예드',
       title: '워터밤 가면 좋겠다',
       content: '워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고',
+      likes: 3,
+      comments: 3,
       createdAt: '2023-07-01',
     },
     {
@@ -37,6 +41,8 @@ const posts = {
       nickname: '복실한 사모예드',
       title: '워터밤 가면 좋겠다',
       content: '워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고',
+      likes: 3,
+      comments: 3,
       createdAt: '2023-07-01',
     },
     // {
