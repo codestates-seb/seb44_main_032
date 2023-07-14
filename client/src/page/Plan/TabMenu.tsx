@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from "styled-components";
+import axios from 'axios';
+
 
 const TabButton = styled.button<{ active: boolean }>`
   background-color: #fff;
@@ -105,95 +107,45 @@ type PlanData = {
   title: string;
   date: string;
   content: string;
+  // categoryName: string;
+};
+
+type TabData = {
+  categoryName: string;
+  plans: PlanData[];
 };
 
 const TabMenu: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const [tabData, setTabData] = useState<TabData[]>([]);
+
+  useEffect(() => {
+    fetchTabData()
+      .then((data) => {
+        setTabData(data);
+      })
+      .catch((error) => console.error('Error fetching tab data:', error));
+  }, []);
+
+  async function fetchTabData() {
+    try {
+      const response = await axios.get('API_URL'); // API_URL은 실제 API 엔드포인트로 대체해야 합니다.
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching tab data:', error);
+      return [];
+    }
+  }
 
   const handleTabClick = (index: number) => {
     setActiveTab(index);
   };
 
-  const mockData: PlanData[][] = [
-    [
-      {
-        id: 1,
-        title: "Dummy Title 1",
-        date: "2023-07-10",
-        content: "This is a dummy content 1."
-      },
-      {
-        id: 2,
-        title: "Dummy Title 2",
-        date: "2023-07-11",
-        content: "This is a dummy content 2."
-      },
-      {
-        id: 3,
-        title: "Dummy Title 3",
-        date: "2023-07-12",
-        content: "This is a dummy content 3."
-      },
-      {
-        id: 10,
-        title: "Dummy Title 10",
-        date: "2023-07-12",
-        content: "This is a dummy content 10."
-      },
-      {
-        id: 11,
-        title: "Dummy Title 11",
-        date: "2023-07-12",
-        content: "This is a dummy content 11."
-      }
-    ],
-    [
-      {
-        id: 4,
-        title: "Dummy Title 4",
-        date: "2023-07-13",
-        content: "This is a dummy content 4."
-      },
-      {
-        id: 5,
-        title: "Dummy Title 5",
-        date: "2023-07-14",
-        content: "This is a dummy content 5."
-      }
-    ],
-    [
-      {
-        id: 6,
-        title: "Dummy Title 6",
-        date: "2023-07-15",
-        content: "This is a dummy content 6."
-      },
-      {
-        id: 7,
-        title: "Dummy Title 7",
-        date: "2023-07-16",
-        content: "This is a dummy content 7."
-      },
-      {
-        id: 8,
-        title: "Dummy Title 8",
-        date: "2023-07-17",
-        content: "This is a dummy content 8."
-      }
-    ],
-    [
-      {
-        id: 9,
-        title: "Dummy Title 9",
-        date: "2023-07-18",
-        content: "This is a dummy content 9."
-      }
-    ]
-  ];
 
   return (
     <PageContainer>
       <TabMenuContainer>
+
         <TabButton active={activeTab === 0} onClick={() => handleTabClick(0)}>
           당일치기
         </TabButton>
@@ -206,25 +158,25 @@ const TabMenu: React.FC = () => {
         <TabButton active={activeTab === 3} onClick={() => handleTabClick(3)}>
           회사
         </TabButton>
+        {tabData.map((data, index) => (
+          <TabButton
+            key={index}
+            active={activeTab === index}
+            onClick={() => handleTabClick(index)}
+          >
+            {data.categoryName} {/* 카테고리 이름 또는 index 사용 */}
+          </TabButton>
+        ))}
       </TabMenuContainer>
       <ContentContainer>
         <TabContent>
-          {/* {activeTab === 0 && (
-            <PlanContainer>
-              <h4>제목</h4>
-              <p>날짜</p>
-              <p>내용</p>
-            </PlanContainer>
-          )}
-          {activeTab === 1 && <p>Content for Tab 2</p>}
-          {activeTab === 2 && <p>Content for Tab 3</p>}
-          {activeTab === 3 && <p>Content for Tab 4</p>} */}
-          {mockData[activeTab].map((data) => (
-            <PlanContainer key={data.id}>
-              <h2>{data.title}</h2>
-              <p>{data.date}</p>
-              <p>{data.content}</p>
-            </PlanContainer>
+          
+          {tabData[activeTab]?.plans.map((data) => (
+          <PlanContainer key={data.id}>
+            <h2>{data.title}</h2>
+            <p>{data.date}</p>
+            <p>{data.content}</p>
+          </PlanContainer>
           ))}
         </TabContent>
       </ContentContainer>
