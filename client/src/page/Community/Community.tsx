@@ -32,6 +32,17 @@ const StyledButton = styled.button<{ isCurrent: boolean }>`
   border: none;
   padding: 12px 16px;
   font-size: 20px;
+  @media screen and (max-width: 800px) {
+    font-size: 16px;
+  }
+  @media screen and (max-width: 600px) {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  @media screen and (max-width: 400px) {
+    padding: 4px 8px;
+    font-size: 8px;
+  }
 `;
 
 const StyledDivider = styled.div`
@@ -46,10 +57,20 @@ const StyledDivider = styled.div`
 const UpperBar = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 16px;
+  align-items: center;
   width: 900px;
+  padding: 16px;
   @media screen and (max-width: 1000px) {
     width: 800px;
+  }
+  @media screen and (max-width: 800px) {
+    width: 600px;
+  }
+  @media screen and (max-width: 600px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 400px) {
+    width: 300px;
   }
 `;
 
@@ -61,6 +82,17 @@ const StyledSearchBar = styled.div`
   display: flex;
   align-items: center;
   background-color: white;
+  @media screen and (max-width: 800px) {
+    padding: 8px;
+    width: 200px;
+  }
+  @media screen and (max-width: 600px) {
+    padding: 4px;
+    width: 100px;
+  }
+  @media screen and (max-width: 400px) {
+    width: 60px;
+  }
 `;
 
 const Input = styled.input`
@@ -71,10 +103,21 @@ const Input = styled.input`
   &:focus-visible {
     outline: none;
   }
+  @media screen and (max-width: 600px) {
+    width: 80px;
+    margin-left: 4px;
+    font-size: 12px;
+  }
+  @media screen and (max-width: 400px) {
+    width: 40px;
+    margin-left: 4px;
+    font-size: 8px;
+  }
 `;
 
 const RightContainer = styled.div`
   display: flex;
+  align-items: center;
   gap: 24px;
 `;
 
@@ -150,7 +193,9 @@ function Community() {
       {!filteredData.length ? (
         <div>no result</div>
       ) : (
-        filteredData.map(post => <PostsCard post={post} key={post.title} />)
+        filteredData.map(post => (
+          <PostsCard post={post} key={post.communityId} />
+        ))
       )}
     </CommunityContainer>
   );

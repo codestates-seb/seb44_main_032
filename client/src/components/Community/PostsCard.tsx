@@ -59,19 +59,32 @@ const PostsCardContainer = styled(Link)`
     width: 744px;
   }
   @media screen and (max-width: 800px) {
-    width: 644px;
-    height: 68px;
+    width: 568px;
+    height: 84px;
+    padding: 12px 16px;
+  }
+  @media screen and (max-width: 600px) {
+    width: 368px;
+    height: 64px;
+  }
+  @media screen and (max-width: 400px) {
+    width: 268px;
+    height: 64px;
   }
 `;
 
 const Title = styled.div`
   font-weight: bold;
   font-size: 16px;
+  @media screen and (max-width: 800px) {
+    font-size: 12px;
+  }
 `;
 const Nickname = styled.div`
   color: #909090;
 `;
 const Content = styled.div``;
+
 const BottomContainer = styled.div`
   display: flex;
   justify-content: space-between;

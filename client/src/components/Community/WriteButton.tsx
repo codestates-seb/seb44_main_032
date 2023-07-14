@@ -13,6 +13,10 @@ const WriteButtonBtn = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 800px) {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 function WriteButton() {
