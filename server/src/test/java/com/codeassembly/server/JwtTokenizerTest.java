@@ -1,6 +1,6 @@
 package com.codeassembly.server;
 
-import com.codeassembly.auth.JwtTokenizer;
+import com.codeassembly.auth.jwt.JwtTokenizer;
 import io.jsonwebtoken.io.Decoders;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

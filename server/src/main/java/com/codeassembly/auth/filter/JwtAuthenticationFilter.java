@@ -1,5 +1,6 @@
-package com.codeassembly.auth;
+package com.codeassembly.auth.filter;
 
+import com.codeassembly.auth.jwt.JwtTokenizer;
 import com.codeassembly.response.SingleResponseDto;
 import com.codeassembly.user.dto.LoginDto;
 import com.codeassembly.user.dto.LoginResponseDto;

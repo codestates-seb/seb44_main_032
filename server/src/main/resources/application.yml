@@ -15,9 +15,34 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/planet?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: al5364485!
+    password: root1234
 
-
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${G_CLIENT_ID}
+            clientSecret: ${G_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+          kakao:
+            client-id: ${KAKAO_CLIENT_ID}
+            client-secret: ${KAKAO_CLIENT_SECRET}
+            scope:
+              - account_email
+              - profile_nickname
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            client-name: Kakao
+            client-authentication-method: POST
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
 jwt:                                 #key 설정 및 토큰 만료 시간 설정
   key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30
@@ -56,7 +81,7 @@ spring.config.activate.on-profile: "profiles-local"
 spring:
   s3:
     bucket: kongsbucket
-    access-key: AKIAZ73XJMWYBK2PVC42
+    access-key:
     secret-key:
 
 ---
@@ -65,7 +90,7 @@ spring:
 spring:
   s3:
     bucket: kongsbucket
-    access-key: AKIAZ73XJMWYBK2PVC42
+    access-key:
     secret-key:
 
 

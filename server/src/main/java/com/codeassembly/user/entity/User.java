@@ -18,7 +18,6 @@ import java.util.Optional;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
 public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +35,7 @@ public class User extends Auditable {
     @Column(nullable = false, unique = true)
     private String nickname;
 
+
     // user 권한 부여
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
@@ -43,6 +43,10 @@ public class User extends Auditable {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Community> communities = new ArrayList<>();
+
+    public User(String email) {
+        this.email = email;
+    }
 
     public static void checkExistEmail(Optional<User> targetUser) {
         if(targetUser.isPresent())

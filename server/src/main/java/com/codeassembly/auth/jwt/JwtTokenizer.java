@@ -1,4 +1,4 @@
-package com.codeassembly.auth;
+package com.codeassembly.auth.jwt;
 
 
 // step1. 로그인 인증에 성공한 클라이언트에게 JWT를 생성 및 발급,  step2. 클라이언트의 요청이 들어올 때마다 전달된 JWT를 검증

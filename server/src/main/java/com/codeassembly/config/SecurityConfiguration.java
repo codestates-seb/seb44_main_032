@@ -1,9 +1,9 @@
 package com.codeassembly.config;
 
 import com.codeassembly.audit.JwtVerificationFilter;
-import com.codeassembly.auth.CustomAuthorityUtils;
-import com.codeassembly.auth.JwtAuthenticationFilter;
-import com.codeassembly.auth.JwtTokenizer;
+import com.codeassembly.auth.utils.CustomAuthorityUtils;
+import com.codeassembly.auth.filter.JwtAuthenticationFilter;
+import com.codeassembly.auth.jwt.JwtTokenizer;
 import com.codeassembly.auth.handler.UserAuthenticationFailureHandler;
 import com.codeassembly.auth.handler.UserAuthenticationSuccessHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -29,8 +30,9 @@ import java.util.Arrays;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableWebSecurity
 @ComponentScan(basePackages = "com.codeassembly.auth")
-public class SecurityConfiguration {
+public class SecurityConfiguration  {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
 
@@ -57,6 +59,7 @@ public class SecurityConfiguration {
                                 .antMatchers(HttpMethod.GET, "/*/qna/**").permitAll()
                                 .antMatchers(HttpMethod.PATCH, "/**").authenticated()
                                 .antMatchers(HttpMethod.DELETE, "/**").authenticated()
+                                .anyRequest().permitAll()
 
                         //user role에 따른 권한부여X
                         //.antMatchers(HttpMethod.PATCH, "/*/user/**").hasRole("USER")
@@ -68,7 +71,7 @@ public class SecurityConfiguration {
                         //.anyRequest().permitAll()
                         //.anyRequest().authenticated()
 
-                );
+                );//오어스석세스핸들러작성
 
         return http.build();
     }

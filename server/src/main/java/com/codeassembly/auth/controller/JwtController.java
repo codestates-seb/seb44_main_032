@@ -1,20 +1,16 @@
 package com.codeassembly.auth.controller;
 
-import com.codeassembly.auth.JwtTokenizer;
+import com.codeassembly.auth.jwt.JwtTokenizer;
 import com.codeassembly.user.entity.User;
 import com.codeassembly.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.MalformedURLException;
+
 @Slf4j
 @RestController
 @RequestMapping("/token")

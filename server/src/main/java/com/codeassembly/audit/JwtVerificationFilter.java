@@ -1,7 +1,7 @@
 package com.codeassembly.audit;
 
-import com.codeassembly.auth.CustomAuthorityUtils;
-import com.codeassembly.auth.JwtTokenizer;
+import com.codeassembly.auth.utils.CustomAuthorityUtils;
+import com.codeassembly.auth.jwt.JwtTokenizer;
 import com.codeassembly.response.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;

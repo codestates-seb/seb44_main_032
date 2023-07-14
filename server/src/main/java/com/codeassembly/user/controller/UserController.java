@@ -1,6 +1,6 @@
 package com.codeassembly.user.controller;
 
-import com.codeassembly.auth.JwtTokenizer;
+import com.codeassembly.auth.jwt.JwtTokenizer;
 import com.codeassembly.auth.service.TokenBlacklistService;
 import com.codeassembly.exception.ExceptionCode;
 import com.codeassembly.response.SingleResponseDto;

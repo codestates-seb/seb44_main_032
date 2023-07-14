@@ -1,7 +1,7 @@
 package com.codeassembly.user.service;
 
 import com.codeassembly.audit.Auditable;
-import com.codeassembly.auth.CustomAuthorityUtils;
+import com.codeassembly.auth.utils.CustomAuthorityUtils;
 import com.codeassembly.config.SecurityConfiguration;
 import com.codeassembly.exception.BusinessLogicException;
 import com.codeassembly.exception.ExceptionCode;
