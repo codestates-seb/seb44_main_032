@@ -51,7 +51,7 @@ public class CommunityController {
         communityService.deleteCommunity(communityId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @GetMapping("{communityId}")
+    @GetMapping("/detail/{communityId}")
     public ResponseEntity getCommunity(@PathVariable("communityId") Long communityId){
         Community community =communityService.findCommunity(communityId);
         return new ResponseEntity<>(mapper.communityToResponseDto(community),HttpStatus.OK);
@@ -69,6 +69,7 @@ public class CommunityController {
             @PathVariable("category") String category,
             @Positive @RequestParam(defaultValue = "1") int page,
             @Positive @RequestParam(defaultValue = "10") int size) {
+
         Page<Community> pageCommunity = communityService.findCommunitiesByCategory(category, page - 1, size);
         List<Community> communities = pageCommunity.getContent();
         return new ResponseEntity<>(new MultiResponseDto<>(mapper.communitiesToResponseDtos(communities), pageCommunity), HttpStatus.OK);

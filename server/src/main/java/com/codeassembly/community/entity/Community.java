@@ -31,6 +31,7 @@ public class Community extends Auditable {
 
     @Column(nullable = false)
     private int liked; //조회수
+
     private String category;
 
     public void setUser(User user) {

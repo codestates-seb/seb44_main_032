@@ -12,6 +12,7 @@ import com.codeassembly.s3.service.Amazon3SService;
 import com.codeassembly.user.entity.User;
 import com.codeassembly.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,8 +34,8 @@ import static com.codeassembly.exception.ExceptionCode.COMMUNITY_NOT_FOUND;
 public class CommunityService {
     private final UserRepository userRepository;
     private final CommunityRepository communityRepository;
-    private final Amazon3SService amazon3SService;
     private final LikeCommunityRepository likeCommunityRepository;
+
 
     public Community createdCommunity(long userId, Community community) {
 
