@@ -13,13 +13,13 @@ type CommunityPost = {
 };
 
 function CommunityEdit() {
-  const location = useLocation<{ post: CommunityPost }>();
+  const location = useLocation();
   const navigate = useNavigate();
   const [editedPost, setEditedPost] = useState<CommunityPost | null>(null);
 
   useEffect(() => {
     if (location.state) {
-      setEditedPost(location.state.post);
+      setEditedPost((location.state as { post: CommunityPost }).post);
     }
   }, [location.state]);
 
