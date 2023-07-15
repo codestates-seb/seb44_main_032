@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import PostTab from '../../components/Community/PostTab';
 import PostEditor from '../../components/Community/PostEditor';
 
-type FormData = {
+type CommunityPostFormData = {
   title: string;
   category: string;
   content: string;
@@ -15,7 +15,7 @@ function CommunityPost() {
   const token = localStorage.getItem('user');
   const navigate = useNavigate();
   const userId = localStorage.getItem('userId');
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<CommunityPostFormData>({
     title: '',
     category: '',
     content: '',
@@ -83,7 +83,15 @@ function CommunityPost() {
           selectedCategory={formData.category}
         />
         <PostText>내용</PostText>
-        <PostEditor formData={formData} setFormData={setFormData} />
+        <PostEditor
+          content={formData.content}
+          setContent={(newContent: string) =>
+            setFormData(prevFormData => ({
+              ...prevFormData,
+              content: newContent,
+            }))
+          }
+        />
         <ButtonWrapper>
           <CancelButton onClick={handleCancel}>취소</CancelButton>
           <PostButton onClick={submitHandler}>등록</PostButton>

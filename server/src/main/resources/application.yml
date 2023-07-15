@@ -56,8 +56,13 @@ spring.config.activate.on-profile: "profiles-local"
 spring:
   s3:
     bucket: kongsbucket
+<<<<<<< HEAD
     access-key: AKIAZ73XJMWYBK2PVC42
     secret-key: 
+=======
+    access-key: 
+    secret-key:
+>>>>>>> upstream/dev
 
 ---
 # DEV 설정
@@ -65,7 +70,11 @@ spring:
 spring:
   s3:
     bucket: kongsbucket
+<<<<<<< HEAD
     access-key: AKIAZ73XJMWYBK2PVC42
+=======
+    access-key: 
+>>>>>>> upstream/dev
     secret-key: 
 
 
