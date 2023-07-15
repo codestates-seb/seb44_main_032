@@ -15,12 +15,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/planet?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: 
-
+    password: ${{secrets.MYSQL_KEY}}
 
 
 jwt:                                 #key 설정 및 토큰 만료 시간 설정
-  key: ${JWT_SECRET_KEY}
+  key: ${{secrets.JWT_SECRET_KEY}}
   access-token-expiration-minutes: 30
   refresh-token-expiration-minutes: 420
 
@@ -56,41 +55,18 @@ spring:
 spring.config.activate.on-profile: "profiles-local"
 spring:
   s3:
-    bucket: kongsbucket
-<<<<<<< HEAD
-<<<<<<< HEAD
-    access-key: AKIAZ73XJMWYBK2PVC42
-    secret-key: 
-=======
-    access-key: 
-    secret-key:
->>>>>>> upstream/dev
-=======
-
-    access-key: ${secrets.AWS_ACCESS_KEY}
-    secret-key: ${secrets.AWS_SECRET_ACCESS_KEY}
-
->>>>>>> upstream/dev
+    bucket: code-assembly
+    access-key: ${{secrets.AWS_ACCESS_KEY}}
+    secret-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
 
 ---
 # DEV 설정
 
 spring:
   s3:
-    bucket: kongsbucket
-<<<<<<< HEAD
-<<<<<<< HEAD
-    access-key: AKIAZ73XJMWYBK2PVC42
-=======
-    access-key: 
->>>>>>> upstream/dev
-    secret-key: 
-=======
-
-    access-key: ${secrets.AWS_ACCESS_KEY}
-    secret-key: ${secrets.AWS_SECRET_ACCESS_KEY}
-
->>>>>>> upstream/dev
+    bucket: code-assembly
+    access-key: ${{secrets.AWS_ACCESS_KEY}}
+    secret-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
 
 
 #  security:
