@@ -16,12 +16,12 @@ function PostEditor(props: PostEditorProps) {
     }
   }, [content]);
 
-  function onChange() {
-    const data = editorRef.current?.getInstance().getMarkdown();
-    if (data) {
-      setContent(data);
-    }
-  }
+  // function onChange() {
+  //   const data = editorRef.current?.getInstance().getMarkdown();
+  //   if (data) {
+  //     setContent(data);
+  //   }
+  // }
 
   return <div>에디터</div>;
 }
