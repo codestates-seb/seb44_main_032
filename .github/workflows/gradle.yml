@@ -5,7 +5,7 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
 
-name: CI/CD
+name: Java CI/CD with Gradle
 
 on:
   push:
@@ -30,24 +30,13 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
 
-    - name: Add permission // 추가
-      run: chmod +x gradlew // 추가
-
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
 
-    - name: Build Server
+    - name: Build Server with Gradle
       working-directory: ./server
       run: ./gradlew build
 
-    - name: Build Client
+    - name: Build Client with Gradle
       working-directory: ./client
       run: ./gradlew build
-
-    - name: Deploy Server
-      working-directory: ./server
-      run: ./gradlew deploy
-
-    - name: Deploy Client
-      working-directory: ./client
-      run: ./gradlew deploy
