@@ -8,8 +8,8 @@ import CommunityDetail from './page/Community/CommunityDetail';
 import CommunityEdit from './page/Community/CommunityEdit';
 import CommunityPost from './page/Community/CommunityPost';
 import Main from './page/Main/Main';
-import Plan from './page/Plan/Plan';
-import Edit from './page/Plan/Edit';
+// import Plan from './page/Plan/Plan';
+// import Edit from './page/Plan/Edit';
 
 function App() {
   // const [planData, setPlanData] = useState<{
