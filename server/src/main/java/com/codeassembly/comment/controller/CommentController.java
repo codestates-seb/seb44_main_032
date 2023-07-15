@@ -72,6 +72,8 @@ public class CommentController {
 
     }
 
-
-
+    @PostMapping("/like/{commentId}")
+    public ResponseEntity likeComment(@PathVariable("commentId") Long commentId) {
+        return ResponseEntity.ok(commentService.likeComment(commentId));
+    }
 }
