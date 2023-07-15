@@ -23,7 +23,7 @@ function PostEditor(props: PostEditorProps) {
     }
   }
 
-  return <div>에디터</div>;
+  return <div onClick={onChange}>에디터</div>;
 }
 
 export default PostEditor;

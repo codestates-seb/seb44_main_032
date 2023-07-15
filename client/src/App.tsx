@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import { useState } from 'react';
+// import { useState } from 'react';
 import Login from './page/Login/Login';
 import SignUp from './page/SignUp/SignUp';
 import Header from './components/Header/Header';
@@ -8,8 +8,8 @@ import CommunityDetail from './page/Community/CommunityDetail';
 import CommunityEdit from './page/Community/CommunityEdit';
 import CommunityPost from './page/Community/CommunityPost';
 import Main from './page/Main/Main';
-import Plan from './page/Plan/Plan';
-import Edit from './page/Plan/Edit';
+// import Plan from './page/Plan/Plan';
+// import Edit from './page/Plan/Edit';
 
 function App() {
   // const [planData, setPlanData] = useState<{
