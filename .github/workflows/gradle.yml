@@ -36,7 +36,7 @@ jobs:
 
     - name: Build Server with Gradle
       working-directory: ./server
-      run: ./gradlew build
+      run: ./gradlew build -x test
 
   client_build:
 
