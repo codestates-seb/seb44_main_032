@@ -12,11 +12,11 @@ import Plan from './page/Plan/Plan';
 import Edit from './page/Plan/Edit';
 
 function App() {
-  const [planData, setPlanData] = useState<{
-    title: string;
-    date: string;
-    content: string;
-  } | null>(null);
+  // const [planData, setPlanData] = useState<{
+  //   title: string;
+  //   date: string;
+  //   content: string;
+  // } | null>(null);
 
   return (
     <>
@@ -29,8 +29,8 @@ function App() {
         <Route path="/community/:id" element={<CommunityDetail />} />
         <Route path="/community/:id/edit" element={<CommunityEdit />} />
         <Route path="/community/post" element={<CommunityPost />} />
-        <Route path="/plan" element={<Plan planData={planData} />} />
-        <Route path="/plan/post" element={<Edit setPlanData={setPlanData} />} />
+{/*         <Route path="/plan" element={<Plan planData={planData} />} />
+        <Route path="/plan/post" element={<Edit setPlanData={setPlanData} />} /> */}
       </Routes>
     </>
   );
