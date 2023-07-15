@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+// import { useEffect, useRef } from 'react';
 
 type PostEditorProps = {
   content: string;
@@ -6,15 +6,15 @@ type PostEditorProps = {
 };
 
 function PostEditor(props: PostEditorProps) {
-  const { content, setContent } = props;
-  const editorRef = useRef<any>(null);
+  // const { content, setContent } = props;
+  // const editorRef = useRef<any>(null);
 
-  useEffect(() => {
-    const editorInstance = editorRef.current?.getInstance();
-    if (editorInstance) {
-      editorInstance.setMarkdown(content);
-    }
-  }, [content]);
+  // useEffect(() => {
+  //   const editorInstance = editorRef.current?.getInstance();
+  //   if (editorInstance) {
+  //     editorInstance.setMarkdown(content);
+  //   }
+  // }, [content]);
 
   // function onChange() {
   //   const data = editorRef.current?.getInstance().getMarkdown();
