@@ -64,7 +64,7 @@ jobs:
         aws deploy create-deployment --application-name code-assembly
         --deployment-config-name CodeDeployDefault.AllAtOnce
         --deployment-group-name code-assembly-group
-        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=code-assembly-deploy.zip
+        --s3-location bucket=$code-assembly,bundleType=zip,key=code-assembly-deploy.zip
 
   client_build:
 
