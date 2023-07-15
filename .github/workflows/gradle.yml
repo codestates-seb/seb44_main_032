@@ -30,7 +30,12 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
 
-    - name: Grant execute permission for gradlew
+    - name: Grant execute permission for gradlew (server)
+      working-directory: ./server
+      run: chmod +x ./gradlew
+
+    - name: Grant execute permission for gradlew (client)
+      working-directory: ./client
       run: chmod +x ./gradlew
 
     - name: Build Server with Gradle
