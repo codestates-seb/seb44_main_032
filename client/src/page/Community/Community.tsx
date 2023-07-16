@@ -138,11 +138,18 @@ function Community() {
       enabled: !filter,
     },
   );
-  const { data: filteredData } = useQuery(
+  const { data: categoryData } = useQuery(
     ['getCommunityCategoryList', filter],
-    () => fakeData.getCommunityCategoryList(),
+    () => fakeData.getCommunityCategoryList(filter || ''),
     {
       enabled: !!filter,
+    },
+  );
+  const { data: searchData, refetch } = useQuery(
+    ['getCommunitySearch', currentKeyword],
+    () => fakeData.getCommunitySearch(currentKeyword),
+    {
+      enabled: false,
     },
   );
 
@@ -151,12 +158,20 @@ function Community() {
     setCurrentKeyword(v);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      refetch();
+    }
+  };
+
   let currentData = [];
-  if (filter) {
-    currentData = filteredData?.data;
-  }
-  if (allData?.data) {
+  if (filter && categoryData) {
+    currentData = categoryData?.data;
+  } else if (!filter && allData) {
     currentData = allData?.data;
+  }
+  if (currentKeyword && searchData) {
+    currentData = searchData?.data;
   }
 
   return (
@@ -185,7 +200,11 @@ function Community() {
               color="#98DDE3"
               size="28px"
             ></PiMagnifyingGlassBold>
-            <Input value={currentKeyword} onChange={onChange} />
+            <Input
+              value={currentKeyword}
+              onChange={onChange}
+              onKeyDown={handleKeyDown}
+            />
           </StyledSearchBar>
           <WriteButton></WriteButton>
         </RightContainer>
