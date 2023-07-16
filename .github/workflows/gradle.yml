@@ -55,15 +55,13 @@ jobs:
       run: aws s3 cp --region ap-northeast-2 ./code-assembly-deploy.zip s3://$S3_BUCKET_NAME/code-assembly-deploy.zip
 
     - name: Create CodeDeploy Deployment Group
-      run: |
-        DEPLOYMENT_DIR=$(ls -td /opt/codedeploy-agent/deployment-root/*/*/deployment-archive | head -n 1)
-        APPSPEC_PATH="$DEPLOYMENT_DIR/server/appspec.yml"
-        aws deploy create-deployment-group --application-name code-assembly
+      run: >
+        DEPLOYMENT_DIR=$(ls -td $DEPLOYMENT_DIR | head -n 1)
+        aws deploy create-deployment --application-name code-assembly
+        --deployment-config-name CodeDeployDefault.AllAtOnce
         --deployment-group-name code-assembly-group
-        --service-role-arn arn:aws:iam::081505691947:role/code-assembly-deploy-group-role
-        --deployment-style deploymentType=IN_PLACE
-        --blue-green-deployment-configuration terminateBlueInstancesOnDeploymentSuccess={action=TERMINATE,terminationWaitTimeInMinutes=5}
-        --appspec-content file://$APPSPEC_PATH
+        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=code-assembly-deploy.zip
+        --appspec-file $DEPLOYMENT_DIR/server/appspec.yml
 
   client_build:
     needs: server_build
