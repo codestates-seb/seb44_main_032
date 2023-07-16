@@ -44,6 +44,10 @@ public class User extends Auditable {
     @OneToMany(mappedBy = "user")
     private List<Community> communities = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Community> plans = new ArrayList<>();
+
     public static void checkExistEmail(Optional<User> targetUser) {
         if(targetUser.isPresent())
             throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
