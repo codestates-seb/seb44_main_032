@@ -44,7 +44,7 @@ jobs:
     - name: Make zip file
       run: zip -r ./code-assembly-deploy.zip .
       shell: bash
-      
+
     - name: Set DEPLOYMENT_DIR
       run: |
         DEPLOYMENT_DIR=$(find /opt/codedeploy-agent/deployment-root -type d -name "d-*" -printf "%T@ %p\n" | sort -nr | head -n 1 | awk '{print $2}')
@@ -52,7 +52,7 @@ jobs:
 
     - name: Show DEPLOYMENT_DIR
       run: echo $DEPLOYMENT_DIR
-      
+    
     # Access Key와 Secret Access Key를 통해 권한을 확인합니다.
     # 아래 코드에 Access Key와 Secret Key를 직접 작성하지 않습니다.
     - name: Configure AWS credentials
@@ -66,15 +66,14 @@ jobs:
     - name: Upload to S3
       run: aws s3 cp --region ap-northeast-2 ./code-assembly-deploy.zip s3://$S3_BUCKET_NAME/code-assembly-deploy.zip
 
-    # Deploy with CodeDeploy
-    - name: Deploy with CodeDeploy
-      run: aws deploy create-deployment 
-       --application-name code-assembly 
-       --deployment-config-name CodeDeployDefault.AllAtOnce 
-       --deployment-group-name code-assembly-group 
-       --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=code-assembly-deploy.zip 
-       --appspec-file $DEPLOYMENT_DIR/server/appspec.yml
-
+    # CodeDeploy에게 배포 명령을 내립니다.
+    - name: Code Deploy
+      run: >
+        aws deploy create-deployment --application-name code-assembly
+        --deployment-config-name CodeDeployDefault.AllAtOnce
+        --deployment-group-name code-assembly-group
+        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=code-assembly-deploy.zip
+        --appspec-file $DEPLOYMENT_DIR/server/appspec.yml
 
   client_build:
 
