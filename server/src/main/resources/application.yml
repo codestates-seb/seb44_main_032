@@ -15,7 +15,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/planet?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: bbeum55s!
+    password: root1234
 
 
 jwt:                                 #key 설정 및 토큰 만료 시간 설정
@@ -56,7 +56,7 @@ spring.config.activate.on-profile: "profiles-local"
 spring:
   s3:
     bucket: kongsbucket
-    access-key: 
+    access-key:
     secret-key:
 
 ---
@@ -65,8 +65,8 @@ spring:
 spring:
   s3:
     bucket: kongsbucket
-    access-key: 
-    secret-key: 
+    access-key:
+    secret-key:
 
 
 #  security:
