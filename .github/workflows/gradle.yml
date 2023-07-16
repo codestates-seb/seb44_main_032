@@ -60,7 +60,7 @@ jobs:
         --deployment-config-name CodeDeployDefault.AllAtOnce
         --deployment-group-name code-assembly-group
         --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=code-assembly-deploy.zip
-        --appspec-file /home/ubuntu/action/server/appspec.yml
+        --file-exists-behavior OVERWRITE # 기존 파일 덮어쓰기 옵션
 
   client_build:
     needs: server_build
