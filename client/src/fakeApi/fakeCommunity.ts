@@ -8,4 +8,10 @@ export default class FakeCommunity {
     async getCommunitySearch() {
         return axios.get('/community/search.json').then((res) => res.data)
     }
+    async getCommunityDetail() {
+        return axios.get('/community/getCommunityDetail.json').then((res) => res.data)
+    }
+    async getCommunityCategoryList() {
+        return axios.get('/community/getCommunityCategoryList.json').then((res) => res.data)
+    }
 }
