@@ -60,8 +60,7 @@ jobs:
         APPSPEC_PATH="$DEPLOYMENT_DIR/server/appspec.yml"
         aws deploy create-deployment-group --application-name code-assembly
         --deployment-group-name code-assembly-group
-        --service-role-arn <service-role-arn>
-        --auto-scaling-groups <auto-scaling-group-name>
+        --service-role-arn arn:aws:iam::081505691947:role/code-assembly-deploy-group-role
         --deployment-style deploymentType=IN_PLACE
         --blue-green-deployment-configuration terminateBlueInstancesOnDeploymentSuccess={action=TERMINATE,terminationWaitTimeInMinutes=5}
         --appspec-content file://$APPSPEC_PATH
