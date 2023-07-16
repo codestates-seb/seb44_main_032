@@ -62,7 +62,7 @@ jobs:
    # CodeDeploy에게 배포 명령을 내립니다.
     - name: Code Deploy
       run: >
-        DEPLOYMENT_DIR=$(ls -td $DEPLOYMENT_DIR | head -n 1)
+        DEPLOYMENT_DIR=$(find /opt/codedeploy-agent/deployment-root -type d -name "d-*" -printf "%T@ %p\n" | sort -nr | head -n 1 | awk '{print $2}')
         aws deploy create-deployment --application-name code-assembly
         --deployment-config-name CodeDeployDefault.AllAtOnce
         --deployment-group-name code-assembly-group
