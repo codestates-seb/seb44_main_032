@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { useQuery } from 'react-query';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import PostsCard, {
   PostCommunityInterface,
@@ -131,21 +132,21 @@ function Community() {
 
   const filter = searchParams.get('filter');
 
-  const { data: allData } = useQuery(
+  const { data: allData, refetch: refetchAll } = useQuery(
     'getCommunityList',
     () => fakeData.getCommunityList(),
     {
       enabled: !filter,
     },
   );
-  const { data: categoryData } = useQuery(
+  const { data: categoryData, refetch: refetchCategory } = useQuery(
     ['getCommunityCategoryList', filter],
     () => fakeData.getCommunityCategoryList(filter || ''),
     {
       enabled: !!filter,
     },
   );
-  const { data: searchData, refetch } = useQuery(
+  const { data: searchData, refetch: refetchSearch } = useQuery(
     ['getCommunitySearch', currentKeyword],
     () => fakeData.getCommunitySearch(currentKeyword),
     {
@@ -160,18 +161,22 @@ function Community() {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      refetch();
+      refetchSearch();
     }
   };
 
   let currentData = [];
+  let currentRefetch = () => {};
   if (filter && categoryData) {
     currentData = categoryData?.data;
+    currentRefetch = refetchCategory;
   } else if (!filter && allData) {
     currentData = allData?.data;
+    currentRefetch = refetchAll;
   }
   if (currentKeyword && searchData) {
     currentData = searchData?.data;
+    currentRefetch = refetchSearch;
   }
 
   return (
@@ -209,14 +214,35 @@ function Community() {
           <WriteButton></WriteButton>
         </RightContainer>
       </UpperBar>
+
       <PostsContainer>
-        {!currentData.length ? (
-          <div>no result</div>
-        ) : (
-          currentData.map((post: PostCommunityInterface) => (
+        <InfiniteScroll
+          dataLength={currentData.length} //This is important field to render the next data
+          next={currentRefetch}
+          hasMore={currentData.page === currentData.totalPages}
+          loader={<h4>Loading...</h4>}
+          endMessage={
+            <p style={{ textAlign: 'center' }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+          // below props only if you need pull down functionality
+          refreshFunction={currentRefetch}
+          pullDownToRefresh
+          pullDownToRefreshThreshold={10}
+          pullDownToRefreshContent={
+            <h3 style={{ textAlign: 'center' }}>
+              &#8595; Pull down to refresh
+            </h3>
+          }
+          releaseToRefreshContent={
+            <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
+          }
+        >
+          {currentData.map((post: PostCommunityInterface) => (
             <PostsCard post={post} key={post.communityId} />
-          ))
-        )}
+          ))}
+        </InfiniteScroll>
       </PostsContainer>
     </CommunityContainer>
   );
