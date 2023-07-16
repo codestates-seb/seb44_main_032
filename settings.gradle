@@ -5,4 +5,5 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
-rootProject.name = 'server'
+rootProject.name = 'main_032_deploy'
+include 'client', 'server'
