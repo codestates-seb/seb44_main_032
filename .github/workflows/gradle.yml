@@ -15,7 +15,8 @@ on:
     
 env:
   S3_BUCKET_NAME: code-assembly
-  
+  DEPLOYMENT_DIR: /opt/codedeploy-agent/deployment-root/*/*/deployment-archive
+
 permissions:
   contents: read
 
@@ -40,21 +41,26 @@ jobs:
       working-directory: ./server
       run: ./gradlew build -x test
       
+    # build한 후 프로젝트를 압축합니다.
     - name: Make zip file
       run: zip -r ./code-assembly-deploy.zip .
       shell: bash
     
+    # Access Key와 Secret Access Key를 통해 권한을 확인합니다.
+    # 아래 코드에 Access Key와 Secret Key를 직접 작성하지 않습니다.
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }} # 등록한 Github Secret이 자동으로 불려옵니다.
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # 등록한 Github Secret이 자동으로 불려옵니다.
         aws-region: ap-northeast-2
     
+    # 압축한 프로젝트를 S3로 전송합니다.
     - name: Upload to S3
       run: aws s3 cp --region ap-northeast-2 ./code-assembly-deploy.zip s3://$S3_BUCKET_NAME/code-assembly-deploy.zip
 
-    - name: Create CodeDeploy Deployment Group
+   # CodeDeploy에게 배포 명령을 내립니다.
+    - name: Code Deploy
       run: >
         DEPLOYMENT_DIR=$(ls -td $DEPLOYMENT_DIR | head -n 1)
         aws deploy create-deployment --application-name code-assembly
@@ -64,8 +70,11 @@ jobs:
         --appspec-file $DEPLOYMENT_DIR/server/appspec.yml
 
   client_build:
+
     needs: server_build
+
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v3
 
