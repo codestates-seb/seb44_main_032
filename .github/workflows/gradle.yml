@@ -45,14 +45,6 @@ jobs:
       run: zip -r ./code-assembly-deploy.zip .
       shell: bash
 
-    - name: Set DEPLOYMENT_DIR
-      run: |
-        DEPLOYMENT_DIR=$(find /opt/codedeploy-agent/deployment-root -type d -name "d-*" -printf "%T@ %p\n" | sort -nr | head -n 1 | awk '{print $2}')
-        echo "DEPLOYMENT_DIR=$DEPLOYMENT_DIR" >> $GITHUB_ENV
-
-    - name: Show DEPLOYMENT_DIR
-      run: echo $DEPLOYMENT_DIR
-    
     # Access Key와 Secret Access Key를 통해 권한을 확인합니다.
     # 아래 코드에 Access Key와 Secret Key를 직접 작성하지 않습니다.
     - name: Configure AWS credentials
@@ -73,7 +65,6 @@ jobs:
         --deployment-config-name CodeDeployDefault.AllAtOnce
         --deployment-group-name code-assembly-group
         --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=code-assembly-deploy.zip
-        --appspec-file appspec.yml
 
   client_build:
 
