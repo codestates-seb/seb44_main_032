@@ -1,7 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: /path/to/appspec.yml
+  - source: /
     destination: /home/ubuntu/action
     overwrite: yes
 
