@@ -15,7 +15,6 @@ on:
     
 env:
   S3_BUCKET_NAME: code-assembly
-  DEPLOYMENT_DIR: /opt/codedeploy-agent/deployment-root/*/*/deployment-archive
 
 permissions:
   contents: read
@@ -59,15 +58,22 @@ jobs:
     - name: Upload to S3
       run: aws s3 cp --region ap-northeast-2 ./code-assembly-deploy.zip s3://$S3_BUCKET_NAME/code-assembly-deploy.zip
 
-   # CodeDeploy에게 배포 명령을 내립니다.
+    # Find the latest deployment directory
+    - name: Find latest deployment directory
+      run: DEPLOYMENT_DIR=$(find /opt/codedeploy-agent/deployment-root -type d -name "d-*" -printf "%T@ %p\n" | sort -nr | head -n 1 | awk '{print $2}')
+      shell: bash
+
+    # Create the CodeDeploy deployment
     - name: Code Deploy
-      run: >
-        DEPLOYMENT_DIR=$(find /opt/codedeploy-agent/deployment-root -type d -name "d-*" -printf "%T@ %p\n" | sort -nr | head -n 1 | awk '{print $2}')
-        aws deploy create-deployment --application-name code-assembly
-        --deployment-config-name CodeDeployDefault.AllAtOnce
-        --deployment-group-name code-assembly-group
-        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=code-assembly-deploy.zip
+      run: aws deploy create-deployment 
+        --application-name code-assembly 
+        --deployment-config-name CodeDeployDefault.AllAtOnce 
+        --deployment-group-name code-assembly-group 
+        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=code-assembly-deploy.zip 
+        --file-exists-behavior OVERWRITE 
+        --no-ignore-application-stop-failures 
         --appspec-file $DEPLOYMENT_DIR/server/appspec.yml
+      shell: bash
 
   client_build:
 
