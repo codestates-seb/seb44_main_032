@@ -1,70 +1,43 @@
 {
-    "data": [
+  "data": [
     {
-      "communityId" : 1,
-      "title" : "글 제목",
-      "createdAt" : "2023-00-00T00:00:00.000000",
-      "writer" : { 
-        "memberId" : 1,
-        "nickname" : "hgd1"
-      },
-      "commnetIdr" : 1,
-      "pageInfo": {
-        "page" : 1,
-        "size" : 10,
-        "totalElements" : 1,
-        "totalPages" : 1
-      }
+      "communityId":3,
+      "title":"제목입니다3",
+      "body":"내용입니다3",
+      "category":"Daily",
+      "createdAt":"2023-07-14T15:32:43.140087",
+      "updatedAt":"2023-07-14T15:32:43.140087",
+      "userInfo": {"nickname": "joker"},
+      "views":0,
+      "liked":0
     },
     {
-      "communityId" : 2,
-      "title" : "글 제목",
-      "createdAt" : "2023-00-00T00:00:00.000000",
-      "writer" : { 
-        "memberId" : 1,
-        "nickname" : "hgd1"
-      },
-      "commnetIdr" : 1,
-      "pageInfo": {
-        "page" : 1,
-        "size" : 10,
-        "totalElements" : 1,
-        "totalPages" : 1
-      }
+      "communityId":2,
+      "title":"제목입니다2.",
+      "body":"내용입니다2",
+      "category":"Daily",
+      "createdAt":"2023-07-14T15:32:34.584387",
+      "updatedAt":"2023-07-14T15:32:34.584387",
+      "userInfo": {"nickname": "joker"},
+      "views":0,
+      "liked":0
     },
-    
     {
-      "communityId" : 3,
-      "title" : "글 제목",
-      "createdAt" : "2023-00-00T00:00:00.000000",
-      "writer" : { 
-        "memberId" : 1,
-        "nickname" : "hgd1"
-      },
-      "commnetIdr" : 1,
-      "pageInfo": {
-        "page" : 1,
-        "size" : 10,
-        "totalElements" : 1,
-        "totalPages" : 1
-      }
-    },
-    
-    {
-      "communityId" : 4,
-      "title" : "글 제목",
-      "createdAt" : "2023-00-00T00:00:00.000000",
-      "writer" : { 
-        "memberId" : 1,
-        "nickname" : "hgd1"
-      },
-      "commnetIdr" : 1,
-      "pageInfo": {
-        "page" : 1,
-        "size" : 10,
-        "totalElements" : 1,
-        "totalPages" : 1
-      }
+      "communityId":1,
+      "title":"제목입니다.",
+      "body":"내용입니다",
+      "category":"Daily",
+      "createdAt":"2023-07-14T15:31:26.522173",
+      "updatedAt":"2023-07-14T15:36:46.710613",
+      "userInfo": {"nickname": "joker"},
+      "views":1,
+      "liked":0
     }
-  ]
+  ],
+  "pageInfo": {
+    "page":1,
+    "size":10,
+    "totalElements":3,
+    "totalPages":1
+  }
 }
