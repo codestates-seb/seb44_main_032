@@ -40,6 +40,7 @@ jobs:
         working-directory: ./server
         run: ./gradlew build -x test
 
+<<<<<<< HEAD
       - name: Make zip file
         run: zip -r ./code-assembly-deploy.zip .
         shell: bash
@@ -61,6 +62,16 @@ jobs:
           --deployment-group-name code-assembly-group
           --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=code-assembly-deploy.zip
           --appspec-file /home/ubuntu/action/server/appspec.yml
+=======
+   # CodeDeploy에게 배포 명령을 내립니다.
+    - name: Code Deploy
+      run: >
+        aws deploy create-deployment --application-name code-assembly
+        --deployment-config-name CodeDeployDefault.AllAtOnce
+        --deployment-group-name code-assembly-group
+        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=code-assembly-deploy.zip
+        --appspec-file /home/ubuntu/project/appspec.yml  # AppSpec 파일의 경로를 추가
+>>>>>>> 410f9135db6955589e7c1a1017d0ce265536acd7
 
   client_build:
     needs: server_build

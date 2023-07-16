@@ -1,8 +1,13 @@
 version: 0.0
 os: linux
 files:
+<<<<<<< HEAD:server/appspec.yml
   - source: server/appspec.yml
     destination: /home/ubuntu/action/server/appspec.yml
+=======
+  - source: /
+    destination: /home/ubuntu/action
+>>>>>>> 410f9135db6955589e7c1a1017d0ce265536acd7:appspec.yml
     overwrite: yes
 
 permissions:
