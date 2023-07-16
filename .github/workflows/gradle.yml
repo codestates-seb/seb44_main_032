@@ -60,7 +60,7 @@ jobs:
         --deployment-config-name CodeDeployDefault.AllAtOnce
         --deployment-group-name code-assembly-group
         --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=code-assembly-deploy.zip
-        --file-exists-behavior OVERWRITE # 기존 파일 덮어쓰기 옵션
+        --appspec-file $APPSPEC_PATH  # AppSpec 파일의 경로를 동적으로 지정
 
   client_build:
     needs: server_build
