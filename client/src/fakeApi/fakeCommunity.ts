@@ -12,6 +12,6 @@ export default class FakeCommunity {
         return axios.get('/community/getCommunityDetail.json').then((res) => res.data)
     }
     async getCommunityCategoryList(category?: string) {
-        return axios.get('/community/getCommunityCategoryList.json').then((res) => res.data)
+        return axios.get(`/community/getCommunityCategoryList-${category}.json`).then((res) => res.data)
     }
 }
