@@ -1,12 +1,12 @@
 version: 0.0
 os: linux
 files:
-  - source: server/appspec.yml
-    destination: /home/ubuntu/action/server/appspec.yml
+  - source: /
+    destination: /home/ubuntu/action/appspec.yml
     overwrite: yes
 
 permissions:
-  - object: /home/ubuntu/action/server/appspec.yml
+  - object: /home/ubuntu/action/appspec.yml
     pattern: "**"
     owner: ubuntu
     group: ubuntu
