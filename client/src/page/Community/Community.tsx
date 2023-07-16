@@ -3,7 +3,9 @@ import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 
-import PostsCard from '../../components/Community/PostsCard';
+import PostsCard, {
+  PostCommunityInterface,
+} from '../../components/Community/PostsCard';
 import WriteButton from '../../components/Community/WriteButton';
 import FakeCommunity from '../../fakeApi/fakeCommunity';
 
@@ -14,7 +16,6 @@ const CommunityContainer = styled.div`
   align-items: center;
   margin-top: 67px;
   padding: 16px;
-  gap: 16px;
   overflow: auto;
   background-color: #f9f9f9;
 `;
@@ -34,14 +35,7 @@ const StyledButton = styled.button<{ isCurrent: boolean }>`
   font-size: 20px;
   @media screen and (max-width: 800px) {
     font-size: 16px;
-  }
-  @media screen and (max-width: 600px) {
     padding: 8px 12px;
-    font-size: 12px;
-  }
-  @media screen and (max-width: 400px) {
-    padding: 4px 8px;
-    font-size: 8px;
   }
 `;
 
@@ -58,9 +52,9 @@ const UpperBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 900px;
-  padding: 16px;
-  @media screen and (max-width: 1000px) {
+  max-width: 900px;
+  width: 100%;
+  /* @media screen and (max-width: 1000px) {
     width: 800px;
   }
   @media screen and (max-width: 800px) {
@@ -71,27 +65,20 @@ const UpperBar = styled.div`
   }
   @media screen and (max-width: 400px) {
     width: 300px;
-  }
+  } */
 `;
 
 const StyledSearchBar = styled.div`
   border-radius: 10px;
   border: 1px solid #98dde3;
-  width: 370px;
+  min-width: 360px;
   padding: 12px;
   display: flex;
   align-items: center;
   background-color: white;
   @media screen and (max-width: 800px) {
     padding: 8px;
-    width: 200px;
-  }
-  @media screen and (max-width: 600px) {
-    padding: 4px;
     width: 100px;
-  }
-  @media screen and (max-width: 400px) {
-    width: 60px;
   }
 `;
 
@@ -103,7 +90,7 @@ const Input = styled.input`
   &:focus-visible {
     outline: none;
   }
-  @media screen and (max-width: 600px) {
+  /* @media screen and (max-width: 600px) {
     width: 80px;
     margin-left: 4px;
     font-size: 12px;
@@ -112,13 +99,21 @@ const Input = styled.input`
     width: 40px;
     margin-left: 4px;
     font-size: 8px;
-  }
+  } */
 `;
 
 const RightContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 24px;
+`;
+
+const PostsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 900px;
+  width: 100%;
+  gap: 16px;
 `;
 
 const fakeData = new FakeCommunity();
@@ -190,13 +185,15 @@ function Community() {
           <WriteButton></WriteButton>
         </RightContainer>
       </UpperBar>
-      {!filteredData.length ? (
-        <div>no result</div>
-      ) : (
-        filteredData.map(post => (
-          <PostsCard post={post} key={post.communityId} />
-        ))
-      )}
+      <PostsContainer>
+        {!filteredData.length ? (
+          <div>no result</div>
+        ) : (
+          filteredData.map((post: PostCommunityInterface) => (
+            <PostsCard post={post} key={post.communityId} />
+          ))
+        )}
+      </PostsContainer>
     </CommunityContainer>
   );
 }
