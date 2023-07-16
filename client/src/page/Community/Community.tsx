@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
+import { useQuery } from 'react-query';
 
 import PostsCard, {
   PostCommunityInterface,
@@ -120,8 +121,6 @@ const fakeData = new FakeCommunity();
 
 function Community() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [currentData, setCurrentData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
   const [currentKeyword, setCurrentKeyword] = useState('');
   const menus = [
     { name: '당일치기', key: 'one-day' },
@@ -132,37 +131,43 @@ function Community() {
 
   const filter = searchParams.get('filter');
 
-  const getCommunityList = async () => {
-    const result = await fakeData.getCommunityList();
-    setCurrentData(result.data);
-    setFilteredData(result.data);
-  };
+  const { data: allData } = useQuery(
+    'getCommunityList',
+    () => fakeData.getCommunityList(),
+    {
+      enabled: !filter,
+    },
+  );
+  const { data: filteredData } = useQuery(
+    ['getCommunityCategoryList', filter],
+    () => fakeData.getCommunityCategoryList(),
+    {
+      enabled: !!filter,
+    },
+  );
 
-  const onChange = async e => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const v = e.target.value;
-    await setCurrentKeyword(v);
-    if (!v) {
-      return setFilteredData(currentData);
-    }
-    const result = await fakeData.getCommunitySearch(v);
-    await setFilteredData(result.data);
+    setCurrentKeyword(v);
   };
 
-  useEffect(() => {
-    getCommunityList();
-  }, []);
+  let currentData = [];
+  if (filter) {
+    currentData = filteredData?.data;
+  }
+  if (allData?.data) {
+    currentData = allData?.data;
+  }
 
   return (
     <CommunityContainer>
       <UpperBar>
         <ButtonGroup>
-          {menus.map(obj => {
+          {menus.map((obj, ㅑ) => {
             return (
               <>
                 <StyledButton
-                  isCurrent={
-                    (obj.key === 'one-day' && !filter) || filter === obj.key
-                  }
+                  isCurrent={filter === obj.key}
                   onClick={() => {
                     setSearchParams({ filter: obj.key });
                   }}
@@ -186,10 +191,10 @@ function Community() {
         </RightContainer>
       </UpperBar>
       <PostsContainer>
-        {!filteredData.length ? (
+        {!currentData.length ? (
           <div>no result</div>
         ) : (
-          filteredData.map((post: PostCommunityInterface) => (
+          currentData.map((post: PostCommunityInterface) => (
             <PostsCard post={post} key={post.communityId} />
           ))
         )}
