@@ -1,27 +1,75 @@
-name: Server CI/CD
+name: CI/CD
 
 on:
   push:
-    branches:
-      - dev
-    paths:
-      - 'server/**' # 서버 프로젝트 경로에 변경 사항이 발생했을 때만 워크플로우 실행
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "dev" ]
+
+env:
+  S3_BUCKET_NAME: code-assembly
+
+permissions:
+  contents: read
 
 jobs:
-  build:
+  server_build:
+
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
+      - uses: actions/checkout@v3
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
+          distribution: 'temurin'
 
-      - name: Build and Deploy Server
-        run: |
-          cd server
-          ./gradlew build
-          # 서버 빌드 후 배포 작업 수행
+      - name: Grant execute permission for gradlew
+        working-directory: ./server
+        run: chmod +x ./gradlew
+
+      - name: Build Server with Gradle
+        working-directory: ./server
+        run: ./gradlew build -x test
+
+      - name: Make zip file
+        run: zip -r ./code-assembly-deploy.zip .
+        shell: bash
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./code-assembly-deploy.zip s3://$S3_BUCKET_NAME/code-assembly-deploy.zip
+
+      - name: Code Deploy
+        run: >
+          aws deploy create-deployment --application-name code-assembly
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name code-assembly-group
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=code-assembly-deploy.zip
+          --appspec-file /home/ubuntu/action/server/appspec.yml
+
+  client_build:
+    needs: server_build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.14.2'
+
+      - name: Install dependencies
+        working-directory: ./client
+        run: npm ci
+
+      - name: Build Client with npm
+        working-directory: ./client
+        run: npm run build
