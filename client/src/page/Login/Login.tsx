@@ -15,6 +15,8 @@ type LoginRequest = {
 
 type LoginResponse = {
   token: string;
+  memberId: number;
+  nickname: string;
 };
 
 async function getAuthUrl(provider: string) {
@@ -65,10 +67,11 @@ function Login() {
     //     token: 'your_token_here',
     //   },
     // };
-    const { token } = response.data;
-    saveToken(token); // 토큰 저장
+
+    const { token, memberId, nickname } = response.data;
+    saveUserInfo(memberId, nickname);
+    saveToken(token);
     navigate('/');
-    console.log(response);
     return response.data;
   }
 
@@ -102,6 +105,14 @@ function Login() {
     const hasEnoughSpecialCharacters = specialCharacterCount >= 2; // 최소 2개의 특수 문자
 
     return isLongEnough && hasEnoughSpecialCharacters;
+  }
+
+  function saveUserInfo(memberId: number, nickname: string): void {
+    const userInfo = {
+      memberId,
+      nickname,
+    };
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
   }
 
   function saveToken(token: string): void {
