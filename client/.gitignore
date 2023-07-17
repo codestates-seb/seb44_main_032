@@ -6,6 +6,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+
+# .env
+# .env 파일은 중요한 secret이나 token이 작성되어 있어 git에서 제외합니다.
 .env
 
 node_modules
