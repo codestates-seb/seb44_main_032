@@ -14,7 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "Plan")
+@Entity
 @NoArgsConstructor
 @Getter
 @Setter
@@ -26,9 +26,10 @@ public class Plan extends Auditable {
     private String title;
     @Column
     private String body;
-    @Column
-    private long bookmark;
-    //role 질문
+    @Column(nullable = false)
+    private int favorite;
+    private String category;
+
     public enum role {
 
     }
@@ -36,7 +37,9 @@ public class Plan extends Auditable {
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
-    //카테고리 질문
+    //카테고리 다대일관계 만들어야함
+
+
 
 
 }

@@ -21,6 +21,7 @@ public class PlanDto {
         private String title;
         @NotBlank
         private String body;
+        private String category;
     }
     @AllArgsConstructor
     @NoArgsConstructor
@@ -32,6 +33,7 @@ public class PlanDto {
         private String title;
         private String body;
         private UserInfo userInfo;
+        private String category;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
     }
@@ -59,5 +61,6 @@ public class PlanDto {
         private Long planId;
         private String title;
         private String body;
+        private String category;
     }
 }

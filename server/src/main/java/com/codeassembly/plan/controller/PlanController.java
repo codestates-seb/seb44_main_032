@@ -44,6 +44,11 @@ public class PlanController {
 
     }
 
+    @PostMapping("/{planId}/bookmark")
+    public ResponseEntity bookMarkPlan(@PathVariable("planId") Long planId){
+        return new ResponseEntity<>(planService.bookMarkPlan(planId), HttpStatus.OK );
+    }
+
     @PatchMapping("/{templatateId}/edit")
     public ResponseEntity updatePlan(@PathVariable("templatateId") Long templatateId,
                                      @Valid @RequestBody PlanDto.Patch requestBody) {

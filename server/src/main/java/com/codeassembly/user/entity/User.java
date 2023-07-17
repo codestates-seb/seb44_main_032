@@ -5,6 +5,7 @@ import com.codeassembly.comment.entity.Comment;
 import com.codeassembly.community.entity.Community;
 import com.codeassembly.exception.BusinessLogicException;
 import com.codeassembly.exception.ExceptionCode;
+import com.codeassembly.plan.entity.Plan;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table
 public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +48,8 @@ public class User extends Auditable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<Community> plans = new ArrayList<>();
+    private List<Plan> plans = new ArrayList<>();
+
 
     public static void checkExistEmail(Optional<User> targetUser) {
         if(targetUser.isPresent())
