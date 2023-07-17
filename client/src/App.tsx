@@ -10,6 +10,7 @@ import CommunityPost from './page/Community/CommunityPost';
 import Main from './page/Main/Main';
 import Plan from './page/Plan/Plan';
 import Edit from './page/Plan/Edit';
+import MyPage from './page/MyPage/MyPage';
 
 function App() {
   const [planData, setPlanData] = useState<{
@@ -25,6 +26,7 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/mypage" element={<MyPage />} />
         <Route path="/community" element={<Community />} />
         <Route path="/community/:id" element={<CommunityDetail />} />
         <Route path="/community/:id/edit" element={<CommunityEdit />} />
