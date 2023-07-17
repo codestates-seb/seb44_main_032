@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { BiLike } from 'react-icons/bi';
 import { FaRegComment } from 'react-icons/fa';
+import { format } from 'date-fns';
 
 export interface PostCommunityInterface {
   communityId: number;
@@ -9,18 +10,19 @@ export interface PostCommunityInterface {
     nickname: string;
   };
   title: string;
-  content: string;
+  body: string;
   likes: number;
   comments: number;
   createdAt: string;
 }
 
 function PostsCard({ post }: { post: PostCommunityInterface }) {
+  const date = format(new Date(post.createdAt), 'yyyy.MM.dd');
   return (
     <PostsCardContainer to={`/community/${post.communityId}`}>
       <Nickname>{post.userInfo.nickname}</Nickname>
       <Title>{post.title}</Title>
-      <Content>{post.content}</Content>
+      <Content>{post.body}</Content>
       <BottomContainer>
         <ButtonsContainer>
           <LikesContainer>
@@ -32,7 +34,7 @@ function PostsCard({ post }: { post: PostCommunityInterface }) {
             {post.comments}
           </CommentsContainer>
         </ButtonsContainer>
-        <DateWrapper>{post.createdAt}</DateWrapper>
+        <DateWrapper>{date}</DateWrapper>
       </BottomContainer>
     </PostsCardContainer>
   );
