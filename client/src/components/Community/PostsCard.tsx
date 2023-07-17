@@ -47,6 +47,7 @@ const PostsCardContainer = styled(Link)`
   min-height: 88px;
   padding: 20px 28px;
   gap: 8px;
+  margin-bottom: 16px;
   font-size: 14px;
   color: inherit;
   text-decoration: none;

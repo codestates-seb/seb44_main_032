@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
-import { useState } from 'react';
-import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { useQuery } from 'react-query';
+import { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import PostsCard, {
   PostCommunityInterface,
 } from '../../components/Community/PostsCard';
+import SearchBar from '../../components/Community/SearchBar';
 import WriteButton from '../../components/Community/WriteButton';
 import FakeCommunity from '../../fakeApi/fakeCommunity';
 
@@ -70,40 +70,6 @@ const UpperBar = styled.div`
   } */
 `;
 
-const StyledSearchBar = styled.div`
-  border-radius: 10px;
-  border: 1px solid #98dde3;
-  min-width: 360px;
-  padding: 12px;
-  display: flex;
-  align-items: center;
-  background-color: white;
-  @media screen and (max-width: 800px) {
-    padding: 8px;
-    width: 100px;
-  }
-`;
-
-const Input = styled.input`
-  flex-grow: 1;
-  border: none;
-  margin-left: 12px;
-  font-size: 16px;
-  &:focus-visible {
-    outline: none;
-  }
-  /* @media screen and (max-width: 600px) {
-    width: 80px;
-    margin-left: 4px;
-    font-size: 12px;
-  }
-  @media screen and (max-width: 400px) {
-    width: 40px;
-    margin-left: 4px;
-    font-size: 8px;
-  } */
-`;
-
 const RightContainer = styled.div`
   display: flex;
   align-items: center;
@@ -115,7 +81,7 @@ const PostsContainer = styled.div`
   flex-direction: column;
   max-width: 900px;
   width: 100%;
-  gap: 16px;
+  margin-top: 28px;
 `;
 
 const fakeData = new FakeCommunity();
@@ -154,17 +120,6 @@ function Community() {
     },
   );
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const v = e.target.value;
-    setCurrentKeyword(v);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      refetchSearch();
-    }
-  };
-
   let currentData = [];
   let currentRefetch = () => {};
   if (filter && categoryData) {
@@ -183,7 +138,7 @@ function Community() {
     <CommunityContainer>
       <UpperBar>
         <ButtonGroup>
-          {menus.map((obj, ㅑ) => {
+          {menus.map(obj => {
             return (
               <>
                 <StyledButton
@@ -194,24 +149,18 @@ function Community() {
                 >
                   {obj.name}
                 </StyledButton>
-                <StyledDivider></StyledDivider>
+                <StyledDivider />
               </>
             );
           })}
         </ButtonGroup>
         <RightContainer>
-          <StyledSearchBar>
-            <PiMagnifyingGlassBold
-              color="#98DDE3"
-              size="28px"
-            ></PiMagnifyingGlassBold>
-            <Input
-              value={currentKeyword}
-              onChange={onChange}
-              onKeyDown={handleKeyDown}
-            />
-          </StyledSearchBar>
-          <WriteButton></WriteButton>
+          <SearchBar
+            refetchSearch={refetchSearch}
+            currentKeyword={currentKeyword}
+            setCurrentKeyword={setCurrentKeyword}
+          />
+          <WriteButton />
         </RightContainer>
       </UpperBar>
 
