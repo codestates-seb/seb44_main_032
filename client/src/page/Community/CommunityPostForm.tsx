@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import PostTab from '../../components/Community/PostTab';
@@ -11,15 +11,44 @@ type CommunityPostFormData = {
   content: string;
 };
 
-function CommunityPost() {
-  const token = localStorage.getItem('user');
+type CommunityPost = {
+  communityId: number;
+  title: string;
+  content: string;
+  writer: {
+    memberId: number;
+    nickname: string;
+  };
+  category: string;
+};
+
+function CommunityPostForm() {
+  const location = useLocation();
   const navigate = useNavigate();
-  const userId = localStorage.getItem('userId');
   const [formData, setFormData] = useState<CommunityPostFormData>({
     title: '',
     category: '',
     content: '',
   });
+  const [editedPost, setEditedPost] = useState<CommunityPost | null>(null);
+  const isEditMode = location.pathname.includes('/edit');
+  const getMarkdown = useRef<() => string>(() => '');
+
+  useEffect(() => {
+    if (isEditMode && location.state) {
+      setEditedPost((location.state as { post: CommunityPost }).post);
+    }
+  }, [isEditMode, location.state]);
+
+  useEffect(() => {
+    if (isEditMode && editedPost) {
+      setFormData({
+        title: editedPost.title,
+        category: editedPost.category,
+        content: editedPost.content,
+      });
+    }
+  }, [isEditMode, editedPost]);
 
   function titleInputHandler(e: React.ChangeEvent<HTMLInputElement>) {
     setFormData(prevFormData => ({
@@ -41,23 +70,47 @@ function CommunityPost() {
       return;
     }
 
+    const finalContent = getMarkdown.current();
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      content: finalContent,
+    }));
+
     if (formData.content.length === 0) {
       alert('본문 내용을 입력해주세요.');
       return;
     }
 
-    axios
-      .post(`/community/registration/${userId}`, formData, {
-        headers: {
-          Auth: token,
-        },
-      })
-      .then(() => {
-        navigate('/community');
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    const token = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
+
+    if (isEditMode && editedPost) {
+      axios
+        .put(`/community/${editedPost.communityId}`, formData, {
+          headers: {
+            Auth: token,
+          },
+        })
+        .then(() => {
+          navigate('/community');
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      axios
+        .post(`/community/registration/${userId}`, formData, {
+          headers: {
+            Auth: token,
+          },
+        })
+        .then(() => {
+          navigate('/community');
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
 
   function handleCancel() {
@@ -71,37 +124,37 @@ function CommunityPost() {
     <PostSection>
       <PostForm>
         <PostText>제목</PostText>
-        <TitleInput onChange={titleInputHandler} />
+        <TitleInput value={formData.title} onChange={titleInputHandler} />
         <PostText>카테고리</PostText>
         <PostTab
+          selectedCategory={formData.category}
           onCategorySelect={(category: string) =>
             setFormData(prevFormData => ({
               ...prevFormData,
               category,
             }))
           }
-          selectedCategory={formData.category}
         />
         <PostText>내용</PostText>
         <PostEditor
-          content={formData.content}
-          setContent={(newContent: string) =>
-            setFormData(prevFormData => ({
-              ...prevFormData,
-              content: newContent,
-            }))
+          getEditorContent={(getMarkdownFunc: () => string) =>
+            (getMarkdown.current = getMarkdownFunc)
           }
+          content={formData.content}
+          isEditMode={isEditMode}
         />
         <ButtonWrapper>
           <CancelButton onClick={handleCancel}>취소</CancelButton>
-          <PostButton onClick={submitHandler}>등록</PostButton>
+          <PostButton onClick={submitHandler}>
+            {isEditMode ? '수정' : '등록'}
+          </PostButton>
         </ButtonWrapper>
       </PostForm>
     </PostSection>
   );
 }
 
-export default CommunityPost;
+export default CommunityPostForm;
 
 const PostSection = styled.section`
   display: flex;
@@ -114,12 +167,10 @@ const PostSection = styled.section`
 
 const PostForm = styled.div`
   display: flex;
-  padding: 4px;
-  margin-top: 40px;
-  height: 540px;
+  padding: 8px;
+  margin-top: 70px;
   width: 970px;
   flex-direction: column;
-  border: 1px solid pink;
 `;
 
 const PostText = styled.text`
@@ -131,8 +182,8 @@ const PostText = styled.text`
 const TitleInput = styled.input`
   border: 1px solid #98dde3;
   border-radius: 8px;
-  height: 50px;
-  max-width: 430px;
+  height: 40px;
+  max-width: 500px;
   margin-bottom: 28px;
   padding-inline-start: 7px;
 `;
@@ -141,7 +192,7 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 24px;
-  height: 50px;
+  height: 40px;
 `;
 
 const PostButton = styled.button`
