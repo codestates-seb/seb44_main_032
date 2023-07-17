@@ -57,8 +57,8 @@ spring.config.activate.on-profile: "profiles-local"
 spring:
   s3:
     bucket: kongsbucket
-    access-key: AKIAZ73XJMWYBK2PVC42
-    secret-key: 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
+    access-key: 
+    secret-key: 
 
 
 ---
@@ -67,8 +67,8 @@ spring:
 spring:
   s3:
     bucket: kongsbucket
-    access-key: AKIAZ73XJMWYBK2PVC42
-    secret-key: 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
+    access-key: 
+    secret-key: 
 
 
 
