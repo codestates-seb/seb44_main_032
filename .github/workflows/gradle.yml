@@ -37,7 +37,7 @@ jobs:
       run: chmod +x ./gradlew
        
     - name: Build Server with Gradle
-      working-directory: ./server/gradle
+      working-directory: ./server
       run: ./gradlew build -x test
       
     # build한 후 프로젝트를 압축합니다.
