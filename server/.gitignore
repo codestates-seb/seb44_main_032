@@ -44,7 +44,3 @@ com/codeassembly/utils/InitData.java
 
 ###client 제외###
 client/
-
-
-###auth 제외###
-auth/
