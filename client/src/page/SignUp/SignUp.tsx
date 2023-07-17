@@ -27,14 +27,14 @@ type SignUpResponse = {
 
 async function getAuthUrl(provider: string) {
   // 해당 프로바이더의 인증 URL을 가져옴
-  const response = await fetch(`/api/auth/${provider}`);
+  const response = await fetch(`/${process.env.REACT_APP_API_URL}/auth/${provider}`);
   const data = await response.json();
   window.location.href = data.url;
 }
 
 async function getToken(code: string): Promise<SignUpResponse> {
   // 코드를 사용하여 토큰을 가져옴
-  const response = await fetch(`/api/auth/token?code=${code}`);
+  const response = await fetch(`/${process.env.REACT_APP_API_URL}/auth/token?code=${code}`);
   const data = await response.json();
   return data;
 }
@@ -69,7 +69,7 @@ function SignUp() {
   }, []);
 
   async function signUp(signUpRequest: SignUpRequest): Promise<SignUpResponse> {
-    const response = await axios.post('/user/join', signUpRequest);
+    const response = await axios.post('${process.env.REACT_APP_API_URL}/user/join', signUpRequest);
     // 더미데이터 사용 code
     // const response = {
     //   data: {
