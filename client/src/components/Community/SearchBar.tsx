@@ -1,9 +1,19 @@
 import styled from 'styled-components';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
+import { QueryObserverResult, InfiniteData } from 'react-query';
+import { CommunityDataInterface } from '../../page/Community/Community';
 
-function SearchBar ( {refetchSearch, currentKeyword, setCurrentKeyword}: {refetchSearch: () => null, currentKeyword: string, setCurrentKeyword: React.Dispatch<React.SetStateAction<string>>} ) {
-  
-
+function SearchBar({
+  refetchSearch,
+  currentKeyword,
+  setCurrentKeyword,
+}: {
+  refetchSearch: () => Promise<
+    QueryObserverResult<InfiniteData<CommunityDataInterface>, unknown>
+  >;
+  currentKeyword: string;
+  setCurrentKeyword: React.Dispatch<React.SetStateAction<string>>;
+}) {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const v = e.target.value;
     setCurrentKeyword(v);
@@ -14,19 +24,19 @@ function SearchBar ( {refetchSearch, currentKeyword, setCurrentKeyword}: {refetc
       refetchSearch();
     }
   };
-    return (
-        <SearchBarContainer>
-            <PiMagnifyingGlassBold
-              color="#98DDE3"
-              size="28px"
-            ></PiMagnifyingGlassBold>
-            <Input
-              value={currentKeyword}
-              onChange={onChange}
-              onKeyDown={handleKeyDown}
-            />
-        </SearchBarContainer>
-    )
+  return (
+    <SearchBarContainer>
+      <PiMagnifyingGlassBold
+        color="#98DDE3"
+        size="28px"
+      ></PiMagnifyingGlassBold>
+      <Input
+        value={currentKeyword}
+        onChange={onChange}
+        onKeyDown={handleKeyDown}
+      />
+    </SearchBarContainer>
+  );
 }
 
 export default SearchBar;
