@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from "styled-components";
 import TabButton from '../../components/Plan/TabButton';
 import { LuCalendarDays } from "react-icons/lu";
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 const PostSection = styled.section`
@@ -21,9 +23,6 @@ const PlanForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* height: 100vh; */
-  border: 1px solid black;
-  /* margin: 0 auto; */
   padding: 40px;
   max-width: 920px;
   width: 100%;
@@ -35,7 +34,7 @@ const InputTitleContainer = styled.input`
   background: #FFFFFF;
   border-radius: 8px;
   height: 36px;
-  width: 288px;
+  width: 300px;
   padding: 0 8px;
 
 
@@ -66,7 +65,7 @@ const PlanStartDate = styled.input`
   background: #FFFFFF;
   border-radius: 8px;
   height: 36px;
-  width: 135px;
+  width: 136px;
   padding: 0 8px;
   font-size: 14px;
   color: #000;
@@ -124,7 +123,7 @@ const PlanEndDate = styled.input`
   background: #FFFFFF;
   border-radius: 8px;
   height: 36px;
-  width: 135px;
+  width: 136px;
   padding: 0 8px;
   font-size: 14px;
   color: #000;
@@ -160,12 +159,11 @@ const InputContainer = styled.div`
 `;
 
 const TextArea = styled.textarea`
-  width: 900px;
+  width: 912px;
   height: 316px;
   background: #FFFFFF;
   border: 1px solid #98DDE3;
   border-radius: 8px;
-
 `;
 
 const PostButton = styled.button`
@@ -180,7 +178,7 @@ const PostButton = styled.button`
   
 `;
 
-const CancelButton = styled.button`
+const CancelButton = styled(Link)`
   width: 62px;
   height: 44px;
   background: #EEA9A9;
@@ -189,21 +187,20 @@ const CancelButton = styled.button`
   color: #fff;
   font-weight: 700;
   font-size: 16px;
-`
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  text-decoration: none;
+
+
+`;
 
 const ButtonWrapper = styled.div`
   display: flex;
   margin-top: 12px;
   gap: 12px;
   justify-content: flex-end;
-`
-
-
-const InputField = styled.input`
   width: 100%;
-  height: 32px;
-  padding: 4px;
-  margin-top: 4px;
 `;
 
 type PlanPostFormData = {
@@ -223,6 +220,30 @@ function PlanPost() {
     content: "",
   });
 
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  useEffect(() => {
+    // URL에서 "/edit"이 포함되어 있는지 확인하여 수정 모드 여부 설정
+    setIsEditMode(window.location.pathname.includes("/edit"));
+  }, []);
+
+  useEffect(() => {
+    // 수정 모드일 때 초기 데이터 설정
+    if (isEditMode) {
+      const postId = window.location.pathname.split("/").pop(); // 수정 대상 게시물 ID
+
+      axios
+        .get(`/plan/post/${postId}`)
+        .then((response) => {
+          const { title, value, startDate, endDate, content } = response.data;
+          setFormData({ title, value, startDate, endDate, content });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [isEditMode]);
+
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -230,12 +251,12 @@ function PlanPost() {
     }));
   };
 
-  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      value: e.target.value,
-    }));
-  };
+  // const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     value: e.target.value,
+  //   }));
+  // };
 
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevData) => ({
@@ -270,6 +291,18 @@ function PlanPost() {
       endDate: "",
       content: "",
     });
+
+    if (isEditMode) {
+      const postId = window.location.pathname.split("/").pop(); // 수정 대상 게시물 ID
+      axios
+        .put(`/plan/post/${postId}`, formData)
+        .then(() => {
+          window.location.href = "/plan";
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -326,11 +359,8 @@ function PlanPost() {
           />
         </InputContainer>
         <ButtonWrapper>
-          <CancelButton type="button" onClick={handleCancel}>
-            취소
-          </CancelButton>
-
-          <PostButton type="submit" onClick={handleSubmit}>제출</PostButton>
+          <CancelButton to='/plan'>취소</CancelButton>
+          <PostButton type="submit" onClick={handleSubmit}>{isEditMode ? "수정" : "등록"}</PostButton>
         </ButtonWrapper>
         
       </PlanForm>
