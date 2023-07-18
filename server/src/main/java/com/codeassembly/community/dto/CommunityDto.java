@@ -15,6 +15,7 @@ public class CommunityDto {
         private Long userId;
         private String title;
         private String body;
+        private String category;
 
 
     }
@@ -28,10 +29,12 @@ public class CommunityDto {
         private Long communityId;
         private String title;
         private String body;
+        private String category;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
         private UserInfo userInfo;
         private Long views;
+        private Long liked;
 
     }
 
@@ -57,5 +60,6 @@ public class CommunityDto {
         private Long communityId;
         private String title;
         private String body;
+        private String category;
     }
 }

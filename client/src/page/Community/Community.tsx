@@ -1,21 +1,23 @@
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
+import { useInfiniteQuery } from 'react-query';
 import { useState } from 'react';
-import { PiMagnifyingGlassBold } from 'react-icons/pi';
 
-import PostsCard from '../../components/Community/PostsCard';
-import posts from '../../assets/data/dummyData';
+import PostsCard, {
+  PostCommunityInterface,
+} from '../../components/Community/PostsCard';
+import SearchBar from '../../components/Community/SearchBar';
 import WriteButton from '../../components/Community/WriteButton';
+import FakeCommunity from '../../fakeApi/fakeCommunity';
 
 const CommunityContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   margin-top: 67px;
   padding: 16px;
-  gap: 16px;
   overflow: auto;
+  background-color: #f9f9f9;
 `;
 
 const ButtonGroup = styled.div`
@@ -31,6 +33,10 @@ const StyledButton = styled.button<{ isCurrent: boolean }>`
   border: none;
   padding: 12px 16px;
   font-size: 20px;
+  @media screen and (max-width: 800px) {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
 `;
 
 const StyledDivider = styled.div`
@@ -45,38 +51,53 @@ const StyledDivider = styled.div`
 const UpperBar = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 16px;
-  width: 900px;
-`;
-
-const StyledSearchBar = styled.div`
-  border-radius: 10px;
-  border: 1px solid #98dde3;
-  width: 370px;
-  padding: 12px;
-  display: flex;
   align-items: center;
-  background-color: white;
-`;
-
-const Input = styled.input`
-  flex-grow: 1;
-  border: none;
-  margin-left: 12px;
-  font-size: 16px;
-  &:focus-visible {
-    outline: none;
+  max-width: 900px;
+  width: 100%;
+  /* @media screen and (max-width: 1000px) {
+    width: 800px;
   }
+  @media screen and (max-width: 800px) {
+    width: 600px;
+  }
+  @media screen and (max-width: 600px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 400px) {
+    width: 300px;
+  } */
 `;
 
 const RightContainer = styled.div`
   display: flex;
+  align-items: center;
   gap: 24px;
 `;
 
+const PostsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 900px;
+  width: 100%;
+  margin-top: 28px;
+`;
+
+const MoreButton = styled.button``;
+
+const fakeData = new FakeCommunity();
+
+export interface CommunityDataInterface {
+  data: PostCommunityInterface[];
+  pageInfo: {
+    page: number;
+    size: number;
+    totalElements: number;
+    totalPages: number;
+  };
+}
+
 function Community() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [currentData, setCurrentData] = useState(posts?.result);
   const [currentKeyword, setCurrentKeyword] = useState('');
   const menus = [
     { name: '당일치기', key: 'one-day' },
@@ -87,6 +108,46 @@ function Community() {
 
   const filter = searchParams.get('filter');
 
+  let queryKey: string[] = [];
+  if (filter) {
+    queryKey = ['getCommunityCategoryList', filter];
+  } else if (!filter) {
+    queryKey = ['getCommunityList'];
+  }
+
+  if (currentKeyword) {
+    queryKey = ['getCommunitySearch'];
+  }
+
+  const { fetchNextPage, refetch, hasNextPage, isFetchingNextPage, data } =
+    useInfiniteQuery(
+      queryKey,
+      ({ pageParam }: { pageParam?: number }) => {
+        const pageNum = pageParam ? pageParam + 1 : 1;
+        if (filter) {
+          return fakeData.getCommunityCategoryList(filter, pageNum);
+        }
+        if (currentKeyword) {
+          return fakeData.getCommunitySearch(currentKeyword, pageNum);
+        }
+        return fakeData.getCommunityList(pageNum);
+      },
+      {
+        getNextPageParam: (lastPage: CommunityDataInterface) => {
+          return lastPage.pageInfo.page === lastPage.pageInfo.totalPages
+            ? undefined
+            : lastPage.pageInfo.page;
+        },
+      },
+    );
+
+  let currentData: PostCommunityInterface[] = [];
+  if (data) {
+    data.pages.forEach((page: CommunityDataInterface) => {
+      currentData = currentData.concat(page.data);
+    });
+  }
+
   return (
     <CommunityContainer>
       <UpperBar>
@@ -95,48 +156,43 @@ function Community() {
             return (
               <>
                 <StyledButton
-                  isCurrent={
-                    (obj.key === 'one-day' && !filter) || filter === obj.key
-                  }
+                  isCurrent={filter === obj.key}
                   onClick={() => {
                     setSearchParams({ filter: obj.key });
                   }}
                 >
                   {obj.name}
                 </StyledButton>
-                <StyledDivider></StyledDivider>
+                <StyledDivider />
               </>
             );
           })}
         </ButtonGroup>
         <RightContainer>
-          <StyledSearchBar>
-            <PiMagnifyingGlassBold
-              color="#98DDE3"
-              size="28px"
-            ></PiMagnifyingGlassBold>
-            <Input
-              value={currentKeyword}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                const v = e.target.value;
-                setCurrentKeyword(v);
-                if (!v) {
-                  setCurrentData(posts?.result);
-                } else {
-                  // TODO: send v to BE for search
-                  setCurrentData(posts?.result);
-                }
-              }}
-            />
-          </StyledSearchBar>
-          <WriteButton></WriteButton>
+          <SearchBar
+            refetchSearch={refetch}
+            currentKeyword={currentKeyword}
+            setCurrentKeyword={setCurrentKeyword}
+          />
+          <WriteButton />
         </RightContainer>
       </UpperBar>
-      {!currentData.length ? (
-        <div>no result</div>
-      ) : (
-        currentData.map(post => <PostsCard post={post} key={post.title} />)
-      )}
+
+      <PostsContainer>
+        {currentData.map((post: PostCommunityInterface) => (
+          <PostsCard post={post} key={post.communityId} />
+        ))}
+        <MoreButton
+          onClick={() => fetchNextPage()}
+          disabled={!hasNextPage || isFetchingNextPage}
+        >
+          {isFetchingNextPage
+            ? '가져오는 중...'
+            : hasNextPage
+            ? '더보기'
+            : '끝!'}
+        </MoreButton>
+      </PostsContainer>
     </CommunityContainer>
   );
 }

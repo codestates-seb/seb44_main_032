@@ -1,5 +1,6 @@
 package com.codeassembly.community.controller;
 
+import com.amazonaws.Response;
 import com.codeassembly.community.dto.CommunityDto;
 import com.codeassembly.community.entity.Community;
 import com.codeassembly.community.mapper.CommunityMapper;
@@ -50,15 +51,26 @@ public class CommunityController {
         communityService.deleteCommunity(communityId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @GetMapping("{communityId}")
+    @GetMapping("/detail/{communityId}")
     public ResponseEntity getCommunity(@PathVariable("communityId") Long communityId){
         Community community =communityService.findCommunity(communityId);
         return new ResponseEntity<>(mapper.communityToResponseDto(community),HttpStatus.OK);
     }
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity getCommunities(@Positive @RequestParam(defaultValue = "1") int page,
-                                         @Positive @RequestParam(defaultValue = "6") int size){
+                                         @Positive @RequestParam(defaultValue = "10") int size){
         Page<Community> pageCommunity = communityService.findCommunities(page-1,size);
+        List<Community> communities = pageCommunity.getContent();
+        return new ResponseEntity<>(new MultiResponseDto<>(mapper.communitiesToResponseDtos(communities), pageCommunity), HttpStatus.OK);
+    }
+
+    @GetMapping("/{category}")
+    public ResponseEntity getCommunitiesByCategoryAndPage(
+            @PathVariable("category") String category,
+            @Positive @RequestParam(defaultValue = "1") int page,
+            @Positive @RequestParam(defaultValue = "10") int size) {
+
+        Page<Community> pageCommunity = communityService.findCommunitiesByCategory(category, page - 1, size);
         List<Community> communities = pageCommunity.getContent();
         return new ResponseEntity<>(new MultiResponseDto<>(mapper.communitiesToResponseDtos(communities), pageCommunity), HttpStatus.OK);
     }
@@ -66,9 +78,15 @@ public class CommunityController {
     @GetMapping("/search")
     public ResponseEntity searchCommunities(@RequestParam("query") String query,
                                             @Positive @RequestParam(defaultValue = "1") int page,
-                                            @Positive @RequestParam(defaultValue = "6") int size) {
+                                            @Positive @RequestParam(defaultValue = "10") int size) {
         Page<Community> pageCommunity = communityService.searchCommunities(query, page - 1, size);
         List<Community> communities = pageCommunity.getContent();
         return new ResponseEntity<>(new MultiResponseDto<>(mapper.communitiesToResponseDtos(communities), pageCommunity), HttpStatus.OK);
+    }
+
+
+    @PostMapping("/like/{communityId}")
+    public ResponseEntity likeCommunity(@PathVariable("communityId") Long communityId) {
+        return ResponseEntity.ok(communityService.likeCommunity(communityId));
     }
 }

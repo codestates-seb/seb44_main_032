@@ -4,13 +4,13 @@ import SignUp from './page/SignUp/SignUp';
 import Header from './components/Header/Header';
 import Community from './page/Community/Community';
 import CommunityDetail from './page/Community/CommunityDetail';
-import CommunityEdit from './page/Community/CommunityEdit';
-import CommunityPost from './page/Community/CommunityPost';
+import CommunityPostForm from './page/Community/CommunityPostForm';
 import Main from './page/Main/Main';
 import Plan from './page/Plan/Plan';
 import PlanDetail from './page/Plan/PlanDetail';
 import PlanEdit from './page/Plan/PlanEdit';
 import PlanPost from './page/Plan/PlanPost';
+import MyPage from './page/MyPage/MyPage';
 
 function App() {
 
@@ -21,10 +21,11 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/mypage" element={<MyPage />} />
         <Route path="/community" element={<Community />} />
         <Route path="/community/:id" element={<CommunityDetail />} />
-        <Route path="/community/:id/edit" element={<CommunityEdit />} />
-        <Route path="/community/post" element={<CommunityPost />} />
+        <Route path="/community/:id/edit" element={<CommunityPostForm />} />
+        <Route path="/community/post" element={<CommunityPostForm />} />
         <Route path="/plan" element={<Plan />} />
         <Route path="/plan/:Id/" element={<PlanDetail />} />
         <Route path="/plan/:id/edit" element={<PlanEdit />} />
