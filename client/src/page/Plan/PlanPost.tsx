@@ -281,21 +281,53 @@ function PlanPost() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // 필요한 데이터 처리나 API 호출은 이곳에서 수행합니다.
-    console.log("폼 데이터:", formData);
-    // 제출 후 폼 초기화
-    setFormData({
-      title: "",
-      value: "",
-      startDate: "",
-      endDate: "",
-      content: "",
-    });
+
+    if (formData.title.trim() === "") {
+      alert("제목을 입력해주세요.");
+      return;
+    }
+
+    if (formData.value.trim() === '') {
+      alert('카테고리를 선택해주세요.');
+      return;
+    }
+
+    if (formData.startDate === "") {
+      alert("시작일을 선택해주세요.");
+      return;
+    }
+
+    if (formData.endDate === "") {
+      alert("종료일을 선택해주세요.");
+      return;
+    }
+
+    if (formData.content.trim() === "") {
+      alert("내용을 입력해주세요.");
+      return;
+    }
+
+    const data = {
+      title: formData.title,
+      value: formData.value,
+      startDate: formData.startDate,
+      endDate: formData.endDate,
+      content: formData.content,
+    };
 
     if (isEditMode) {
       const postId = window.location.pathname.split("/").pop(); // 수정 대상 게시물 ID
       axios
-        .put(`/plan/post/${postId}`, formData)
+        .put(`/plan/post/${postId}`, data)
+        .then(() => {
+          window.location.href = "/plan";
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      axios
+        .post("/plan/post", data)
         .then(() => {
           window.location.href = "/plan";
         })
@@ -303,11 +335,34 @@ function PlanPost() {
           console.log(error);
         });
     }
+    console.log("폼 데이터:", formData);
+
+    setFormData({
+      title: "",
+      value: "",
+      startDate: "",
+      endDate: "",
+      content: "",
+    });
   };
+
+
+
+  //   if (isEditMode) {
+  //     const postId = window.location.pathname.split("/").pop(); // 수정 대상 게시물 ID
+  //     axios
+  //       .put(`/plan/post/${postId}`, formData)
+  //       .then(() => {
+  //         window.location.href = "/plan";
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   }
+  // };
 
   return (
     <PostSection>
-      {/* <TitleContainer></TitleContainer> */}
       <PlanForm onSubmit={handleSubmit}>
         <InputContainer>
           <PlanTitle>제목</PlanTitle>
