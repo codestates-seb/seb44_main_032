@@ -1,5 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-import { useState } from 'react';
 import Login from './page/Login/Login';
 import SignUp from './page/SignUp/SignUp';
 import Header from './components/Header/Header';
@@ -8,15 +7,12 @@ import CommunityDetail from './page/Community/CommunityDetail';
 import CommunityPostForm from './page/Community/CommunityPostForm';
 import Main from './page/Main/Main';
 import Plan from './page/Plan/Plan';
-import Edit from './page/Plan/Edit';
+import PlanDetail from './page/Plan/PlanDetail';
+import PlanEdit from './page/Plan/PlanEdit';
+import PlanPost from './page/Plan/PlanPost';
 import MyPage from './page/MyPage/MyPage';
 
 function App() {
-  const [planData, setPlanData] = useState<{
-    title: string;
-    date: string;
-    content: string;
-  } | null>(null);
 
   return (
     <>
@@ -30,8 +26,10 @@ function App() {
         <Route path="/community/:id" element={<CommunityDetail />} />
         <Route path="/community/:id/edit" element={<CommunityPostForm />} />
         <Route path="/community/post" element={<CommunityPostForm />} />
-        <Route path="/plan" element={<Plan planData={planData} />} />
-        <Route path="/plan/post" element={<Edit setPlanData={setPlanData} />} />
+        <Route path="/plan" element={<Plan />} />
+        <Route path="/plan/:Id/" element={<PlanDetail />} />
+        <Route path="/plan/:id/edit" element={<PlanEdit />} />
+        <Route path="/plan/post" element={<PlanPost/>} />
       </Routes>
     </>
   );

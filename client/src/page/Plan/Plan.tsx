@@ -3,7 +3,6 @@ import TabMenu from "./TabMenu";
 // import WriteButton from './WriteButton';
 import { PiPencilSimple } from "react-icons/pi";
 import { Link } from "react-router-dom";
-import { ReactNode } from 'react';
 
 
 
@@ -70,22 +69,18 @@ function WriteButton() {
   );
 }
 
-interface PlanProps {
-  children: ReactNode;
-}
+  
 
-function Plan({ children }: PlanProps) {
+function Plan (){
+    
 
     return (
         <PlanSection>
-   
             <TabMenuWrapper>
               <TabMenu />
                 <WriteButton />
             </TabMenuWrapper>
-
         </PlanSection>
-        
     );
 }
 export default Plan;
