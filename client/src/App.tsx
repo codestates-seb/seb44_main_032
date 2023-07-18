@@ -9,7 +9,6 @@ import CommunityPost from './page/Community/CommunityPost';
 import Main from './page/Main/Main';
 import Plan from './page/Plan/Plan';
 import PlanDetail from './page/Plan/PlanDetail';
-import PlanEdit from './page/Plan/PlanEdit';
 import PlanPost from './page/Plan/PlanPost';
 
 function App() {
@@ -27,7 +26,7 @@ function App() {
         <Route path="/community/post" element={<CommunityPost />} />
         <Route path="/plan" element={<Plan />} />
         <Route path="/plan/:Id/" element={<PlanDetail />} />
-        <Route path="/plan/:id/edit" element={<PlanEdit />} />
+        <Route path="/plan/:id/edit" element={<PlanPost />} />
         <Route path="/plan/post" element={<PlanPost/>} />
       </Routes>
     </>
