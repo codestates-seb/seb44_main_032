@@ -6,7 +6,11 @@ import com.codeassembly.plan.dto.PlanDto;
 import com.codeassembly.plan.entity.Plan;
 import com.codeassembly.plan.mapper.PlanMapper;
 import com.codeassembly.plan.service.PlanService;
+import com.codeassembly.response.MultiResponseDto;
+import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -67,5 +72,16 @@ public class PlanController {
     public ResponseEntity getPlan(@PathVariable("templatateId") Long templatateId){
         Plan plan = planService.findPlan(templatateId);
         return new ResponseEntity<>(mapper.planToPlanResponse(plan), HttpStatus.OK);
+    }
+
+    @GetMapping("/{category}")
+    public ResponseEntity getPlansByCategoryAndPage(
+        @PathVariable("category") String category,
+        @Positive @RequestParam(defaultValue = "1") int page,
+        @Positive @RequestParam(defaultValue = "10") int size) {
+
+        Page<Plan> pagePlan = planService.findPlanByCategory(category, page - 1, size);
+        List<Plan> communities = pagePlan.getContent();
+        return new ResponseEntity<>(new MultiResponseDto<>(mapper.plansToPlanResponses(communities), pagePlan), HttpStatus.OK);
     }
 }

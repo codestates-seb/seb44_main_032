@@ -1,6 +1,7 @@
 package com.codeassembly.plan.entity;
 
 import com.codeassembly.audit.Auditable;
+import com.codeassembly.plan.category.entity.Category;
 import com.codeassembly.user.entity.User;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,7 +29,9 @@ public class Plan extends Auditable {
     private String body;
     @Column(nullable = false)
     private int favorite;
-    private String category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoryId", nullable = false)
+    private Category category;
 
     public enum role {
 

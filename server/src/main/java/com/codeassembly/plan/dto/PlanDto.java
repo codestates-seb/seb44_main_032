@@ -21,7 +21,7 @@ public class PlanDto {
         private String title;
         @NotBlank
         private String body;
-        private String category;
+//        private String category;
     }
     @AllArgsConstructor
     @NoArgsConstructor
