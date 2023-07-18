@@ -63,14 +63,14 @@ public class PlanController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/{templatateId}")
+    @GetMapping("/detail/{templatateId}")
     public ResponseEntity getPlan(@PathVariable("templatateId") Long templatateId){
         Plan plan = planService.findPlan(templatateId);
         return new ResponseEntity<>(mapper.planToPlanResponse(plan), HttpStatus.OK);
     }
 
     
-    @GetMapping("/{category}")
+    @GetMapping("/category/{category}")
     public ResponseEntity getPlansByCategoryAndPage(
         @PathVariable("category") String category,
         @Positive @RequestParam(defaultValue = "1") int page,
