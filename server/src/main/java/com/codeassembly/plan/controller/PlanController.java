@@ -1,5 +1,6 @@
 package com.codeassembly.plan.controller;
 
+import com.codeassembly.auth.JwtTokenizer;
 import com.codeassembly.community.dto.CommunityDto;
 import com.codeassembly.community.entity.Community;
 import com.codeassembly.plan.dto.PlanDto;
@@ -10,14 +11,9 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/plan")
@@ -27,15 +23,21 @@ public class PlanController {
     private PlanService planService;
     private PlanMapper mapper;
 
-    public PlanController(PlanService planService, PlanMapper mapper) {
+    private final JwtTokenizer jwtTokenizer;
+
+    public PlanController(PlanService planService, PlanMapper mapper, JwtTokenizer jwtTokenizer) {
         this.planService = planService;
         this.mapper = mapper;
+        this.jwtTokenizer = jwtTokenizer;
     }
+
 
     @PostMapping("/registration/{userId}")
     public ResponseEntity createPlan(@PathVariable("userId") long userId,
-                                     @Valid @RequestBody PlanDto.Post requestBody
-    ) {
+                                     @Valid @RequestBody PlanDto.Post requestBody,
+                                     @RequestHeader("Authorization") String token) {
+
+
         Plan plan = mapper.planPostToPlan(requestBody);
         Plan createdPlan = planService.createdPlan(userId, plan);
         PlanDto.Response response = mapper.planToPlanResponse(createdPlan);
@@ -45,16 +47,19 @@ public class PlanController {
     }
 
     @PostMapping("/{planId}/bookmark")
-    public ResponseEntity bookMarkPlan(@PathVariable("planId") Long planId){
+    public ResponseEntity bookMarkPlan(@PathVariable("planId") Long planId,
+                                       @RequestHeader("Authorization") String token){
+
         return new ResponseEntity<>(planService.bookMarkPlan(planId), HttpStatus.OK );
     }
 
     @PatchMapping("/{templatateId}/edit")
     public ResponseEntity updatePlan(@PathVariable("templatateId") Long templatateId,
-                                     @Valid @RequestBody PlanDto.Patch requestBody) {
-       Plan plan = mapper.planPatchToPlan(requestBody);
-       Plan updatePlan = planService.updatePlan(templatateId, plan);
-       return new ResponseEntity<>(mapper.planToPlanResponse(updatePlan), HttpStatus.OK);
+                                     @Valid @RequestBody PlanDto.Patch requestBody,
+                                     @RequestHeader("Authorization") String token) {
+        Plan plan = mapper.planPatchToPlan(requestBody);
+        Plan updatePlan = planService.updatePlan(templatateId, plan);
+        return new ResponseEntity<>(mapper.planToPlanResponse(updatePlan), HttpStatus.OK);
     }
 
     @DeleteMapping("/{templatesId}")
