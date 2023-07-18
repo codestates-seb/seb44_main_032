@@ -57,13 +57,13 @@ public class PlanController {
        return new ResponseEntity<>(mapper.planToPlanResponse(updatePlan), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{templatesId}")
+    @DeleteMapping("/{templatateId}")
     public ResponseEntity deletePlan(@PathVariable("templatateId") Long templatateId){
         planService.deletePlan(templatateId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/{templatesId}")
+    @GetMapping("/{templatateId}")
     public ResponseEntity getPlan(@PathVariable("templatateId") Long templatateId){
         Plan plan = planService.findPlan(templatateId);
         return new ResponseEntity<>(mapper.planToPlanResponse(plan), HttpStatus.OK);
