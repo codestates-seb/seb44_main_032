@@ -76,6 +76,16 @@ function CommunityDetail() {
             commentBody: '오잉?;',
             createdAt: '2023-07-16-15:30',
           },
+          {
+            commentId: '석화',
+            commentBody: '우앙?;',
+            createdAt: '2023-07-16-15:30',
+          },
+          {
+            commentId: '영범',
+            commentBody: '오엥?;',
+            createdAt: '2023-07-16-15:30',
+          },
         ],
       };
 
@@ -194,26 +204,26 @@ const DetailSection = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #f9f9f9;
+  padding-top: 87px;
+  padding-bottom: 87px;
 `;
 
 const EditSection = styled.div`
   display: flex;
-  margin-top: 90px;
   justify-content: center;
   align-items: center;
-  height: 1000px;
   width: 900px;
   border-radius: 20px;
   padding: 32px;
   border: 1px solid #98dde3;
   background-color: white;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const EditForm = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
-  height: 1000px;
   max-width: 800px;
   width: 100%;
 `;
