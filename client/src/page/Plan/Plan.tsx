@@ -76,14 +76,11 @@ function Plan (){
 
     return (
         <PlanSection>
-   
             <TabMenuWrapper>
               <TabMenu />
                 <WriteButton />
             </TabMenuWrapper>
-
         </PlanSection>
-        
     );
 }
 export default Plan;

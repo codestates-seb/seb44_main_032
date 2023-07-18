@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+
 import axios from 'axios';
+import plans from '../../assets/data/dummyPlan';
+import PlanCards from '../../components/Plan/PlanCards';
 
 
 const TabButton = styled.button<{ active: boolean }>`
@@ -47,19 +51,6 @@ const TabMenuContainer = styled.div`
 
 `;
 
-const PlanContainer = styled.div`
-  width: 310px;
-  /* height: 157px; */
-  padding: 16px;
-  align-items: flex-start;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  border: 0;
-
-  margin-right: 16px;
-  margin-bottom: 16px;
-
-`;
 
 
 const TabContent = styled.div`
@@ -104,80 +95,86 @@ const ContentContainer = styled.div`
 
 type PlanData = {
   id: number;
+  value: string;
   title: string;
   date: string;
   content: string;
-  // categoryName: string;
 };
 
 type TabData = {
-  categoryName: string;
-  plans: PlanData[];
-};
+  result: PlanData[];
+}; //더미데이터 동작에 필요
+
+
 
 const TabMenu: React.FC = () => {
-  const [activeTab, setActiveTab] = useState(0);
-  const [tabData, setTabData] = useState<TabData[]>([]);
+  const [activeTab, setActiveTab] = useState("");
+  const [tabData, setTabData] = useState<TabData>({ result: [] });
 
-  useEffect(() => {
-    fetchTabData()
-      .then((data) => {
-        setTabData(data);
-      })
-      .catch((error) => console.error('Error fetching tab data:', error));
-  }, []);
-
-  async function fetchTabData() {
-    try {
-      const response = await axios.get('API_URL'); // API_URL은 실제 API 엔드포인트로 대체해야 합니다.
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching tab data:', error);
-      return [];
-    }
-  }
-
-  const handleTabClick = (index: number) => {
+  const handleTabClick = (index: string) => {
     setActiveTab(index);
   };
 
+  const tab = [
+    {
+      name: "당일치기",
+      value: "oneday",
+    },
+    {
+      name: "여행",
+      value: "tour",
+    },
+    {
+      name: "일상",
+      value: "daily",
+    },
+    {
+      name: "회사",
+      value: "company",
+    },
+  ];
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get('여기에_데이터를_가져올_API_URL');
+  //       const apiData: PlanData[][] = response.data;
+  //       setTabData({ result: apiData });
+  //     } catch (error) {
+  //       console.error('API 호출 에러:', error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
+
+  useEffect(() => {
+    // 더미데이터
+    setTabData(plans);
+  }, []);
+
+  const currentData = tabData.result.filter((data) => data.value === activeTab) || [];
 
   return (
     <PageContainer>
       <TabMenuContainer>
-
-        <TabButton active={activeTab === 0} onClick={() => handleTabClick(0)}>
-          당일치기
-        </TabButton>
-        <TabButton active={activeTab === 1} onClick={() => handleTabClick(1)}>
-          여행
-        </TabButton>
-        <TabButton active={activeTab === 2} onClick={() => handleTabClick(2)}>
-          일상
-        </TabButton>
-        <TabButton active={activeTab === 3} onClick={() => handleTabClick(3)}>
-          회사
-        </TabButton>
-        {tabData.map((data, index) => (
+        {tab.map((data) => (
           <TabButton
-            key={index}
-            active={activeTab === index}
-            onClick={() => handleTabClick(index)}
+            key={data.value}
+            active={activeTab === data.value}
+            onClick={() => handleTabClick(data.value)}
           >
-            {data.categoryName} {/* 카테고리 이름 또는 index 사용 */}
+            {data.name}
           </TabButton>
         ))}
       </TabMenuContainer>
       <ContentContainer>
         <TabContent>
-          
-          {tabData[activeTab]?.plans.map((data) => (
-          <PlanContainer key={data.id}>
-            <h2>{data.title}</h2>
-            <p>{data.date}</p>
-            <p>{data.content}</p>
-          </PlanContainer>
-          ))}
+          {currentData.length === 0 ? (
+            <div>데이터 없음</div>
+          ) : (
+          <PlanCards plandata={currentData} />
+          )}
         </TabContent>
       </ContentContainer>
     </PageContainer>
