@@ -57,8 +57,8 @@ spring.config.activate.on-profile: "profiles-local"
 spring:
   s3:
     bucket: code-assembly  #kongsbucket
-    access-key: AKIARF6Q6FEVXVWDCMCR #${AWS_ACCESS_KEY}
-    secret-key: 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 #${AWS_SECRET_ACCESS_KEY}
+    access-key:  #${AWS_ACCESS_KEY}
+    secret-key:  #${AWS_SECRET_ACCESS_KEY}
 
 
 ---
@@ -67,8 +67,8 @@ spring:
 spring:
   s3:
     bucket: code-assembly  #kongsbucket
-    access-key: AKIARF6Q6FEVXVWDCMCR #${AWS_ACCESS_KEY}
-    secret-key: 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 #${AWS_SECRET_ACCESS_KEY}
+    access-key:  #${AWS_ACCESS_KEY}
+    secret-key:  #${AWS_SECRET_ACCESS_KEY}
 
 
 
