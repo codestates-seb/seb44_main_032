@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Login from './page/Login/Login';
 import SignUp from './page/SignUp/SignUp';
 import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 import Community from './page/Community/Community';
 import CommunityDetail from './page/Community/CommunityDetail';
 import CommunityPostForm from './page/Community/CommunityPostForm';
@@ -33,6 +34,7 @@ function App() {
         <Route path="/plan" element={<Plan planData={planData} />} />
         <Route path="/plan/post" element={<Edit setPlanData={setPlanData} />} />
       </Routes>
+      <Footer />
     </>
   );
 }
