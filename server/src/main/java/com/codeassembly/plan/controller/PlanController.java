@@ -77,7 +77,7 @@ public class PlanController {
         @Positive @RequestParam(defaultValue = "10") int size) {
 
         Page<Plan> pagePlan = planService.findPlanByCategory(category, page - 1, size);
-        List<Plan> communities = pagePlan.getContent();
-        return new ResponseEntity<>(new MultiResponseDto<>(mapper.plansToPlanResponses(communities), pagePlan), HttpStatus.OK);
+        List<Plan> plans = pagePlan.getContent();
+        return new ResponseEntity<>(new MultiResponseDto<>(mapper.plansToPlanResponses(plans), pagePlan), HttpStatus.OK);
     }
 }
