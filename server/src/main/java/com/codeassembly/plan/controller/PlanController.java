@@ -68,4 +68,16 @@ public class PlanController {
         Plan plan = planService.findPlan(templatateId);
         return new ResponseEntity<>(mapper.planToPlanResponse(plan), HttpStatus.OK);
     }
+
+    
+    @GetMapping("/{category}")
+    public ResponseEntity getPlansByCategoryAndPage(
+        @PathVariable("category") String category,
+        @Positive @RequestParam(defaultValue = "1") int page,
+        @Positive @RequestParam(defaultValue = "10") int size) {
+
+        Page<Plan> pagePlan = planService.findPlanByCategory(category, page - 1, size);
+        List<Plan> communities = pagePlan.getContent();
+        return new ResponseEntity<>(new MultiResponseDto<>(mapper.plansToPlanResponses(communities), pagePlan), HttpStatus.OK);
+    }
 }
