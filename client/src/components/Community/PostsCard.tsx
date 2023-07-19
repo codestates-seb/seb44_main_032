@@ -18,6 +18,7 @@ export interface PostCommunityInterface {
 
 function PostsCard({ post }: { post: PostCommunityInterface }) {
   const date = format(new Date(post.createdAt), 'yyyy.MM.dd');
+
   return (
     <PostsCardContainer to={`/community/${post.communityId}`}>
       <Nickname>{post.userInfo.nickname}</Nickname>
@@ -26,11 +27,11 @@ function PostsCard({ post }: { post: PostCommunityInterface }) {
       <BottomContainer>
         <ButtonsContainer>
           <LikesContainer>
-            <BiLike size="24px"></BiLike>
+            <BiLike size="24px" />
             {post.likes}
           </LikesContainer>
           <CommentsContainer>
-            <FaRegComment size="24px"></FaRegComment>
+            <FaRegComment size="24px" />
             {post.comments}
           </CommentsContainer>
         </ButtonsContainer>
@@ -46,8 +47,8 @@ const PostsCardContainer = styled(Link)`
   display: flex;
   flex-direction: column;
   max-width: 844px;
-  min-height: 88px;
-  padding: 20px 28px;
+  /* min-height: 80px; */
+  padding: 16px 20px;
   gap: 8px;
   margin-bottom: 16px;
   font-size: 14px;

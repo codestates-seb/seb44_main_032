@@ -54,7 +54,7 @@ const UpperBar = styled.div`
   align-items: center;
   max-width: 900px;
   width: 100%;
-  margin-top: 44px;
+  margin-top: 52px;
   /* @media screen and (max-width: 1000px) {
     width: 800px;
   }
@@ -80,6 +80,7 @@ const PostsContainer = styled.div`
   flex-direction: column;
   max-width: 900px;
   width: 100%;
+  height: 800px;
   margin-top: 28px;
 `;
 
