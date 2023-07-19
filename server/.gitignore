@@ -44,3 +44,5 @@ com/codeassembly/utils/InitData.java
 
 ###client 제외###
 client/
+##yml 제외###
+server/src/main/resources/application.yml
