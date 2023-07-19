@@ -54,6 +54,7 @@ const UpperBar = styled.div`
   align-items: center;
   max-width: 900px;
   width: 100%;
+  margin-top: 44px;
   /* @media screen and (max-width: 1000px) {
     width: 800px;
   }
@@ -100,10 +101,10 @@ function Community() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentKeyword, setCurrentKeyword] = useState('');
   const menus = [
-    { name: '당일치기', key: 'one-day' },
-    { name: '여행', key: 'trip' },
-    { name: '일상', key: 'daily' },
-    { name: '회사', key: 'corporate' },
+    { name: '당일치기', key: 'DAYTRIP' },
+    { name: '여행', key: 'TRAVEL' },
+    { name: '일상', key: 'DAILY' },
+    { name: '회사', key: 'COMPANY' },
   ];
 
   const filter = searchParams.get('filter');
