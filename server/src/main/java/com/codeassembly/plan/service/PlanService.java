@@ -74,7 +74,7 @@ public class PlanService {
             .orElseThrow(() -> new BusinessLogicException(ExceptionCode.PLAN_NOT_FOUND));
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByName(authentication.getName())
+        User user = userRepository.findByEmail(authentication.getName())
             .orElseThrow(() -> new BusinessLogicException(ExceptionCode.PLAN_NOT_FOUND));
 
         if (bookmarkRepository.findByPlanAndUser(plan, user) == null) {
