@@ -10,6 +10,7 @@ import com.codeassembly.response.MultiResponseDto;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import org.joda.time.LocalDate;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,23 +66,23 @@ public class PlanController {
     @DeleteMapping("/{templatateId}")
     public ResponseEntity deletePlan(@PathVariable("templatateId") Long templatateId){
         planService.deletePlan(templatateId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/{templatateId}")
+    @GetMapping("/detail/{templatateId}")
     public ResponseEntity getPlan(@PathVariable("templatateId") Long templatateId){
         Plan plan = planService.findPlan(templatateId);
         return new ResponseEntity<>(mapper.planToPlanResponse(plan), HttpStatus.OK);
     }
 
-    @GetMapping("/{category}")
+    @GetMapping("/category/{category}")
     public ResponseEntity getPlansByCategoryAndPage(
         @PathVariable("category") String category,
         @Positive @RequestParam(defaultValue = "1") int page,
         @Positive @RequestParam(defaultValue = "10") int size) {
 
         Page<Plan> pagePlan = planService.findPlanByCategory(category, page - 1, size);
-        List<Plan> communities = pagePlan.getContent();
-        return new ResponseEntity<>(new MultiResponseDto<>(mapper.plansToPlanResponses(communities), pagePlan), HttpStatus.OK);
+        List<Plan> plans = pagePlan.getContent();
+        return new ResponseEntity<>(new MultiResponseDto<>(mapper.plansToPlanResponses(plans), pagePlan), HttpStatus.OK);
     }
 }

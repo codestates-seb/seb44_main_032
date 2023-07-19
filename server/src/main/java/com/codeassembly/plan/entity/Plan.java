@@ -1,8 +1,10 @@
 package com.codeassembly.plan.entity;
 
 import com.codeassembly.audit.Auditable;
-import com.codeassembly.plan.category.entity.Category;
+
 import com.codeassembly.user.entity.User;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +16,7 @@ import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 @Entity
 @NoArgsConstructor
@@ -29,9 +32,15 @@ public class Plan extends Auditable {
     private String body;
     @Column(nullable = false)
     private int favorite;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoryId", nullable = false)
-    private Category category;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "categoryId", nullable = false)
+    @Column
+    private String category;
+    @Column
+    private LocalDate startDate;
+    @Column
+    private LocalDate endDate;
+
 
     public enum role {
 

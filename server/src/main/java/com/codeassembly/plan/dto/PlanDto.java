@@ -3,12 +3,16 @@ package com.codeassembly.plan.dto;
 import com.codeassembly.community.dto.CommunityDto;
 import com.codeassembly.community.dto.CommunityDto.UserInfo;
 import com.codeassembly.user.entity.User;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 public class PlanDto {
@@ -16,12 +20,20 @@ public class PlanDto {
     @Getter
     @Setter
     public static class Post {
-        private Long userId;
+//        private Long userId;
         @NotBlank
         private String title;
         @NotBlank
         private String body;
-//        private String category;
+        @NotBlank
+        @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}" ,
+                 message = "ex) 2023-07-15 형식으로 작성해 주세요.")
+        private String startDate;
+        @NotBlank
+        @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}" ,
+                 message = "ex) 2023-07-15 형식으로 작성해 주세요.")
+        private String endDate;
+        private String category;
     }
     @AllArgsConstructor
     @NoArgsConstructor
@@ -32,6 +44,8 @@ public class PlanDto {
         private Long planId;
         private String title;
         private String body;
+        private String startDate;
+        private String endDate;
         private UserInfo userInfo;
         private String category;
         private LocalDateTime createdAt;
@@ -62,5 +76,7 @@ public class PlanDto {
         private String title;
         private String body;
         private String category;
+        private String startDate;
+        private String endDate;
     }
 }
