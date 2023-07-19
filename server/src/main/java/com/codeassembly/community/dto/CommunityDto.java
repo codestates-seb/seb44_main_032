@@ -12,7 +12,7 @@ public class CommunityDto {
     @Getter
     @Setter
     public static class Post{
-        private Long userId;
+       // private Long userId;
         private String title;
         private String body;
         private String category;
