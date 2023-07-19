@@ -75,6 +75,7 @@ public class PlanController {
         return new ResponseEntity<>(mapper.planToPlanResponse(plan), HttpStatus.OK);
     }
 
+
     @GetMapping("/category/{category}")
     public ResponseEntity getPlansByCategoryAndPage(
         @PathVariable("category") String category,
