@@ -69,7 +69,7 @@ public class PlanController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/detail/{templatateId}")
+    @GetMapping("/{templatateId}")
     public ResponseEntity getPlan(@PathVariable("templatateId") Long templatateId){
         Plan plan = planService.findPlan(templatateId);
         return new ResponseEntity<>(mapper.planToPlanResponse(plan), HttpStatus.OK);

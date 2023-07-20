@@ -97,7 +97,8 @@ type PlanData = {
   id: number;
   value: string;
   title: string;
-  date: string;
+  startDate: string;
+  endDate: string;
   content: string;
 };
 
