@@ -64,7 +64,8 @@ const PostTabSection = styled.button`
 
 const PostTapText = styled.div<{ isClicked: boolean }>`
   border-right: 1px solid #98dde3;
-  width: 75px;
+  max-width: 75px;
+  width: 100%;
   font-size: 15px;
   color: ${({ isClicked }) => (isClicked ? '#98dde3' : '#787878')};
   cursor: pointer;
@@ -75,7 +76,9 @@ const PostTapText = styled.div<{ isClicked: boolean }>`
 `;
 
 const PostTapTextLast = styled.div<{ isClicked: boolean }>`
-  width: 75px;
+  max-width: 75px;
+  width: 100%;
+  font-size: 15px;
   color: ${({ isClicked }) => (isClicked ? '#98dde3' : '#787878')};
   cursor: pointer;
 
