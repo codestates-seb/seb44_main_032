@@ -43,17 +43,17 @@ public class PlanService {
     public Plan updatePlan(Long userId, Plan plan) {
         Plan findPlan = findVerifiedPlan(userId);
         Optional.ofNullable(plan.getTitle())
-            .ifPresent(title -> findPlan.setTitle(title));
+                .ifPresent(title -> findPlan.setTitle(title));
         Optional.ofNullable(plan.getBody())
-            .ifPresent(body -> findPlan.setBody(body));
+                .ifPresent(body -> findPlan.setBody(body));
         return planRepository.save(findPlan);
     }
 
     public Plan findVerifiedPlan(long planId) {
         Optional<Plan> plan =
-            planRepository.findByPlanId(planId);
+                planRepository.findByPlanId(planId);
         Plan findPlan =
-            plan.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PLAN_NOT_FOUND));
+                plan.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PLAN_NOT_FOUND));
 
         return findPlan;
     }
@@ -71,11 +71,11 @@ public class PlanService {
     @Transactional
     public String bookMarkPlan(Long planId) {
         Plan plan = planRepository.findById(planId)
-            .orElseThrow(() -> new BusinessLogicException(ExceptionCode.PLAN_NOT_FOUND));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.PLAN_NOT_FOUND));
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByName(authentication.getName())
-            .orElseThrow(() -> new BusinessLogicException(ExceptionCode.PLAN_NOT_FOUND));
+        User user = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.PLAN_NOT_FOUND));
 
         if (bookmarkRepository.findByPlanAndUser(plan, user) == null) {
 

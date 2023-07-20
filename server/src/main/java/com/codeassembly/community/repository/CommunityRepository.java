@@ -14,4 +14,6 @@ public interface CommunityRepository extends JpaRepository<Community, Long> {
     Optional<Community> findByCommunityId(long communityId);
     Page<Community> findByTitleContainingIgnoreCase(String title, Pageable pageable);
     Page<Community> findByCategory(String Category, Pageable pageable);
+    Optional<Long> findUserIdByCommunityId(long communityId);
+
 }
