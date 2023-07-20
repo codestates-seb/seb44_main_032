@@ -75,12 +75,12 @@ public class PlanController {
         return new ResponseEntity<>(mapper.planToPlanResponse(plan), HttpStatus.OK);
     }
 
-    
+
     @GetMapping("/category/{category}")
     public ResponseEntity getPlansByCategoryAndPage(
-        @PathVariable("category") String category,
-        @Positive @RequestParam(defaultValue = "1") int page,
-        @Positive @RequestParam(defaultValue = "10") int size) {
+            @PathVariable("category") String category,
+            @Positive @RequestParam(defaultValue = "1") int page,
+            @Positive @RequestParam(defaultValue = "10") int size) {
 
         Page<Plan> pagePlan = planService.findPlanByCategory(category, page - 1, size);
         List<Plan> plans = pagePlan.getContent();

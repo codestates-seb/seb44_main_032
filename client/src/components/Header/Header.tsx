@@ -63,7 +63,7 @@ const Links = styled(Link)`
   text-decoration: none;
 `;
 
-const SignupContainer = styled.div`
+const SignUpContainer = styled.div`
   @media screen and (max-width: 500px) {
     display: none;
   }
@@ -88,6 +88,12 @@ function Header() {
     setIsLogin(false);
   };
 
+  const handleClick = () => {
+    if (!isLogin) {
+      alert('로그인이 필요합니다.');
+    }
+  };
+
   return (
     <HeaderContainer>
       <Link to="/">
@@ -95,7 +101,9 @@ function Header() {
       </Link>
       <Nav>
         <LeftContainer>
-          <Links to="/plan">일정 관리</Links>
+          <Links to={isLogin ? '/plan' : '/login'} onClick={handleClick}>
+            일정 관리
+          </Links>
           <Links to="/community">커뮤니티</Links>
         </LeftContainer>
         <RightContainer>
@@ -109,9 +117,9 @@ function Header() {
           ) : (
             <>
               <Links to="/login">로그인</Links>
-              <SignupContainer>
+              <SignUpContainer>
                 <Links to="/signup">회원가입</Links>
-              </SignupContainer>
+              </SignUpContainer>
             </>
           )}
         </RightContainer>
