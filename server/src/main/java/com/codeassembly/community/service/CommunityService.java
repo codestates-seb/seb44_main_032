@@ -7,12 +7,9 @@ import com.codeassembly.communitylike.entity.LikeCommunity;
 import com.codeassembly.communitylike.repository.LikeCommunityRepository;
 import com.codeassembly.exception.BusinessLogicException;
 import com.codeassembly.exception.ExceptionCode;
-import com.codeassembly.s3.dto.S3FileDto;
-import com.codeassembly.s3.service.Amazon3SService;
 import com.codeassembly.user.entity.User;
 import com.codeassembly.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,9 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Optional;
 
 import static com.codeassembly.exception.ExceptionCode.COMMUNITY_NOT_FOUND;
@@ -47,27 +42,37 @@ public class CommunityService {
         return communityRepository.save(community);
     }
 
-    public Community updateCommunity(Long userId, Community community) {
-        Community findCommunity = findVerifiedCommunity(userId);
+    public Community updateCommunity(long communityId, Community community, String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        Community findCommunity = findVerifiedCommunity(communityId);
+
+        validateWriter(findCommunity, user);
+
         Optional.ofNullable(community.getTitle())
                 .ifPresent(title -> findCommunity.setTitle(title));
         Optional.ofNullable(community.getBody())
                 .ifPresent(body -> findCommunity.setBody(body));
+
         return communityRepository.save(findCommunity);
     }
 
     public Community findVerifiedCommunity(long communityId) {
-        Optional<Community> question =
-                communityRepository.findByCommunityId(communityId);
-        Community findQuestion =
-                question.orElseThrow(() -> new BusinessLogicException(COMMUNITY_NOT_FOUND));
+        Optional<Community> community = communityRepository.findByCommunityId(communityId);
+        Community findCommunity = community.orElseThrow(() -> new BusinessLogicException(COMMUNITY_NOT_FOUND));
 
-        return findQuestion;
+        return findCommunity;
     }
 
-    public void deleteCommunity(Long communityId) {
+    private static void validateWriter(Community community, Optional<User> user) {
+        if (!user.isPresent() || !user.get().getUserId().equals(community.getUser().getUserId())) {
+            throw new BusinessLogicException(ExceptionCode.UNMATCHED_COMMUNITY_WRITER);
+        }
+    }
+
+    public Community deleteCommunity(Long communityId) {
         Community findCommunity = findVerifiedCommunity(communityId);
         communityRepository.delete(findCommunity);
+        return findCommunity;
     }
 
     public Community findCommunity(Long communityId) {
@@ -88,6 +93,7 @@ public class CommunityService {
         Page<Community> communitiesPage = communityRepository.findByTitleContainingIgnoreCase(query, pageable);
         return communitiesPage;
     }
+
 
     @Transactional
     public String likeCommunity(Long communityId) {
@@ -111,10 +117,10 @@ public class CommunityService {
         }
     }
 
+
     public Page<Community> findCommunitiesByCategory(String category, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Community> communitiesPageByCategory = communityRepository.findByCategory(category, pageable);
         return communitiesPageByCategory;
     }
-
 }

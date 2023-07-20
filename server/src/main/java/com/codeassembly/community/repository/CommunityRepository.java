@@ -11,9 +11,8 @@ import java.util.Optional;
 
 @Repository
 public interface CommunityRepository extends JpaRepository<Community, Long> {
-    Optional<Community> findByCommunityId(long communityId);
+    Optional<Community> findByCommunityId(Long communityId);
     Page<Community> findByTitleContainingIgnoreCase(String title, Pageable pageable);
     Page<Community> findByCategory(String Category, Pageable pageable);
-    Optional<Long> findUserIdByCommunityId(long communityId);
 
 }

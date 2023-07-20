@@ -42,11 +42,10 @@ public class User extends Auditable {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "user")
     private List<Community> communities = new ArrayList<>();
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Plan> plans = new ArrayList<>();
 
