@@ -6,7 +6,12 @@ import com.codeassembly.plan.dto.PlanDto;
 import com.codeassembly.plan.entity.Plan;
 import com.codeassembly.plan.mapper.PlanMapper;
 import com.codeassembly.plan.service.PlanService;
+import com.codeassembly.response.MultiResponseDto;
+import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+import org.joda.time.LocalDate;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -52,15 +58,15 @@ public class PlanController {
     @PatchMapping("/{templatateId}/edit")
     public ResponseEntity updatePlan(@PathVariable("templatateId") Long templatateId,
                                      @Valid @RequestBody PlanDto.Patch requestBody) {
-       Plan plan = mapper.planPatchToPlan(requestBody);
-       Plan updatePlan = planService.updatePlan(templatateId, plan);
-       return new ResponseEntity<>(mapper.planToPlanResponse(updatePlan), HttpStatus.OK);
+        Plan plan = mapper.planPatchToPlan(requestBody);
+        Plan updatePlan = planService.updatePlan(templatateId, plan);
+        return new ResponseEntity<>(mapper.planToPlanResponse(updatePlan), HttpStatus.OK);
     }
 
     @DeleteMapping("/{templatateId}")
     public ResponseEntity deletePlan(@PathVariable("templatateId") Long templatateId){
         planService.deletePlan(templatateId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/detail/{templatateId}")
@@ -69,15 +75,15 @@ public class PlanController {
         return new ResponseEntity<>(mapper.planToPlanResponse(plan), HttpStatus.OK);
     }
 
-    
+
     @GetMapping("/category/{category}")
     public ResponseEntity getPlansByCategoryAndPage(
-        @PathVariable("category") String category,
-        @Positive @RequestParam(defaultValue = "1") int page,
-        @Positive @RequestParam(defaultValue = "10") int size) {
+            @PathVariable("category") String category,
+            @Positive @RequestParam(defaultValue = "1") int page,
+            @Positive @RequestParam(defaultValue = "10") int size) {
 
         Page<Plan> pagePlan = planService.findPlanByCategory(category, page - 1, size);
-        List<Plan> communities = pagePlan.getContent();
-        return new ResponseEntity<>(new MultiResponseDto<>(mapper.plansToPlanResponses(communities), pagePlan), HttpStatus.OK);
+        List<Plan> plans = pagePlan.getContent();
+        return new ResponseEntity<>(new MultiResponseDto<>(mapper.plansToPlanResponses(plans), pagePlan), HttpStatus.OK);
     }
 }

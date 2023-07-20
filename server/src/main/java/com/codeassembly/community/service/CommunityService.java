@@ -94,7 +94,7 @@ public class CommunityService {
         Community community = communityRepository.findById(communityId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMUNITY_NOT_FOUND));
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByName(authentication.getName()).orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        User user = userRepository.findByEmail(authentication.getName()).orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
 
         if (likeCommunityRepository.findByUserAndCommunity(user, community) == null) {
             // 좋아요를 누른적 없다면 LikeCommunity 생성 후, 좋아요 처리
@@ -118,5 +118,3 @@ public class CommunityService {
     }
 
 }
-
-
