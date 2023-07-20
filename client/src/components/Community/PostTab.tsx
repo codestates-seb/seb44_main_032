@@ -51,9 +51,9 @@ export default PostTab;
 const PostTabSection = styled.button`
   display: flex;
   align-items: center;
-  max-width: 350px;
+  max-width: 380px;
   width: 100%;
-  height: 40px;
+  height: 44px;
   border: 1px solid #98dde3;
   border-radius: 7px;
   background-color: white;
@@ -65,6 +65,7 @@ const PostTabSection = styled.button`
 const PostTapText = styled.div<{ isClicked: boolean }>`
   border-right: 1px solid #98dde3;
   width: 75px;
+  font-size: 15px;
   color: ${({ isClicked }) => (isClicked ? '#98dde3' : '#787878')};
   cursor: pointer;
 

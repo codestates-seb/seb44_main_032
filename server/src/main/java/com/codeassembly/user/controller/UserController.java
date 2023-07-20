@@ -70,7 +70,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    //회원 로그아웃 블랙리스트로
+//    회원 로그아웃 블랙리스트로
 //    @PostMapping("/logout/logout")
 //    public ResponseEntity logout(@RequestHeader("Authorization") String token) {
 //        String jwt = token.substring(7); // Bearer 제거

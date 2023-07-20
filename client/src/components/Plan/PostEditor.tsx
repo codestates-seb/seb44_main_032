@@ -4,15 +4,11 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 
 interface PostEditorProps {
   content: string;
-  getEditorContent: (getMarkdown: () => string) => void;
+  getEditorContent: (content: string) => void;
   isEditMode: boolean;
 }
 
-function PostEditor({
-  content,
-  getEditorContent,
-  isEditMode,
-}: PostEditorProps) {
+function PostEditor({ content, getEditorContent, isEditMode }: PostEditorProps) {
   const editorRef = useRef<Editor | null>(null);
 
   useEffect(() => {
@@ -25,7 +21,16 @@ function PostEditor({
   useEffect(() => {
     const editorInstance = editorRef.current?.getInstance();
     if (editorInstance) {
-      getEditorContent(() => editorInstance.getMarkdown());
+      const handleChange = () => {
+        const editorContent = editorInstance.getMarkdown();
+        getEditorContent(editorContent);
+      };
+
+      editorInstance.on('change', handleChange);
+
+      return () => {
+        editorInstance.off('change', handleChange);
+      };
     }
   }, [getEditorContent]);
 

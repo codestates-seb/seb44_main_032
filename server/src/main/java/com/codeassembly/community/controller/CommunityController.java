@@ -8,6 +8,8 @@ import com.codeassembly.community.mapper.CommunityMapper;
 import com.codeassembly.community.repository.CommunityRepository;
 import com.codeassembly.community.service.CommunityService;
 import com.codeassembly.response.MultiResponseDto;
+import com.codeassembly.user.dto.UserDto;
+import com.codeassembly.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
@@ -41,12 +43,19 @@ public class CommunityController {
                                           @Valid @RequestBody CommunityDto.Post requestBody,
                                           @RequestHeader("Authorization") String token) {
 
+        String getToken = jwtTokenizer.getUsername(token);
 
         Community community =mapper.communityPostDtoToCommunity(requestBody);
         Community createdCommunity =communityService.createdCommunity(userId, community);
         CommunityDto.Response response = mapper.communityToResponseDto(createdCommunity);
         response.setUserInfo(new CommunityDto.UserInfo(createdCommunity.getUser())); // userInfo 설정
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+        // 토큰 정보를 응답에 포함시킴
+        Map<String, Object> responseCreate = new HashMap<>();
+        responseCreate.put("token", getToken);
+        responseCreate.put("user", response);
+
+        return new ResponseEntity<>(responseCreate, HttpStatus.CREATED);
 
     }
     @PatchMapping("/edit/{userId}")
@@ -54,11 +63,19 @@ public class CommunityController {
                                           @Valid @RequestBody CommunityDto.Patch requestBody,
                                           @RequestHeader("Authorization") String token) {
 
+        String getToken = jwtTokenizer.getUsername(token);
 
         Community community = mapper.communityPatchDtoToCommunity(requestBody);
         Community updateCommunity = communityService.updateCommunity(userId, community);
+        CommunityDto.Response response = mapper.communityToResponseDto(updateCommunity);
 
-        return new ResponseEntity<>(mapper.communityToResponseDto(updateCommunity), HttpStatus.OK);
+
+        // 토큰 정보를 응답에 포함시킴
+        Map<String, Object> responsePatch = new HashMap<>();
+        responsePatch.put("token", getToken);
+        responsePatch.put("user", response);
+
+        return new ResponseEntity<>(responsePatch, HttpStatus.OK);
     }
     @DeleteMapping("/{communityId}")
     public ResponseEntity deleteCommunity(@PathVariable("communityId") Long communityId,
