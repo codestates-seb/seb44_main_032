@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 
 public class CommentDto {
@@ -27,7 +28,7 @@ public class CommentDto {
     @AllArgsConstructor
     @Getter
     public static class Post {
-        @NotBlank
+        @NotEmpty
         private String commentBody;
     }
 
