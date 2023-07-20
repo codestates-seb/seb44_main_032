@@ -4,7 +4,7 @@ import TabButton from '../../components/Plan/TabButton';
 import { LuCalendarDays } from "react-icons/lu";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import PostEditor from '../../components/Plan/PostEditor';
 
 const PostSection = styled.section`
   display: flex;
@@ -15,10 +15,6 @@ const PostSection = styled.section`
   align-items: center;
 `;
 
-// const TitleContainer = styled.div`
-//   display: flex;
-// `
-
 const PlanForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -26,7 +22,8 @@ const PlanForm = styled.form`
   padding: 40px;
   max-width: 920px;
   width: 100%;
-`
+  align-items: stretch;
+`;
 
 const InputTitleContainer = styled.input`
   margin-bottom: 16px;
@@ -43,7 +40,7 @@ const InputTitleContainer = styled.input`
     font-size: 14px;
 
     }
-`
+`;
 
 const PlanTitle = styled.div`
   color: black;
@@ -56,7 +53,7 @@ const DateContainer = styled.div`
   display: flex;
   margin-top: 16px;
   gap: 12px;
-`
+`;
 
 const PlanStartDate = styled.input`
   position: relative;
@@ -110,11 +107,11 @@ const CalendarIcon = styled(LuCalendarDays)`
 
 const StartWrapper = styled.div`
   position: relative;
-`
+`;
 
 const EndWrapper = styled.div`
   position: relative;
-`
+`;
 
 const PlanEndDate = styled.input`
   position: relative;
@@ -156,14 +153,6 @@ const PlanEndDate = styled.input`
 
 const InputContainer = styled.div`
   margin-bottom: 8px;
-`;
-
-const TextArea = styled.textarea`
-  width: 912px;
-  height: 316px;
-  background: #FFFFFF;
-  border: 1px solid #98DDE3;
-  border-radius: 8px;
 `;
 
 const PostButton = styled.button`
@@ -272,30 +261,62 @@ function PlanPost() {
     }));
   };
 
-  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleContentChange = (content: string) => {
     setFormData((prevData) => ({
       ...prevData,
-      content: e.target.value,
+      content: content,
     }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // 필요한 데이터 처리나 API 호출은 이곳에서 수행합니다.
-    console.log("폼 데이터:", formData);
-    // 제출 후 폼 초기화
-    setFormData({
-      title: "",
-      value: "",
-      startDate: "",
-      endDate: "",
-      content: "",
-    });
+
+    if (formData.title.trim() === "") {
+      alert("제목을 입력해주세요.");
+      return;
+    }
+
+    if (formData.value.trim() === '') {
+      alert('카테고리를 선택해주세요.');
+      return;
+    }
+
+    if (formData.startDate === "") {
+      alert("시작일을 선택해주세요.");
+      return;
+    }
+
+    if (formData.endDate === "") {
+      alert("종료일을 선택해주세요.");
+      return;
+    }
+
+    if (formData.content.trim() === "") {
+      alert("내용을 입력해주세요.");
+      return;
+    }
+
+    const data = {
+      title: formData.title,
+      value: formData.value,
+      startDate: formData.startDate,
+      endDate: formData.endDate,
+      content: formData.content,
+    };
 
     if (isEditMode) {
       const postId = window.location.pathname.split("/").pop(); // 수정 대상 게시물 ID
       axios
-        .put(`/plan/post/${postId}`, formData)
+        .put(`/plan/post/${postId}`, data)
+        .then(() => {
+          window.location.href = "/plan";
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      axios
+        .post("/plan/post", data)
         .then(() => {
           window.location.href = "/plan";
         })
@@ -303,11 +324,34 @@ function PlanPost() {
           console.log(error);
         });
     }
+    console.log("폼 데이터:", formData);
+
+    setFormData({
+      title: "",
+      value: "",
+      startDate: "",
+      endDate: "",
+      content: "",
+    });
   };
+
+
+
+  //   if (isEditMode) {
+  //     const postId = window.location.pathname.split("/").pop(); // 수정 대상 게시물 ID
+  //     axios
+  //       .put(`/plan/post/${postId}`, formData)
+  //       .then(() => {
+  //         window.location.href = "/plan";
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   }
+  // };
 
   return (
     <PostSection>
-      {/* <TitleContainer></TitleContainer> */}
       <PlanForm onSubmit={handleSubmit}>
         <InputContainer>
           <PlanTitle>제목</PlanTitle>
@@ -353,9 +397,11 @@ function PlanPost() {
         </DateContainer>
         <InputContainer>
           <PlanTitle>내용</PlanTitle>
-          <TextArea
-              value={formData.content}
-              onChange={handleContentChange}
+          <PostEditor
+            content={formData.content}
+            getEditorContent={handleContentChange}
+            isEditMode={isEditMode}
+          
           />
         </InputContainer>
         <ButtonWrapper>

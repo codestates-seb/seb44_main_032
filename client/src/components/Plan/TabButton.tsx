@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 const TabSection = styled.div`
-  display: inline-block;
-  /* display: flex; */
-  /* align-items: center; */
   border: 1px solid #98dde3;
   border-radius: 7px;
+  display: inline-block;
+  width: fit-content;
+
 `;
 
 const StyledButton = styled.button<{ active: boolean }>`
