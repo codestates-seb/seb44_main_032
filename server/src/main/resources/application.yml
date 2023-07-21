@@ -56,3 +56,13 @@ spring:
     bucket: code-assembly
     access-key: ${{secrets.AWS_ACCESS_KEY}}
     secret-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${G_CLIENT_ID}
+            clientSecret: ${G_CLIENT_SECRET}
+            scope:
+              - email
+              - profile

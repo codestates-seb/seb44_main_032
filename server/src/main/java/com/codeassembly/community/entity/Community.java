@@ -18,6 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 public class Community extends Auditable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long communityId;
