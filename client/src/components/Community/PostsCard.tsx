@@ -11,8 +11,8 @@ export interface PostCommunityInterface {
   };
   title: string;
   body: string;
-  likes: number;
-  comments: number;
+  liked: number;
+  views: number;
   createdAt: string;
 }
 
@@ -28,11 +28,11 @@ function PostsCard({ post }: { post: PostCommunityInterface }) {
         <ButtonsContainer>
           <LikesContainer>
             <BiLike size="24px" />
-            {post.likes}
+            {post.liked}
           </LikesContainer>
           <CommentsContainer>
             <FaRegComment size="24px" />
-            {post.comments}
+            {post.views}
           </CommentsContainer>
         </ButtonsContainer>
         <DateWrapper>{date}</DateWrapper>
