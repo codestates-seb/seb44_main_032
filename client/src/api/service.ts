@@ -18,3 +18,15 @@ export const getCommunityList = async (query: {
     return error;
   }
 };
+
+export const getCommunityCategoryList = async () => {
+try {
+  const response = await axios.get(
+    `/community/${category}`
+  );
+
+  return response;
+} catch (error) {
+  return error;
+}
+};

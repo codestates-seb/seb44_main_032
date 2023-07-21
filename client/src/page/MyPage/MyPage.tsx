@@ -5,6 +5,7 @@ import { IoSettingsOutline } from 'react-icons/io5';
 
 import FakeMyPage from '../../fakeApi/fakeMyPage';
 import profile from '../../assets/profile.png';
+import { readonly } from 'vue';
 
 const fakeData = new FakeMyPage();
 
@@ -23,7 +24,7 @@ function MyPage() {
     email: '',
     password: '',
   });
-  const { data } = useQuery('getMyPageInfo', () => fakeData.getMyPageInfo());
+  const { data } = useQuery('getMyPage', () => fakeData.getMyPage());
 
   // useEffect(() => {
   //   // 토큰을 로컬 스토리지나 쿠키에서 가져오기
@@ -53,6 +54,7 @@ function MyPage() {
 
   const onSave = async () => {
     // TODO: API 연결하기
+    useQuery('patchMyInfo');
     await alert('저장되었습니다.');
     setIsEditing(false);
   };
@@ -72,16 +74,13 @@ function MyPage() {
         {array.map(({ key, label }: { key: string; label: string }) => (
           <>
             <InputText>{label}</InputText>
-            {isEditing ? (
-              <Input
-                value={editData[key as keyof MyInfoInterface]}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  onChange(key, e)
-                }
-              />
-            ) : (
-              <div>{editData[key as keyof MyInfoInterface]}</div>
-            )}
+            <Input
+              value={editData[key as keyof MyInfoInterface]}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                onChange(key, e)
+              }
+              readOnly={isEditing ? false : true}
+            />
           </>
         ))}
       </InputContainer>
@@ -110,8 +109,8 @@ const MyPageContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 800px;
+  /* width: 100%;
+  height: 800px; */
   /* margin-top: 67px; */
 `;
 

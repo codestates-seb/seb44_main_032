@@ -102,6 +102,7 @@ function Community() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentKeyword, setCurrentKeyword] = useState('');
   const menus = [
+    { name: '전체', key: '' },
     { name: '당일치기', key: 'DAYTRIP' },
     { name: '여행', key: 'TRAVEL' },
     { name: '일상', key: 'DAILY' },

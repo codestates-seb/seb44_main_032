@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { format } from 'date-fns';
+
+import likeIcon from '../../assets/likeIcon.png';
+import commentIcon from '../../assets/commentIcon.png';
 import { BiLike } from 'react-icons/bi';
 import { FaRegComment } from 'react-icons/fa';
-import { format } from 'date-fns';
 
 export interface PostCommunityInterface {
   communityId: number;
@@ -25,7 +28,9 @@ function PostsCard({ post }: { post: PostCommunityInterface }) {
       <Title>{post.title}</Title>
       <Content>{post.body}</Content>
       <BottomContainer>
-        <ButtonsContainer>
+        <Likes src={likeIcon}></Likes>
+        <Comments src={commentIcon}></Comments>
+        {/* <ButtonsContainer>
           <LikesContainer>
             <BiLike size="24px" />
             {post.likes}
@@ -34,7 +39,7 @@ function PostsCard({ post }: { post: PostCommunityInterface }) {
             <FaRegComment size="24px" />
             {post.comments}
           </CommentsContainer>
-        </ButtonsContainer>
+        </ButtonsContainer> */}
         <DateWrapper>{date}</DateWrapper>
       </BottomContainer>
     </PostsCardContainer>
@@ -46,7 +51,7 @@ export default PostsCard;
 const PostsCardContainer = styled(Link)`
   display: flex;
   flex-direction: column;
-  max-width: 844px;
+  max-width: 900px;
   /* min-height: 80px; */
   padding: 16px 20px;
   gap: 8px;
@@ -111,6 +116,13 @@ const CommentsContainer = styled.div`
   align-items: center;
   gap: 4px;
 `;
+
+const Likes = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+
+const Comments = styled.img``;
 
 const DateWrapper = styled.div`
   color: #909090;

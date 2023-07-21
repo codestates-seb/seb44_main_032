@@ -3,72 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import logo from '../../assets/logo.png';
 
-const HeaderContainer = styled.header`
-  position: fixed;
-  top: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 67px;
-  font-size: 16px;
-  background-color: white;
-`;
-
-const Logo = styled.img`
-  width: 140px;
-  height: 20px;
-  margin-left: 40px;
-  cursor: pointer;
-  @media screen and (max-width: 600px) {
-    margin-left: 20px;
-  }
-  @media screen and (max-width: 500px) {
-    width: 120px;
-    height: 16px;
-  }
-`;
-
-const Nav = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-left: 40px;
-  @media screen and (max-width: 600px) {
-    margin-left: 20px;
-  }
-`;
-
-const LeftContainer = styled.div`
-  display: flex;
-  gap: 40px;
-  @media screen and (max-width: 600px) {
-    gap: 20px;
-  }
-`;
-
-const RightContainer = styled.div`
-  display: flex;
-  gap: 40px;
-  margin-right: 40px;
-  @media screen and (max-width: 600px) {
-    gap: 20px;
-    margin-right: 20px;
-  }
-`;
-
-const Links = styled(Link)`
-  color: inherit;
-  text-decoration: none;
-`;
-
-const SignUpContainer = styled.div`
-  @media screen and (max-width: 500px) {
-    display: none;
-  }
-`;
-
 function Header() {
   const location = useLocation();
   const [isLogin, setIsLogin] = useState<boolean>(false);
@@ -90,7 +24,7 @@ function Header() {
 
   const handleClick = () => {
     if (!isLogin) {
-      alert('로그인이 필요합니다.');
+      alert('로그인해주세요.');
     }
   };
 
@@ -129,3 +63,75 @@ function Header() {
 }
 
 export default Header;
+
+const HeaderContainer = styled.header`
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 67px;
+  font-size: 16px;
+  background-color: white;
+`;
+
+const Logo = styled.img`
+  width: 140px;
+  height: 20px;
+  margin-left: 40px;
+  cursor: pointer;
+  @media screen and (max-width: 600px) {
+    margin-left: 20px;
+  }
+  @media screen and (max-width: 500px) {
+    width: 120px;
+    height: 16px;
+  }
+`;
+
+const Nav = styled.nav`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-left: 40px;
+  @media screen and (max-width: 600px) {
+    margin-left: 20px;
+  }
+  @media screen and (max-width: 500px) {
+    margin-left: 10px;
+  }
+`;
+
+const LeftContainer = styled.div`
+  display: flex;
+  gap: 40px;
+  @media screen and (max-width: 600px) {
+    gap: 20px;
+  }
+  @media screen and (max-width: 500px) {
+    gap: 10px;
+  }
+`;
+
+const RightContainer = styled.div`
+  display: flex;
+  gap: 40px;
+  margin-right: 40px;
+  @media screen and (max-width: 600px) {
+    gap: 20px;
+    margin-right: 20px;
+  }
+`;
+
+const Links = styled(Link)`
+  color: inherit;
+  text-decoration: none;
+`;
+
+const SignUpContainer = styled.div`
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
+`;
