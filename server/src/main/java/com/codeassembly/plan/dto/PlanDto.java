@@ -2,6 +2,7 @@ package com.codeassembly.plan.dto;
 
 import com.codeassembly.community.dto.CommunityDto;
 import com.codeassembly.community.dto.CommunityDto.UserInfo;
+import com.codeassembly.plan.entity.Plan;
 import com.codeassembly.user.entity.User;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -50,6 +51,18 @@ public class PlanDto {
         private String category;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
+
+        public Response(Plan plan, UserInfo userInfo) {
+            this.planId = plan.getPlanId();
+            this.title = plan.getTitle();
+            this.body = plan.getBody();
+            this.startDate = String.valueOf(plan.getStartDate());
+            this.endDate = String.valueOf(plan.getEndDate());
+            this.userInfo = userInfo;
+            this.category = plan.getCategory();
+            this.createdAt = plan.getCreatedAt();
+            this.updatedAt = plan.getUpdatedAt();
+        }
     }
 
     @Getter
