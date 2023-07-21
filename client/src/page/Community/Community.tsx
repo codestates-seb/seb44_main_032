@@ -8,7 +8,7 @@ import PostsCard, {
 } from '../../components/Community/PostsCard';
 import SearchBar from '../../components/Community/SearchBar';
 import WriteButton from '../../components/Community/WriteButton';
-import { getCommunityList } from '../../api/service'
+import { getCommunityList } from '../../api/service';
 
 const CommunityContainer = styled.div`
   display: flex;
@@ -86,7 +86,6 @@ const PostsContainer = styled.div`
 
 const MoreButton = styled.button``;
 
-
 export interface CommunityDataInterface {
   data: PostCommunityInterface[];
   pageInfo: {
@@ -119,12 +118,12 @@ function Community() {
           page: pageNum,
           search: currentKeyword,
           category,
-        })
+        });
       },
       {
         getNextPageParam: (lastPage: CommunityDataInterface) => {
           if (!lastPage) {
-            return undefined
+            return undefined;
           }
           return lastPage.pageInfo.page === lastPage.pageInfo.totalPages
             ? undefined
@@ -139,20 +138,27 @@ function Community() {
       currentData = currentData.concat(page.data);
     });
   } else if (data) {
-    currentData = data.slice()
+    currentData = data.slice();
   }
 
   return (
     <CommunityContainer>
       <UpperBar>
         <ButtonGroup>
-          {menus.map(obj => {
+          {menus.map((obj, i) => {
             return (
               <>
                 <StyledButton
-                  isCurrent={category === obj.key}
+                  isCurrent={
+                    (category === obj.key && !!category) ||
+                    (i === 0 && !category)
+                  }
                   onClick={() => {
-                    setSearchParams({ category: obj.key });
+                    if (i === 0) {
+                      setSearchParams();
+                    } else {
+                      setSearchParams({ category: obj.key });
+                    }
                   }}
                   key={obj.key}
                 >
