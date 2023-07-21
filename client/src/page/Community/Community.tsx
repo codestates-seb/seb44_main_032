@@ -8,7 +8,7 @@ import PostsCard, {
 } from '../../components/Community/PostsCard';
 import SearchBar from '../../components/Community/SearchBar';
 import WriteButton from '../../components/Community/WriteButton';
-import FakeCommunity from '../../fakeApi/fakeCommunity';
+import { getCommunityList } from '../../api/service'
 
 const CommunityContainer = styled.div`
   display: flex;
@@ -86,7 +86,6 @@ const PostsContainer = styled.div`
 
 const MoreButton = styled.button``;
 
-const fakeData = new FakeCommunity();
 
 export interface CommunityDataInterface {
   data: PostCommunityInterface[];
@@ -102,40 +101,31 @@ function Community() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentKeyword, setCurrentKeyword] = useState('');
   const menus = [
+    { name: '전체', key: '' },
     { name: '당일치기', key: 'DAYTRIP' },
     { name: '여행', key: 'TRAVEL' },
     { name: '일상', key: 'DAILY' },
     { name: '회사', key: 'COMPANY' },
   ];
 
-  const filter = searchParams.get('filter');
-
-  let queryKey: string[] = [];
-  if (filter) {
-    queryKey = ['getCommunityCategoryList', filter];
-  } else if (!filter) {
-    queryKey = ['getCommunityList'];
-  }
-
-  if (currentKeyword) {
-    queryKey = ['getCommunitySearch'];
-  }
+  const category = searchParams.get('category');
 
   const { fetchNextPage, refetch, hasNextPage, isFetchingNextPage, data } =
     useInfiniteQuery(
-      queryKey,
+      ['getCommunityList', currentKeyword, category],
       ({ pageParam }: { pageParam?: number }) => {
         const pageNum = pageParam ? pageParam + 1 : 1;
-        if (filter) {
-          return fakeData.getCommunityCategoryList(filter);
-        }
-        if (currentKeyword) {
-          return fakeData.getCommunitySearch();
-        }
-        return fakeData.getCommunityList(pageNum);
+        return getCommunityList({
+          page: pageNum,
+          search: currentKeyword,
+          category,
+        })
       },
       {
         getNextPageParam: (lastPage: CommunityDataInterface) => {
+          if (!lastPage) {
+            return undefined
+          }
           return lastPage.pageInfo.page === lastPage.pageInfo.totalPages
             ? undefined
             : lastPage.pageInfo.page;
@@ -144,10 +134,12 @@ function Community() {
     );
 
   let currentData: PostCommunityInterface[] = [];
-  if (data) {
+  if (data && data.pages) {
     data.pages.forEach((page: CommunityDataInterface) => {
       currentData = currentData.concat(page.data);
     });
+  } else if (data) {
+    currentData = data.slice()
   }
 
   return (
@@ -158,10 +150,11 @@ function Community() {
             return (
               <>
                 <StyledButton
-                  isCurrent={filter === obj.key}
+                  isCurrent={category === obj.key}
                   onClick={() => {
-                    setSearchParams({ filter: obj.key });
+                    setSearchParams({ category: obj.key });
                   }}
+                  key={obj.key}
                 >
                   {obj.name}
                 </StyledButton>
