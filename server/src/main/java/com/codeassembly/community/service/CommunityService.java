@@ -1,6 +1,7 @@
 package com.codeassembly.community.service;
 
 
+import com.codeassembly.comment.entity.Comment;
 import com.codeassembly.community.entity.Community;
 import com.codeassembly.community.repository.CommunityRepository;
 import com.codeassembly.communitylike.entity.LikeCommunity;
@@ -11,6 +12,7 @@ import com.codeassembly.s3.dto.S3FileDto;
 import com.codeassembly.s3.service.Amazon3SService;
 import com.codeassembly.user.entity.User;
 import com.codeassembly.user.repository.UserRepository;
+import com.codeassembly.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,6 +37,7 @@ public class CommunityService {
     private final UserRepository userRepository;
     private final CommunityRepository communityRepository;
     private final LikeCommunityRepository likeCommunityRepository;
+    private final UserService userService;
 
 
     public Community createdCommunity(long userId, Community community) {
@@ -47,22 +50,29 @@ public class CommunityService {
         return communityRepository.save(community);
     }
 
-    public Community updateCommunity(Long userId, Community community) {
-        Community findCommunity = findVerifiedCommunity(userId);
+    public Community updateCommunity(long userId, Community community) {
+        User user = userService.findByUserId(userId);
+        Community community1 = findCommunity2(community.getCommunityId());
+        validateWriter(community1, user);
         Optional.ofNullable(community.getTitle())
-                .ifPresent(title -> findCommunity.setTitle(title));
+                .ifPresent(title -> community.setTitle(title));
         Optional.ofNullable(community.getBody())
-                .ifPresent(body -> findCommunity.setBody(body));
-        return communityRepository.save(findCommunity);
+                .ifPresent(body -> community.setBody(body));
+        return communityRepository.save(community);
+    }
+    private static void validateWriter(Community community1, User user) {
+        if (user.getUserId() != community1.getUser().getUserId()) {
+            throw new BusinessLogicException(ExceptionCode.UNMATCHED_COMMUNITY_WRITER);
+        }
     }
 
     public Community findVerifiedCommunity(long communityId) {
-        Optional<Community> question =
+        Optional<Community> optionalCommunity =
                 communityRepository.findByCommunityId(communityId);
-        Community findQuestion =
-                question.orElseThrow(() -> new BusinessLogicException(COMMUNITY_NOT_FOUND));
+        Community findCommunity =
+                optionalCommunity.orElseThrow(() -> new BusinessLogicException(COMMUNITY_NOT_FOUND));
 
-        return findQuestion;
+        return findCommunity;
     }
 
     public void deleteCommunity(Long communityId) {
@@ -75,7 +85,10 @@ public class CommunityService {
         community.setViews((community.getViews() + 1)); //조회수 +1
         return community;
     }
-
+    public Community findCommunity2(Long communityId) {
+        Community community = findVerifiedCommunity(communityId);
+        return community;
+    }
     public Page<Community> findCommunities(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
         Page<Community> communitiesPage = communityRepository.findAll(pageable);
