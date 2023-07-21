@@ -1,6 +1,6 @@
 package com.codeassembly.audit;
 
-import com.codeassembly.auth.CustomAuthorityUtils;
+import com.codeassembly.auth.util.CustomAuthorityUtils;
 import com.codeassembly.auth.JwtTokenizer;
 import com.codeassembly.response.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
