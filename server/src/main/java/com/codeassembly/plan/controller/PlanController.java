@@ -4,11 +4,14 @@ import com.codeassembly.auth.JwtTokenizer;
 import com.codeassembly.community.dto.CommunityDto;
 import com.codeassembly.community.entity.Community;
 import com.codeassembly.plan.dto.PlanDto;
+import com.codeassembly.plan.dto.PlanDto.Response;
+import com.codeassembly.plan.dto.PlanDto.UserInfo;
 import com.codeassembly.plan.entity.Plan;
 import com.codeassembly.plan.mapper.PlanMapper;
 import com.codeassembly.plan.service.PlanService;
 import com.codeassembly.response.MultiResponseDto;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +23,7 @@ import org.joda.time.LocalDate;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -123,8 +127,23 @@ public class PlanController {
     @GetMapping("/detail/{planId}")
     public ResponseEntity getPlan(@PathVariable("planId") Long planId){
         Plan plan = planService.findPlan(planId);
-        return new ResponseEntity<>(mapper.planToPlanResponse(plan), HttpStatus.OK);
+        PlanDto.Response response = mapper.planToPlanResponse(plan);
+        response.setUserInfo(new UserInfo(plan.getUser()));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
+   @GetMapping("/all")
+   public ResponseEntity getPlans(@Positive @RequestParam(defaultValue = "1") int page,
+                                  @Positive @RequestParam(defaultValue = "10") int size){
+        Page<Plan> pagePlan = planService.findPlans(page - 1, size);
+        List<Plan> plans = pagePlan.getContent();
+        List<PlanDto.Response> responses = new ArrayList<>();
+        for (Plan plan : plans) {
+            PlanDto.UserInfo userInfo = new PlanDto.UserInfo(plan.getUser());
+            responses.add(new PlanDto.Response(plan, userInfo));
+        }
+        return new ResponseEntity<>(new MultiResponseDto<>(responses, pagePlan), HttpStatus.OK);
+   }
+
 
 
     @GetMapping("/category/{category}")

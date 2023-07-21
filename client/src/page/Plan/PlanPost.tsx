@@ -13,6 +13,7 @@ const PostSection = styled.section`
   width: 100%;
   justify-content: center;
   align-items: center;
+  margin: 67px 0 30px;
 `;
 
 const PlanForm = styled.form`

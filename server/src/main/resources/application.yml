@@ -15,22 +15,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/planet?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-<<<<<<< HEAD
-    password: al5364485!
-security:
-  oauth2:
-    client:
-      registration:
-        google:
-          clientId: ${G_CLIENT_ID}
-          clientSecret: ${G_CLIENT_SECRET}
-          scope:
-            - email                              // (1)
-            - profile                            // (2)
-=======
-    password: ${MYSQL_KEY}
+    password: root1234
 
->>>>>>> e6e3822f0daf8dfe52af4300bdca174464f8f69b
 
 
 jwt:                                 #key 설정 및 토큰 만료 시간 설정
@@ -70,33 +56,20 @@ spring:
 spring.config.activate.on-profile: "profiles-local"
 spring:
   s3:
-<<<<<<< HEAD
+
     bucket: kongsbucket
     access-key:
     secret-key:
-
-=======
-
-    bucket: code-assembly
-    access-key: ${AWS_ACCESS_KEY}
-    secret-key: ${AWS_SECRET_ACCESS_KEY}
->>>>>>> e6e3822f0daf8dfe52af4300bdca174464f8f69b
 
 ---
 # DEV 설정
 
 spring:
   s3:
-<<<<<<< HEAD
     bucket: kongsbucket
     access-key:
     secret-key:
-=======
-    bucket: code-assembly
-    access-key: ${AWS_ACCESS_KEY}
-    secret-key: ${AWS_SECRET_ACCESS_KEY}
 
->>>>>>> e6e3822f0daf8dfe52af4300bdca174464f8f69b
 
 
 

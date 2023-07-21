@@ -108,11 +108,11 @@ public class PlanService {
         Page<Plan> plansPageByCategory = planRepository.findByCategory(category, pageable);
         return plansPageByCategory;
     }
-//    public Page<Plan> findPlans(int page, int size) {
-//        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
-//        Page<Plan> plansPage = planRepository.findAll(pageable);
-//        return plansPage;
-//    }
+    public Page<Plan> findPlans(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Plan> plansPage = planRepository.findAll(pageable);
+        return plansPage;
+    }
 
 //    public Page<Plan> searchPlans(String query, int page, int size){
 //        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
