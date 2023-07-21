@@ -1,11 +1,16 @@
 package com.codeassembly.config;
 
 import com.codeassembly.audit.JwtVerificationFilter;
-import com.codeassembly.auth.CustomAuthorityUtils;
+import com.codeassembly.auth.handler.Oauth2UserSuccessHandler;
+import com.codeassembly.auth.util.CustomAuthorityUtils;
 import com.codeassembly.auth.JwtAuthenticationFilter;
 import com.codeassembly.auth.JwtTokenizer;
+import com.codeassembly.auth.handler.UserAccessDeniedHandler;
+import com.codeassembly.auth.handler.UserAuthenticationEntryPoint;
 import com.codeassembly.auth.handler.UserAuthenticationFailureHandler;
 import com.codeassembly.auth.handler.UserAuthenticationSuccessHandler;
+import com.codeassembly.user.repository.UserRepository;
+import com.codeassembly.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +23,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -33,6 +39,7 @@ import java.util.Arrays;
 public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
+    private final UserRepository userRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -46,6 +53,10 @@ public class SecurityConfiguration {
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(new UserAuthenticationEntryPoint())
+                .accessDeniedHandler(new UserAccessDeniedHandler())
+                .and()
                 .apply(new CustomFilterConfigure())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
@@ -68,7 +79,8 @@ public class SecurityConfiguration {
                         //.anyRequest().permitAll()
                         //.anyRequest().authenticated()
 
-                );
+                ).oauth2Login(oauth2 -> oauth2.successHandler(new Oauth2UserSuccessHandler(jwtTokenizer, authorityUtils,
+                userRepository)));
 
         return http.build();
     }
@@ -109,7 +121,8 @@ public class SecurityConfiguration {
 
             builder
                     .addFilter(jwtAuthenticationFilter)
-                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class)
+                    .addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class);
         }
     }
 }

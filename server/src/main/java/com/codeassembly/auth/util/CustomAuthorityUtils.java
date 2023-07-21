@@ -1,4 +1,4 @@
-package com.codeassembly.auth;
+package com.codeassembly.auth.util;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
