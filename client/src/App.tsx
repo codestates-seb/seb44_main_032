@@ -28,8 +28,8 @@ function App() {
         <Route path="/community/post" element={<CommunityPostForm />} />
         <Route path="/plan" element={<Plan />} />
         <Route path="/plan/:Id/" element={<PlanDetail />} />
-        <Route path="/plan/:id/edit" element={<PlanPost />} />
-        <Route path="/plan/post" element={<PlanPost/>} />
+        <Route path="/plan/registration/:id" element={<PlanPost />} />
+        <Route path="/plan/registration/:1d" element={<PlanPost/>} />
       </Routes>
       <Footer />
     </>
