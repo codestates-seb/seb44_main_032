@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import TabMenu from "./TabMenu";
-// import WriteButton from './WriteButton';
 import { PiPencilSimple } from "react-icons/pi";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -13,7 +13,7 @@ const PlanSection = styled.div`//페이지 전체
     padding: 128px 0;//196px
     justify-content: flex-start; //고정
     align-items: center; //수직 가운데 정렬
-    /* border: 1px solid yellow;//임시 */
+    margin-top: 67px;
     /* flex-wrap: wrap; X */
      @media (max-width: 500px) {
      padding: 64px 0;
@@ -46,7 +46,7 @@ const WriteButtonContainer = styled.div`//글쓰기버튼
 
 `;
 
-const WriteButtonBtn = styled(Link)`
+const WriteButtonBtn = styled.div`
   width: 46px;
   height: 44px;
   display: flex;
@@ -60,20 +60,34 @@ const WriteButtonBtn = styled(Link)`
 `;
 
 function WriteButton() {
+  const navigate = useNavigate();
+
+  const handleWriteButtonClick = async () => {
+    navigate(`/plan/registration`);
+  };
+
+
   return (
     <WriteButtonContainer>
-      <WriteButtonBtn to="/plan/post">
+      <WriteButtonBtn onClick={handleWriteButtonClick}>
         <PiPencilSimple />
       </WriteButtonBtn>
     </WriteButtonContainer>
   );
 }
+// function WriteButton() {
+//   return (
+//     <WriteButtonContainer>
+//       <WriteButtonBtn to="/plan/post">
+//         <PiPencilSimple />
+//       </WriteButtonBtn>
+//     </WriteButtonContainer>
+//   );
+// }
 
-  
+
 
 function Plan (){
-    
-
     return (
         <PlanSection>
             <TabMenuWrapper>
