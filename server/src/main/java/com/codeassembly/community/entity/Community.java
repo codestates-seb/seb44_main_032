@@ -24,13 +24,13 @@ public class Community extends Auditable {
     private String title;
     private String body;
     @Column(nullable = false)
-    private int views; //조회수
+    private long views; //조회수
     @ManyToOne(fetch = FetchType.LAZY) //유저와 n:1
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
     @Column(nullable = false)
-    private int liked; //조회수
+    private long liked; //좋아요
 
     private String category;
 
