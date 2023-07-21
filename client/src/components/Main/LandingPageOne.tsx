@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import landingPlanIcon from '../../assets/landingPlanIcon1.png';
-import landingCommunityIcon from '../../assets/landingCommunityIcon1.png';
 
 function LandingPageOne() {
   return (
@@ -11,7 +9,7 @@ function LandingPageOne() {
           <MainText>YaksokMeiteu</MainText>
         </MainTextContainer>
         <ContentContainer>
-          <PlanIcon src={landingPlanIcon} />
+          <PlanIcon />
         </ContentContainer>
       </PageOneForm>
     </PageOneSection>
