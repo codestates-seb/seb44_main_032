@@ -5,19 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db898432-6345-42b7-8574-5df974117d3e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/auth/handler/Oauth2UserSuccessHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/auth/handler/UserAccessDeniedHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/auth/handler/UserAuthenticationEntryPoint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/auth/util/ErrorResponder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/server/main_032_deploy.server.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/server/main_032_deploy.server.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/server/main_032_deploy.server.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/server/main_032_deploy.server.test.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/server/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/audit/JwtVerificationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/audit/JwtVerificationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/auth/CustomAuthorityUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/auth/util/CustomAuthorityUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/auth/service/AuthenticatedDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/auth/service/AuthenticatedDetailsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/community/entity/Community.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/community/entity/Community.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/config/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/user/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/user/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/user/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/resources/app2.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/app2.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

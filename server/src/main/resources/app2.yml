@@ -13,9 +13,9 @@
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://localhost:3306/planet?serverTimezone=UTC&characterEncoding=UTF-8
 #    username: root
-#    password: {{secrets.MYSQL_KEY}}
+#    password: ${{secrets.MYSQL_KEY}}
 #jwt:                                 #key 설정 및 토큰 만료 시간 설정
-#  key: {{secrets.JWT_SECRET_KEY}}
+#  key: ${{secrets.JWT_SECRET_KEY}}
 #  access-token-expiration-minutes: 30
 #  refresh-token-expiration-minutes: 420
 #mail:
@@ -56,21 +56,13 @@
 #    bucket: code-assembly
 #    access-key: ${{secrets.AWS_ACCESS_KEY}}
 #    secret-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-##  security:
-##    oauth2:
-##      client:
-##        registration:
-##          google:
-##            clientId: 491567044577-acj81dopm7f8njrf4d2b73p1hrljuq4v.apps.googleusercontent.com
-##            clientSecret:
-##            scope:
-##              - email
-##              - profile
-#
-##  redis:
-##    host: localhost
-##    port: 6379
-##  data:
-##    redis:
-##      repositories:
-##        enabled: false
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          google:
+#            clientId: ${{secrets.G_CLIENT_ID}}
+#            clientSecret: ${{secrets.G_CLIENT_SECRET}}
+#            scope:
+#              - email
+#              - profile
