@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.MalformedURLException;
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequestMapping("/token")
@@ -29,6 +31,7 @@ public class JwtController {
         log.info("[JwtController] regenerateAccessToken called");
         jwtTokenizer.validateToken(refreshToken);
         String userId = jwtTokenizer.getUsername(refreshToken);
+//        Long userId = getUserId(refreshToken);
         User user = userService.findByUserId(Long.parseLong(userId));
         String accessToken = jwtTokenizer.delegateAccessToken(user);
 
@@ -36,6 +39,11 @@ public class JwtController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+//    public Long getUserId(String token) { // 새로 추가된 메소드
+//        Map<String, Object> claims = jwtTokenizer.extractClaimsFromToken(token);
+//        return ((Number) claims.get("userId")).longValue();
+//    }
 
 //    @PostMapping("/logout")
 //    public ResponseEntity<?> logout(HttpServletRequest request) {

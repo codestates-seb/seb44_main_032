@@ -64,9 +64,19 @@ public class UserController {
 
     //회원 탈퇴
     @DeleteMapping("/delete/{userId}")
-    public ResponseEntity deleteUser(@PathVariable("userId") @Positive long userId) {
+    public ResponseEntity deleteUser(@PathVariable("userId") @Positive long userId,
+                                     @RequestHeader("Authorization") String token) {
 //        userId = 8L;
-        userService.deleteUser(userId);
+        String getToken = jwtTokenizer.getUsername(token);
+
+
+        User deletedUser = userService.deleteUser(userId);
+
+        // 토큰 정보를 응답에 포함시킴
+        Map<String, Object> responseCreate = new HashMap<>();
+        responseCreate.put("token", getToken);
+        responseCreate.put("data", deletedUser);
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

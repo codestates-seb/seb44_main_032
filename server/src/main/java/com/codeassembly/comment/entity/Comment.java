@@ -30,5 +30,6 @@ public class Comment extends Auditable {
     @JoinColumn(name = "communityId")
     private Community community;
 
-    private Long liked;
+    @Column(nullable = false)
+    private Integer liked; //조회수
 }

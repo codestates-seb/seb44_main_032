@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { PiPencilSimple } from 'react-icons/pi';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const WriteButtonBtn = styled(Link)`
+const WriteButtonBtn = styled.button`
   min-width: 44px;
   min-height: 44px;
   background: #98dde3;
@@ -20,8 +20,16 @@ const WriteButtonBtn = styled(Link)`
 `;
 
 function WriteButton() {
+  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
+
+  const onClick = async () => {
+    await alert('로그인이 필요합니다.');
+    navigate(token ? '/community/post' : '/login');
+  };
+
   return (
-    <WriteButtonBtn to="/community/post">
+    <WriteButtonBtn onClick={onClick}>
       <PiPencilSimple size="22px" />
     </WriteButtonBtn>
   );
