@@ -127,10 +127,10 @@ function Community() {
       ({ pageParam }: { pageParam?: number }) => {
         const pageNum = pageParam ? pageParam + 1 : 1;
         if (filter) {
-          return fakeData.getCommunityCategoryList(filter, pageNum);
+          return fakeData.getCommunityCategoryList(filter);
         }
         if (currentKeyword) {
-          return fakeData.getCommunitySearch(currentKeyword, pageNum);
+          return fakeData.getCommunitySearch();
         }
         return fakeData.getCommunityList(pageNum);
       },
