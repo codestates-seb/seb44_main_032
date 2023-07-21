@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/main_032_deploy.iml" filepath="$PROJECT_DIR$/.idea/main_032_deploy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/client/main_032_deploy.client.iml" filepath="$PROJECT_DIR$/.idea/modules/client/main_032_deploy.client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/server/main_032_deploy.server.iml" filepath="$PROJECT_DIR$/.idea/modules/server/main_032_deploy.server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/server/main_032_deploy.server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/server/main_032_deploy.server.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/server/main_032_deploy.server.test.iml" filepath="$PROJECT_DIR$/.idea/modules/server/main_032_deploy.server.test.iml" />
+    </modules>
+  </component>
+</project>

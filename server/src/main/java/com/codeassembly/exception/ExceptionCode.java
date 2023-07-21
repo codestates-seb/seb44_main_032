@@ -9,8 +9,14 @@ public enum ExceptionCode {
     UNAUTHORIZED(403, "권한이 없습니다."),
     UNMATCHED_COMMUNITY_WRITER(403, "커뮤니티 작성자가 아닙니다."),
     COMMUNITY_NOT_FOUND(404, "Community not found"),
+    PLAN_NOT_FOUND(404, "Plan not found"),
     UNMATCHED_COMMENT_WRITER(403, "댓글 작성자가 아닙니다."),
     COMMENT_NOT_FOUND(404, "Comment not found"),
+    CATEGORY_NOT_FOUND(404, "Category not found"),
+    EMAIL_NOT_FOUND (404,"Email not found"),
+    UNMATCHED_PLAN_WRITER(403, "일정 작성자가 아닙니다."),
+
+
 
 
     ;

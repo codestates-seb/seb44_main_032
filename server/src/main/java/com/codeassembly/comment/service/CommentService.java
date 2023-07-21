@@ -14,6 +14,7 @@ import com.codeassembly.user.repository.UserRepository;
 import com.codeassembly.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,14 +45,20 @@ public class CommentService {
         return CommentDto.PostResponse.from(savedComment, community);
     }
 
-    public CommentDto.PatchResponse updateComment(long commentId, CommentDto.Patch patch, long userId) {
-        User user = userService.findByUserId(userId);
+    public CommentDto.PatchResponse updateComment(long commentId, CommentDto.Patch patch, String userId) {
+        User user = userService.findByEmail(userId);
+
+        if (user == null) {
+            // 유저가 존재하지 않는 경우 에러 처리
+            throw new RuntimeException("User not found");
+        }
+
         Comment comment = findComment(commentId);
 
         validateWriter(comment, user);
 
         Optional.ofNullable(patch.getCommentBody())
-                .ifPresent(CommentBody -> comment.setCommentBody(CommentBody));
+                .ifPresent(comment::setCommentBody);
 
         return CommentDto.PatchResponse.from(comment);
     }
@@ -69,8 +76,8 @@ public class CommentService {
     }
 
     @Transactional
-    public void deleteComment(long commentId, long userId) {
-        User user = userService.findByUserId(userId);
+    public void deleteComment(long commentId, String userId) {
+        User user = userService.findByEmail(userId);
         Comment comment = findComment(commentId);
 
         validateWriter(comment, user);
@@ -78,26 +85,35 @@ public class CommentService {
         commentRepository.delete(comment);
     }
 
-
     @Transactional
     public String likeComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByName(authentication.getName()).orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        if (authentication == null) {
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED);
+        }
 
-        if (likeCommentRepository.findByUserAndComment(user, comment) == null) {
-            // 좋아요를 누른적 없다면 LikeComment 생성 후, 좋아요 처리
-            comment.setLiked(comment.getLiked() + 1);
+        User user = userRepository.findByEmail(authentication.getName()).orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+
+        LikeComment existingLikeComment = likeCommentRepository.findByUserAndComment(user, comment);
+
+        if (existingLikeComment == null) {
+            // 좋아요를 누른 적이 없다면 LikeComment 생성 후, 좋아요 처리
+            if (comment.getLiked() == null) {
+                comment.setLiked(1);
+            } else {
+                comment.setLiked(comment.getLiked() + 1);
+            }
             LikeComment likeComment = new LikeComment(comment, user); // true 처리
             likeCommentRepository.save(likeComment);
             return "좋아요 처리 완료";
         } else {
-            // 좋아요를 누른적 있다면 취소 처리 후 테이블 삭제
-            LikeComment likeComment = likeCommentRepository.findByUserAndComment(user, comment);
-            likeComment.unLikeComment(comment);
-            likeCommentRepository.delete(likeComment);
+            // 좋아요를 누른 적이 있다면 취소 처리 후 테이블 삭제
+            existingLikeComment.unLikeComment(comment);
+            likeCommentRepository.delete(existingLikeComment);
             return "좋아요 취소";
         }
     }
 }
+

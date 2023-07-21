@@ -1,29 +1,50 @@
 import { useEffect, useRef } from 'react';
+import { Editor } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
 
-type PostEditorProps = {
+interface PostEditorProps {
   content: string;
-  setContent: (newContent: string) => void;
-};
+  getEditorContent: (getMarkdown: () => string) => void;
+  isEditMode: boolean;
+}
 
-function PostEditor(props: PostEditorProps) {
-  const { content, setContent } = props;
-  const editorRef = useRef<any>(null);
+function PostEditor({
+  content,
+  getEditorContent,
+  isEditMode,
+}: PostEditorProps) {
+  const editorRef = useRef<Editor | null>(null);
+
+  useEffect(() => {
+    const editorInstance = editorRef.current?.getInstance();
+    if (editorInstance && isEditMode) {
+      editorInstance.setMarkdown(content);
+    }
+  }, [content, isEditMode]);
 
   useEffect(() => {
     const editorInstance = editorRef.current?.getInstance();
     if (editorInstance) {
-      editorInstance.setMarkdown(content);
+      getEditorContent(() => editorInstance.getMarkdown());
     }
-  }, [content]);
+  }, [getEditorContent]);
 
-  function onChange() {
-    const data = editorRef.current?.getInstance().getMarkdown();
-    if (data) {
-      setContent(data);
-    }
-  }
-
-  return <div onClick={onChange}>에디터</div>;
+  return (
+    <Editor
+      previewStyle="tab"
+      height="350px"
+      initialEditType="markdown"
+      useCommandShortcut={false}
+      hideModeSwitch={true}
+      ref={editorRef}
+      toolbarItems={[
+        ['bold', 'italic'],
+        ['link', 'quote', 'image'],
+        ['ol', 'ul'],
+      ]}
+      language="ko-KR"
+    />
+  );
 }
 
 export default PostEditor;

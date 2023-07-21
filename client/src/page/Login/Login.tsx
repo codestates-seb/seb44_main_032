@@ -2,9 +2,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Logo from '../../assets/logo.png';
-import googleIcon from '../../assets/Login/google.png';
-import kakaoIcon from '../../assets/Login/kakao.png';
-import githubIcon from '../../assets/Login/github.png';
+import googleIcon from '../../assets/google.png';
+import kakaoIcon from '../../assets/kakao.png';
+import githubIcon from '../../assets/github.png';
 import { useMutation, UseMutationResult } from 'react-query';
 import axios from 'axios';
 
@@ -15,6 +15,8 @@ type LoginRequest = {
 
 type LoginResponse = {
   token: string;
+  memberId: number;
+  nickname: string;
 };
 
 async function getAuthUrl(provider: string) {
@@ -65,10 +67,11 @@ function Login() {
     //     token: 'your_token_here',
     //   },
     // };
-    const { token } = response.data;
-    saveToken(token); // 토큰 저장
+
+    const { token, memberId, nickname } = response.data;
+    saveUserInfo(memberId, nickname);
+    saveToken(token);
     navigate('/');
-    console.log(response);
     return response.data;
   }
 
@@ -104,6 +107,14 @@ function Login() {
     return isLongEnough && hasEnoughSpecialCharacters;
   }
 
+  function saveUserInfo(memberId: number, nickname: string): void {
+    const userInfo = {
+      memberId,
+      nickname,
+    };
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+  }
+
   function saveToken(token: string): void {
     // 토큰을 로컬 스토리지에 저장
     localStorage.setItem('token', token);
@@ -116,38 +127,40 @@ function Login() {
 
   return (
     <LoginSection>
-      <LoginForm>
-        <LogoImg src={Logo} alt="logo" />
-        <LoginInputSection>
-          <LoginInputText>이메일</LoginInputText>
-          <LoginInput
-            value={email}
-            onChange={(e: any) => setEmail(e.target.value)}
-          />
-          <LoginInputText>비밀번호</LoginInputText>
-          <LoginInput
-            type="password"
-            value={password}
-            onChange={(e: any) => setPassword(e.target.value)}
-          />
-        </LoginInputSection>
-        <LoginBorder />
-        <LoginButtonSection>
-          <LoginButton onClick={formSubmitLoginHandler}>로그인</LoginButton>
-          <SignUpButton to="/signup">회원가입</SignUpButton>
-        </LoginButtonSection>
-        <LoginOAuthSection>
-          <OAuthGoogle onClick={() => handleOAuthLogin('google')}>
-            Log in with Google
-          </OAuthGoogle>
-          <OAuthKakao onClick={() => handleOAuthLogin('kakao')}>
-            Log in with Kakao
-          </OAuthKakao>
-          <OAuthGithub onClick={() => handleOAuthLogin('github')}>
-            Log in with Github
-          </OAuthGithub>
-        </LoginOAuthSection>
-      </LoginForm>
+      <LoginFormSection>
+        <LoginForm>
+          <LogoImg src={Logo} alt="logo" />
+          <LoginInputSection>
+            <LoginInputText>이메일</LoginInputText>
+            <LoginInput
+              value={email}
+              onChange={(e: any) => setEmail(e.target.value)}
+            />
+            <LoginInputText>비밀번호</LoginInputText>
+            <LoginInput
+              type="password"
+              value={password}
+              onChange={(e: any) => setPassword(e.target.value)}
+            />
+          </LoginInputSection>
+          <LoginBorder />
+          <LoginButtonSection>
+            <LoginButton onClick={formSubmitLoginHandler}>로그인</LoginButton>
+            <SignUpButton to="/signup">회원가입</SignUpButton>
+          </LoginButtonSection>
+          <LoginOAuthSection>
+            <OAuthGoogle onClick={() => handleOAuthLogin('google')}>
+              Log in with Google
+            </OAuthGoogle>
+            <OAuthKakao onClick={() => handleOAuthLogin('kakao')}>
+              Log in with Kakao
+            </OAuthKakao>
+            <OAuthGithub onClick={() => handleOAuthLogin('github')}>
+              Log in with Github
+            </OAuthGithub>
+          </LoginOAuthSection>
+        </LoginForm>
+      </LoginFormSection>
     </LoginSection>
   );
 }
@@ -156,10 +169,15 @@ export default Login;
 
 const LoginSection = styled.div`
   background-color: white;
-  height: 100%;
+  padding-top: 67px;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const LoginFormSection = styled.div`
+  display: flex;
+  height: 800px;
 `;
 
 const LoginForm = styled.div`

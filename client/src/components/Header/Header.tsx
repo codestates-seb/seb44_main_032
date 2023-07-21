@@ -13,9 +13,6 @@ const HeaderContainer = styled.header`
   height: 67px;
   font-size: 16px;
   background-color: white;
-  @media screen and (max-width: 480px) {
-    font-size: 10px;
-  }
 `;
 
 const Logo = styled.img`
@@ -23,12 +20,12 @@ const Logo = styled.img`
   height: 20px;
   margin-left: 40px;
   cursor: pointer;
-  @media screen and (max-width: 520px) {
+  @media screen and (max-width: 600px) {
     margin-left: 20px;
   }
-  @media screen and (max-width: 480px) {
-    width: 100px;
-    height: 14px;
+  @media screen and (max-width: 500px) {
+    width: 120px;
+    height: 16px;
   }
 `;
 
@@ -37,7 +34,6 @@ const Nav = styled.nav`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 100%;
   margin-left: 40px;
   @media screen and (max-width: 600px) {
     margin-left: 20px;
@@ -58,8 +54,6 @@ const RightContainer = styled.div`
   margin-right: 40px;
   @media screen and (max-width: 600px) {
     gap: 20px;
-  }
-  @media screen and (max-width: 520px) {
     margin-right: 20px;
   }
 `;
@@ -67,6 +61,12 @@ const RightContainer = styled.div`
 const Links = styled(Link)`
   color: inherit;
   text-decoration: none;
+`;
+
+const SignUpContainer = styled.div`
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
 `;
 
 function Header() {
@@ -88,6 +88,12 @@ function Header() {
     setIsLogin(false);
   };
 
+  const handleClick = () => {
+    if (!isLogin) {
+      alert('로그인이 필요합니다.');
+    }
+  };
+
   return (
     <HeaderContainer>
       <Link to="/">
@@ -95,7 +101,9 @@ function Header() {
       </Link>
       <Nav>
         <LeftContainer>
-          <Links to="/plan">일정 관리</Links>
+          <Links to={isLogin ? '/plan' : '/login'} onClick={handleClick}>
+            일정 관리
+          </Links>
           <Links to="/community">커뮤니티</Links>
         </LeftContainer>
         <RightContainer>
@@ -109,7 +117,9 @@ function Header() {
           ) : (
             <>
               <Links to="/login">로그인</Links>
-              <Links to="/signup">회원가입</Links>
+              <SignUpContainer>
+                <Links to="/signup">회원가입</Links>
+              </SignUpContainer>
             </>
           )}
         </RightContainer>

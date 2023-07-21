@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 import Logo from '../../assets/logo.png';
-import googleIcon from '../../assets/Login/google.png';
-import kakaoIcon from '../../assets/Login/kakao.png';
-import githubIcon from '../../assets/Login/github.png';
+import googleIcon from '../../assets/google.png';
+import kakaoIcon from '../../assets/kakao.png';
+import githubIcon from '../../assets/github.png';
 
 type SignUpRequest = {
   email: string;
@@ -27,14 +27,14 @@ type SignUpResponse = {
 
 async function getAuthUrl(provider: string) {
   // 해당 프로바이더의 인증 URL을 가져옴
-  const response = await fetch(`/${process.env.REACT_APP_API_URL}/auth/${provider}`);
+  const response = await fetch(`/api/auth/${provider}`);
   const data = await response.json();
   window.location.href = data.url;
 }
 
 async function getToken(code: string): Promise<SignUpResponse> {
   // 코드를 사용하여 토큰을 가져옴
-  const response = await fetch(`/${process.env.REACT_APP_API_URL}/auth/token?code=${code}`);
+  const response = await fetch(`/api/auth/token?code=${code}`);
   const data = await response.json();
   return data;
 }
@@ -69,7 +69,7 @@ function SignUp() {
   }, []);
 
   async function signUp(signUpRequest: SignUpRequest): Promise<SignUpResponse> {
-    const response = await axios.post('${process.env.REACT_APP_API_URL}/user/join', signUpRequest);
+    const response = await axios.post('/user/join', signUpRequest);
     // 더미데이터 사용 code
     // const response = {
     //   data: {
@@ -142,50 +142,52 @@ function SignUp() {
 
   return (
     <SignUpSection>
-      <SignUpForm>
-        <LogoImg src={Logo} alt="logo" />
-        <SignUpInputSection>
-          <SignUpInputText>닉네임</SignUpInputText>
-          <SignUpInput
-            value={nickname}
-            onChange={(e: any) => setNickname(e.target.value)}
-          />
-          <SignUpInputText>이름</SignUpInputText>
-          <SignUpInput
-            value={name}
-            onChange={(e: any) => setName(e.target.value)}
-          />
-          <SignUpInputText>이메일</SignUpInputText>
-          <SignUpInput
-            value={email}
-            onChange={(e: any) => setEmail(e.target.value)}
-          />
-          <SignUpInputText>비밀번호</SignUpInputText>
-          <SignUpInput
-            type="password"
-            value={password}
-            onChange={(e: any) => setPassword(e.target.value)}
-          />
-        </SignUpInputSection>
-        <SignUpBorder />
-        <SignUpButtonSection>
-          <SignUpButton onClick={formSubmitSignUpHandler}>
-            회원가입
-          </SignUpButton>
-          <LoginButton to="/login">로그인</LoginButton>
-        </SignUpButtonSection>
-        <SignUpOAuthSection>
-          <OAuthGoogle onClick={() => handleOAuthLogin('google')}>
-            Log in with Google
-          </OAuthGoogle>
-          <OAuthKakao onClick={() => handleOAuthLogin('kakao')}>
-            Log in with Kakao
-          </OAuthKakao>
-          <OAuthGithub onClick={() => handleOAuthLogin('github')}>
-            Log in with Github
-          </OAuthGithub>
-        </SignUpOAuthSection>
-      </SignUpForm>
+      <SignUpFormSection>
+        <SignUpForm>
+          <LogoImg src={Logo} alt="logo" />
+          <SignUpInputSection>
+            <SignUpInputText>닉네임</SignUpInputText>
+            <SignUpInput
+              value={nickname}
+              onChange={(e: any) => setNickname(e.target.value)}
+            />
+            <SignUpInputText>이름</SignUpInputText>
+            <SignUpInput
+              value={name}
+              onChange={(e: any) => setName(e.target.value)}
+            />
+            <SignUpInputText>이메일</SignUpInputText>
+            <SignUpInput
+              value={email}
+              onChange={(e: any) => setEmail(e.target.value)}
+            />
+            <SignUpInputText>비밀번호</SignUpInputText>
+            <SignUpInput
+              type="password"
+              value={password}
+              onChange={(e: any) => setPassword(e.target.value)}
+            />
+          </SignUpInputSection>
+          <SignUpBorder />
+          <SignUpButtonSection>
+            <SignUpButton onClick={formSubmitSignUpHandler}>
+              회원가입
+            </SignUpButton>
+            <LoginButton to="/login">로그인</LoginButton>
+          </SignUpButtonSection>
+          <SignUpOAuthSection>
+            <OAuthGoogle onClick={() => handleOAuthLogin('google')}>
+              Log in with Google
+            </OAuthGoogle>
+            <OAuthKakao onClick={() => handleOAuthLogin('kakao')}>
+              Log in with Kakao
+            </OAuthKakao>
+            <OAuthGithub onClick={() => handleOAuthLogin('github')}>
+              Log in with Github
+            </OAuthGithub>
+          </SignUpOAuthSection>
+        </SignUpForm>
+      </SignUpFormSection>
     </SignUpSection>
   );
 }
@@ -194,10 +196,15 @@ export default SignUp;
 
 const SignUpSection = styled.div`
   background-color: white;
-  height: 100%;
+  padding-top: 67px;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const SignUpFormSection = styled.div`
+  display: flex;
+  height: 800px;
 `;
 
 const SignUpForm = styled.div`
@@ -296,6 +303,7 @@ const SignUpOAuthSection = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 16px;
+  margin-bottom: 70px;
   padding: 16px;
 `;
 
