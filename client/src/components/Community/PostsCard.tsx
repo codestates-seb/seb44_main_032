@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { format } from 'date-fns';
+
 import { BiLike } from 'react-icons/bi';
 import { FaRegComment } from 'react-icons/fa';
-import { format } from 'date-fns';
 
 export interface PostCommunityInterface {
   communityId: number;
@@ -21,7 +22,10 @@ function PostsCard({ post }: { post: PostCommunityInterface }) {
 
   return (
     <PostsCardContainer to={`/community/${post.communityId}`}>
-      <Nickname>{post.userInfo.nickname}</Nickname>
+      <TopContainer>
+        <Nickname>{post.userInfo.nickname}</Nickname>
+        <CategoryBox>{post.category}</CategoryBox>
+      </TopContainer>
       <Title>{post.title}</Title>
       <Content>{post.body}</Content>
       <BottomContainer>
@@ -46,7 +50,7 @@ export default PostsCard;
 const PostsCardContainer = styled(Link)`
   display: flex;
   flex-direction: column;
-  max-width: 844px;
+  max-width: 900px;
   /* min-height: 80px; */
   padding: 16px 20px;
   gap: 8px;
@@ -83,6 +87,14 @@ const Title = styled.div`
     font-size: 12px;
   } */
 `;
+
+const TopContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const CategoryBox = styled.div``;
+
 const Nickname = styled.div`
   color: #909090;
 `;
@@ -111,6 +123,13 @@ const CommentsContainer = styled.div`
   align-items: center;
   gap: 4px;
 `;
+
+const Likes = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+
+const Comments = styled.img``;
 
 const DateWrapper = styled.div`
   color: #909090;
