@@ -37,11 +37,10 @@ function CommunityDetail() {
   const { communityId } = useParams<{ communityId: string }>();
   const [post, setPost] = useState<CommunityPost | null>(null);
   const [newCommentBody, setNewCommentBody] = useState('');
+  const [userCommentBody, setUserCommentBody] = useState('');
   const [editingCommentId, setEditingCommentId] = useState('');
-  const [nickname, setNickname] = useState('유닝');
-  const [profileImage, setProfileImage] = useState(
-    'https://via.placeholder.com/400',
-  );
+  const [nickname, setNickname] = useState('');
+  const [profileImage, setProfileImage] = useState('');
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [isLiked, setIsLiked] = useState(false);
   const [like, setLike] = useState(0);
@@ -137,13 +136,13 @@ function CommunityDetail() {
     try {
       // 서버로 댓글 데이터를 전송하는 요청
       const response = await axios.post(`/community/${communityId}/comments`, {
-        commentBody: newCommentBody,
+        commentBody: userCommentBody, // 새로운 상태 변수 사용
       });
 
       // 요청이 성공하면 게시물 데이터를 다시 가져오고, 댓글 입력 필드를 초기화
       if (response.status === 200) {
         fetchPost();
-        setNewCommentBody('');
+        setUserCommentBody(''); // 새로운 상태 변수 초기화
       }
     } catch (error) {
       console.error(error);
@@ -413,9 +412,9 @@ function CommunityDetail() {
               <UserNickName>{nickname}</UserNickName>
               {/* 사용자 댓글 입력 필드 */}
               <UserCommentInput
-                value={newCommentBody}
+                value={userCommentBody}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setNewCommentBody(e.target.value)
+                  setUserCommentBody(e.target.value)
                 }
               />
               {/* 댓글 작성 버튼 */}
@@ -435,8 +434,8 @@ const DetailSection = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #f9f9f9;
-  padding-top: 87px;
-  padding-bottom: 87px;
+  padding-top: 90px;
+  padding-bottom: 60px;
 `;
 
 const EditSection = styled.div`
@@ -568,10 +567,6 @@ const CommentSection = styled.div`
   margin-top: 8px;
   margin-bottom: 16px;
   height: 95px;
-  &:hover {
-    border: 1px solid #98dde3;
-    border-radius: 8px;
-  }
 `;
 
 const CommenterImage = styled.img`
@@ -604,17 +599,17 @@ const DownText = styled.div`
 
 const CommentInput = styled.input`
   font-size: 16px;
-  height: 54px;
-  max-width: 450px;
+  height: 75px;
+  max-width: 430px;
   margin-bottom: 8px;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 2px solid #d9d9d9;
 `;
 
 const CommentLikeIcon = styled.img`
   height: 20px;
   width: 20px;
-  margin-top: 24px;
+  margin-top: 28px;
   margin-left: auto;
   margin-bottom: 8px;
   cursor: pointer;
