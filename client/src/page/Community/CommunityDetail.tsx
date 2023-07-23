@@ -57,45 +57,45 @@ function CommunityDetail() {
   // 게시물 가져오는 함수
   async function fetchPost() {
     try {
-      const communityPost: CommunityPost = {
-        communityId: 1,
-        title: '워터밤 가면 좋겠다',
-        content:
-          '워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고 투명한 내 맘 아래천천...워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고 투명한 내 맘 아래천천...',
-        category: '회사',
-        like: 3,
-        createdAt: '2023-07-15-12:00',
-        writer: {
-          memberId: 1,
-          nickname: '복실한 사모예드',
-        },
-        comments: [
-          {
-            commentId: '혜인',
-            commentBody: '몰라잉',
-            createdAt: '2023-07-15-13:00',
-            commenterImage: 'https://via.placeholder.com/400',
-            likes: 2,
-          },
-          {
-            commentId: '예리',
-            commentBody: '뭐라는겨',
-            createdAt: '2023-07-15-14:00',
-            commenterImage: 'https://via.placeholder.com/400',
-            likes: 1,
-          },
-          {
-            commentId: '지윤',
-            commentBody: '으윽;',
-            createdAt: '2023-07-16-15:00',
-            commenterImage: 'https://via.placeholder.com/400',
-            likes: 0,
-          },
-        ],
-      };
+      // const communityPost: CommunityPost = {
+      //   communityId: 1,
+      //   title: '워터밤 가면 좋겠다',
+      //   content:
+      //     '워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고 투명한 내 맘 아래천천...워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고 투명한 내 맘 아래천천...',
+      //   category: '회사',
+      //   like: 3,
+      //   createdAt: '2023-07-15-12:00',
+      //   writer: {
+      //     memberId: 1,
+      //     nickname: '복실한 사모예드',
+      //   },
+      //   comments: [
+      //     {
+      //       commentId: '혜인',
+      //       commentBody: '몰라잉',
+      //       createdAt: '2023-07-15-13:00',
+      //       commenterImage: 'https://via.placeholder.com/400',
+      //       likes: 2,
+      //     },
+      //     {
+      //       commentId: '예리',
+      //       commentBody: '뭐라는겨',
+      //       createdAt: '2023-07-15-14:00',
+      //       commenterImage: 'https://via.placeholder.com/400',
+      //       likes: 1,
+      //     },
+      //     {
+      //       commentId: '지윤',
+      //       commentBody: '으윽;',
+      //       createdAt: '2023-07-16-15:00',
+      //       commenterImage: 'https://via.placeholder.com/400',
+      //       likes: 0,
+      //     },
+      //   ],
+      // };
       // 서버에서 데이터 가져오는 요청
-      // const response = await axios.get(`/community/${communityId}`);
-      // const communityPost: CommunityPost = response.data;
+      const response = await axios.get(`/community/${communityId}`);
+      const communityPost: CommunityPost = response.data;
       setPost(communityPost);
       setLike(communityPost.like);
       setCommentLikes(
