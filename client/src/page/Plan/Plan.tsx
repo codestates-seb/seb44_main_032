@@ -2,7 +2,8 @@ import styled from "styled-components";
 import TabMenu from "./TabMenu";
 import { PiPencilSimple } from "react-icons/pi";
 // import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
+
 
 
 
@@ -59,11 +60,15 @@ const WriteButtonBtn = styled.div`
   color: white;
 `;
 
-function WriteButton() {
+function WriteButton({ userId }: { userId: string }) {
   const navigate = useNavigate();
 
   const handleWriteButtonClick = async () => {
-    navigate(`/plan/registration`);
+    if (userId) {
+      navigate(`/plan/registration/${userId}`);
+    } else {
+      alert('사용자 ID가 없습니다. 로그인 후에 사용가능힙니다.');
+    }
   };
 
 
@@ -86,13 +91,13 @@ function WriteButton() {
 // }
 
 
-
 function Plan (){
+  const { userId } = useParams<{ userId: string }>();
     return (
         <PlanSection>
             <TabMenuWrapper>
               <TabMenu />
-                <WriteButton />
+                <WriteButton userId={userId || ""} />
             </TabMenuWrapper>
         </PlanSection>
     );

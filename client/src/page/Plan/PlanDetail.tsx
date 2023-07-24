@@ -111,20 +111,22 @@ const ButtonWrapper = styled.div`
 `;
 
 type PlanPostData = {
+  planId: string;
   title: string;
-  value: string;
+  category: string; //value
   startDate: string;
   endDate: string;
-  content: string;
+  body: string; //content
 };
 
 // 더미데이터
 // const dummyPlanData: PlanPostData = {
+//   planId: '1',
 //   title: '속초 여행',
-//   value: '1',
+//   category: '1',
 //   startDate: '2023-07-20',
 //   endDate: '2023-07-23',
-//   content: '💫 여행루트옥계휴게소 – 설악대교&금강대교 – 동명항 대게거리 – 영금정 – 속초등대전망대 – 설악산 – 낙산사',
+//   body: '💫 여행루트옥계휴게소 – 설악대교&금강대교 – 동명항 대게거리 – 영금정 – 속초등대전망대 – 설악산 – 낙산사',
 // };
 
 function calculateDDay(startDate: string): string {
@@ -138,37 +140,37 @@ function calculateDDay(startDate: string): string {
 }
 
 const categories = [
-  { value: '1', label: '당일치기', color: '#99FFB6' },
-  { value: '2', label: '여행', color: '#FEFFCA' },
-  { value: '3', label: '일상', color: '#FFD0D0' },
-  { value: '4', label: '회사', color: '#DBCAFF' },
+  { category: '1', label: '당일치기', color: '#99FFB6' },
+  { category: '2', label: '여행', color: '#FEFFCA' },
+  { category: '3', label: '일상', color: '#FFD0D0' },
+  { category: '4', label: '회사', color: '#DBCAFF' },
 
 ];
 
 
 function PlanDetail() {
   const [planData, setPlanData] = useState<PlanPostData | null>(null);
-  const { id } = useParams<{ id: string }>();
+  const { planId } = useParams<{ planId: string }>();
   const [selectedCategory, setSelectedCategory] = useState<string>(''); // 추가
 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/plan/${id}`);
+        const response = await axios.get(`/plan/${planId}`);
         setPlanData(response.data);
-        // 가져온 데이터의 value 값(카테고리)을 selectedCategory로 설정합니다.
-        setSelectedCategory(response.data.value);
+        // 가져온 데이터의 category 값(카테고리)을 selectedCategory로 설정합니다.
+        setSelectedCategory(response.data.category);
       } catch (error) {
         console.log(error);
       }
     };
 
     fetchData();
-  }, [id]);
+  }, [planId]);
   // 더미데이터를 사용합니다.
   //   setPlanData(dummyPlanData);
-  // }, [id]);
+  // }, [planId]);
 
 
   if (!planData) {
@@ -191,9 +193,9 @@ function PlanDetail() {
           <p>{dateRange} <DDayText>{dDayText}</DDayText></p>
           <p>
             {categories.map((category) => (
-              <React.Fragment key={category.value}>
-                {selectedCategory === category.value && <CategoryCircle color={category.color} />}
-                {selectedCategory === category.value && category.label} {/* 여기서 해당 카테고리만 보이도록 변경 */}
+              <React.Fragment key={category.category}>
+                {selectedCategory === category.category && <CategoryCircle color={category.color} />}
+                {selectedCategory === category.category && category.label} {/* 여기서 해당 카테고리만 보이도록 변경 */}
               </React.Fragment>
             ))}
           </p>
@@ -202,10 +204,10 @@ function PlanDetail() {
         </DetailInfo>
         {/* <DetSection> */}
           <DetailContent>
-            <p>{planData.content}</p>
+            <p>{planData.body}</p>
           </DetailContent>
           <ButtonWrapper>
-            <PostButton to={`/plan/${id}/edit`}>수정</PostButton>
+            <PostButton to={`/plan/edit/${planId}`}>수정</PostButton>
             <CancelButton to='/plan'>목록</CancelButton>
           </ButtonWrapper>
         {/* </DetSection> */}

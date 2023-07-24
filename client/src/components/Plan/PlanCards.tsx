@@ -49,7 +49,7 @@ const DDayText = styled.span`
 `;
 
 type PlanData = {
-  id: number;
+  planId: string;
   title: string;
   value: string;
   startDate: string;
@@ -84,7 +84,7 @@ function PlanCards({
       {plandata
       .sort((a,b) => +new Date(b.startDate) - +new Date(a.startDate))
       .map((data) => (
-        <PlanContainerLink key={data.id} to={`/plan/${data.id}`}>
+        <PlanContainerLink key={data.planId} to={`/plan/${data.planId}`}>
 
 
   
