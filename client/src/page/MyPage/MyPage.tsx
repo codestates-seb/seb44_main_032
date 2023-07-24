@@ -133,6 +133,7 @@ const MyPageContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 67px;
+  margin-bottom: 200px;
 `;
 
 const ProfileImg = styled.img``;
@@ -140,6 +141,7 @@ const ProfileImg = styled.img``;
 const ProfileContainer = styled.div`
   display: block;
   position: relative;
+  margin-top: 80px;
 `;
 
 const StyledIcon = styled(IoSettingsOutline)`
