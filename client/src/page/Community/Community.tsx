@@ -147,7 +147,7 @@ const StyledButton = styled.button<{ isCurrent: boolean }>`
   border: none;
   padding: 12px 16px;
   font-size: 20px;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 600px) {
     font-size: 16px;
     padding: 12px 14px;
   }
@@ -176,8 +176,8 @@ const RightContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 24px;
-  @media screen and (max-width: 837px) {
-    margin-top: 16px;
+  @media screen and (max-width: 850px) {
+    margin-top: 20px;
   }
 `;
 

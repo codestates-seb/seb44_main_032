@@ -80,6 +80,7 @@ const TopContainer = styled.div`
 
 const CategoryBox = styled.div`
   display: flex;
+  align-items: center;
   color: #7c7c7c;
 `;
 

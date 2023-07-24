@@ -49,7 +49,7 @@ const SearchBarContainer = styled.div`
   display: flex;
   align-items: center;
   background-color: white;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 600px) {
     padding: 8px;
     width: 240px;
   }
@@ -60,7 +60,11 @@ const Input = styled.input`
   border: none;
   margin-left: 12px;
   font-size: 16px;
+  width: 100%;
   &:focus-visible {
     outline: none;
   }
+  /* @media screen and (max-width: 600px) {
+    width: 180px;
+  } */
 `;
