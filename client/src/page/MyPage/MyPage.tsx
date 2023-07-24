@@ -2,11 +2,10 @@ import styled from 'styled-components';
 import { useQuery, useMutation } from 'react-query';
 import { useEffect, useState } from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 import profile from '../../assets/profile.png';
-import { deleteUser, getUserInfo, patchUserInfo } from '../../api/service'
-
+import { deleteUser, getUserInfo, patchUserInfo } from '../../api/service';
 
 interface MyInfoInterface {
   nickname: string;
@@ -16,7 +15,7 @@ interface MyInfoInterface {
 }
 
 function MyPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editData, setEditData] = useState<MyInfoInterface>({
     nickname: '',
@@ -24,28 +23,42 @@ function MyPage() {
     email: '',
     password: '',
   });
-  const userInfoString = localStorage.getItem('userInfo')
-  const parsed = JSON.parse(userInfoString || '{}')
+  const userInfoString = localStorage.getItem('userInfo');
+  const parsed = JSON.parse(userInfoString || '{}');
   const { data } = useQuery('getMyPage', () => getUserInfo(parsed.userId));
-  const { mutate } = useMutation(['patchMyInfo', editData], () => patchUserInfo(parsed.userId, editData), {
-    onSuccess: (d: { user: MyInfoInterface}) => {
-      alert('저장되었습니다.');
-      setEditData(d.user)
-      setIsEditing(false);
-    }
-  });
+  const { mutate } = useMutation(
+    ['patchMyInfo', editData],
+    () => patchUserInfo(parsed.userId, editData),
+    {
+      onSuccess: (d: { user: MyInfoInterface }) => {
+        alert('저장되었습니다.');
+        setEditData(d.user);
+        setIsEditing(false);
+      },
+    },
+  );
 
-  const { mutate: deleteMutate } = useMutation('deleteUser', () => deleteUser(parsed.userId), {
-    onSuccess: () => {
-      alert('탈퇴 되었습니다.');
-      try {
-        localStorage.removeItem('token');
-      } catch (e) {
-        console.error(e)
-      }
-      navigate('/')
+  const { mutate: deleteMutate } = useMutation(
+    'deleteUser',
+    () => deleteUser(parsed.userId),
+    {
+      onSuccess: () => {
+        alert('탈퇴되었습니다.');
+        try {
+          localStorage.removeItem('token');
+        } catch (e) {
+          console.error(e);
+        }
+        navigate('/');
+      },
+    },
+  );
+
+  useEffect(() => {
+    if (data) {
+      setEditData(data.user);
     }
-  });
+  }, [data]);
 
   // useEffect(() => {
   //   // 토큰을 로컬 스토리지나 쿠키에서 가져오기
@@ -63,16 +76,9 @@ function MyPage() {
   //   }
   // }, []);
 
-  useEffect(() => {
-    if (data) {
-      setEditData(data.user);
-    }
-  }, [data]);
-
   const onChange = (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
     setEditData({ ...editData, [key]: e.target.value });
   };
-
 
   const array = [
     { key: 'nickname', label: '닉네임' },
@@ -126,24 +132,21 @@ const MyPageContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* width: 100%;
-  height: 800px; */
   margin-top: 67px;
-  margin-bottom: 48px;
 `;
 
 const ProfileImg = styled.img``;
 
 const ProfileContainer = styled.div`
-display: block;
-position:relative;
-`
+  display: block;
+  position: relative;
+`;
 
 const StyledIcon = styled(IoSettingsOutline)`
-position: absolute;
-right: 0;
-margin: 4px;
-`
+  position: absolute;
+  right: 0;
+  margin: 4px;
+`;
 
 const InputContainer = styled.div`
   margin-top: 60px;
@@ -163,6 +166,10 @@ const Input = styled.input`
   box-shadow:
     0 0 0 0.3px #98dde3 inset,
     2px 2px 8px #98dde31a;
+
+  &:read-only:focus-visible {
+    outline: none;
+  }
 `;
 
 const ButtonContainer = styled.div`

@@ -28,7 +28,7 @@ function SearchBar({
     <SearchBarContainer>
       <PiMagnifyingGlassBold
         color="#98DDE3"
-        size="28px"
+        size="24px"
       ></PiMagnifyingGlassBold>
       <Input
         value={currentKeyword}
@@ -44,14 +44,14 @@ export default SearchBar;
 const SearchBarContainer = styled.div`
   border-radius: 10px;
   border: 1px solid #98dde3;
-  min-width: 360px;
+  width: 340px;
   padding: 12px;
   display: flex;
   align-items: center;
   background-color: white;
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 500px) {
     padding: 8px;
-    width: 100px;
+    width: 240px;
   }
 `;
 
@@ -63,14 +63,4 @@ const Input = styled.input`
   &:focus-visible {
     outline: none;
   }
-  /* @media screen and (max-width: 600px) {
-    width: 80px;
-    margin-left: 4px;
-    font-size: 12px;
-  }
-  @media screen and (max-width: 400px) {
-    width: 40px;
-    margin-left: 4px;
-    font-size: 8px;
-  } */
 `;

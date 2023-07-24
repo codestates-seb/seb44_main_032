@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 
-import { BiLike } from 'react-icons/bi';
-import { FaRegComment } from 'react-icons/fa';
+import commentIcon from '../../assets/commentIcon.png';
+import likeIcon from '../../assets/likeIcon.png';
 
 export interface PostCommunityInterface {
   communityId: number;
@@ -12,6 +12,7 @@ export interface PostCommunityInterface {
   };
   title: string;
   body: string;
+  category: string;
   liked: number;
   views: number;
   createdAt: string;
@@ -24,18 +25,23 @@ function PostsCard({ post }: { post: PostCommunityInterface }) {
     <PostsCardContainer to={`/community/${post.communityId}`}>
       <TopContainer>
         <Nickname>{post.userInfo.nickname}</Nickname>
-        <CategoryBox>{post.category}</CategoryBox>
+        <CategoryBox>
+          <CategoryBadge
+            style={{ backgroundColor: getCategoryColor(post.category) }}
+          />
+          {post.category}
+        </CategoryBox>
       </TopContainer>
       <Title>{post.title}</Title>
       <Content>{post.body}</Content>
       <BottomContainer>
         <ButtonsContainer>
           <LikesContainer>
-            <BiLike size="24px" />
+            <Icon src={likeIcon}></Icon>
             {post.liked}
           </LikesContainer>
           <CommentsContainer>
-            <FaRegComment size="24px" />
+            <Icon src={commentIcon}></Icon>
             {post.views}
           </CommentsContainer>
         </ButtonsContainer>
@@ -51,10 +57,8 @@ const PostsCardContainer = styled(Link)`
   display: flex;
   flex-direction: column;
   max-width: 900px;
-  /* min-height: 80px; */
-  padding: 16px 20px;
+  padding: 16px 24px;
   gap: 8px;
-  margin-bottom: 16px;
   font-size: 14px;
   color: inherit;
   text-decoration: none;
@@ -62,30 +66,11 @@ const PostsCardContainer = styled(Link)`
   background-color: white;
   border-radius: 8px;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-  /* @media screen and (max-width: 1000px) {
-    width: 744px;
-  }
-  @media screen and (max-width: 800px) {
-    width: 568px;
-    height: 84px;
-    padding: 12px 16px;
-  }
-  @media screen and (max-width: 600px) {
-    width: 368px;
-    height: 64px;
-  }
-  @media screen and (max-width: 400px) {
-    width: 268px;
-    height: 64px;
-  } */
 `;
 
 const Title = styled.div`
   font-weight: bold;
   font-size: 16px;
-  /* @media screen and (max-width: 800px) {
-    font-size: 12px;
-  } */
 `;
 
 const TopContainer = styled.div`
@@ -93,10 +78,13 @@ const TopContainer = styled.div`
   justify-content: space-between;
 `;
 
-const CategoryBox = styled.div``;
+const CategoryBox = styled.div`
+  display: flex;
+  color: #7c7c7c;
+`;
 
 const Nickname = styled.div`
-  color: #909090;
+  color: #545454;
 `;
 const Content = styled.div``;
 
@@ -124,13 +112,31 @@ const CommentsContainer = styled.div`
   gap: 4px;
 `;
 
-const Likes = styled.img`
+const Icon = styled.img`
   width: 24px;
   height: 24px;
 `;
 
-const Comments = styled.img``;
-
 const DateWrapper = styled.div`
   color: #909090;
 `;
+
+const CategoryBadge = styled.div`
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin-right: 8px;
+`;
+
+const getCategoryColor = (category: string) => {
+  switch (category) {
+    case '당일치기':
+      return '#99FFB6';
+    case '회사':
+      return '#DBCAFF';
+    case '여행':
+      return '#FEFFCA';
+    case '일상':
+      return '#FFD0D0';
+  }
+};

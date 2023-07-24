@@ -10,82 +10,6 @@ import SearchBar from '../../components/Community/SearchBar';
 import WriteButton from '../../components/Community/WriteButton';
 import { getCommunityList } from '../../api/service';
 
-const CommunityContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 67px;
-  padding: 16px;
-  overflow: auto;
-  background-color: #f9f9f9;
-`;
-
-const ButtonGroup = styled.div`
-  border-radius: 7px;
-  background-color: white;
-  display: flex;
-  align-items: center;
-`;
-
-const StyledButton = styled.button<{ isCurrent: boolean }>`
-  color: ${({ isCurrent }) => (isCurrent ? '#98DDE3' : '#787878')};
-  background-color: transparent;
-  border: none;
-  padding: 12px 16px;
-  font-size: 20px;
-  @media screen and (max-width: 800px) {
-    font-size: 16px;
-    padding: 8px 12px;
-  }
-`;
-
-const StyledDivider = styled.div`
-  width: 1px;
-  height: 15px;
-  background-color: #98dde3;
-  &:last-child {
-    display: none;
-  }
-`;
-
-const UpperBar = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 900px;
-  width: 100%;
-  margin-top: 52px;
-  /* @media screen and (max-width: 1000px) {
-    width: 800px;
-  }
-  @media screen and (max-width: 800px) {
-    width: 600px;
-  }
-  @media screen and (max-width: 600px) {
-    width: 400px;
-  }
-  @media screen and (max-width: 400px) {
-    width: 300px;
-  } */
-`;
-
-const RightContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 24px;
-`;
-
-const PostsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  max-width: 900px;
-  width: 100%;
-  height: 800px;
-  margin-top: 28px;
-`;
-
-const MoreButton = styled.button``;
-
 export interface CommunityDataInterface {
   data: PostCommunityInterface[];
   pageInfo: {
@@ -199,3 +123,71 @@ function Community() {
 }
 
 export default Community;
+
+const CommunityContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 67px;
+  padding: 16px;
+  overflow: auto;
+  background-color: #f9f9f9;
+`;
+
+const ButtonGroup = styled.div`
+  border-radius: 7px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+`;
+
+const StyledButton = styled.button<{ isCurrent: boolean }>`
+  color: ${({ isCurrent }) => (isCurrent ? '#98DDE3' : '#787878')};
+  background-color: transparent;
+  border: none;
+  padding: 12px 16px;
+  font-size: 20px;
+  @media screen and (max-width: 500px) {
+    font-size: 16px;
+    padding: 12px 14px;
+  }
+`;
+
+const StyledDivider = styled.div`
+  width: 1px;
+  height: 15px;
+  background-color: #98dde3;
+  &:last-child {
+    display: none;
+  }
+`;
+
+const UpperBar = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 900px;
+  width: 100%;
+  margin-top: 54px;
+`;
+
+const RightContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  @media screen and (max-width: 837px) {
+    margin-top: 16px;
+  }
+`;
+
+const PostsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 900px;
+  width: 100%;
+  margin-top: 28px;
+  gap: 16px;
+`;
+
+const MoreButton = styled.button``;
