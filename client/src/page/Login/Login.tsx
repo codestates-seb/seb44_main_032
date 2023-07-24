@@ -8,6 +8,8 @@ import githubIcon from '../../assets/github.png';
 import { useMutation, UseMutationResult } from 'react-query';
 import axios from 'axios';
 
+const apiUrl = process.env.REACT_APP_SERVER;
+
 // 로그인 요청과 응답을 위한 타입 정의
 type LoginRequest = {
   email: string;
@@ -39,7 +41,6 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState(''); // 이메일 상태
   const [password, setPassword] = useState(''); // 비밀번호 상태
-  const apiUrl = process.env.REACT_APP_SERVER;
   // 로그인 요청을 위한 useMutation 훅
   const loginMutation: UseMutationResult<LoginResponse, unknown, LoginRequest> =
     useMutation(login);
