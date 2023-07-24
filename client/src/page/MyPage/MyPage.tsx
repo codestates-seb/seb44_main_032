@@ -1,12 +1,11 @@
 import styled from 'styled-components';
-import { useQuery } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import { useEffect, useState } from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
+import { useNavigate } from 'react-router-dom';
 
-import FakeMyPage from '../../fakeApi/fakeMyPage';
 import profile from '../../assets/profile.png';
-
-const fakeData = new FakeMyPage();
+import { deleteUser, getUserInfo, patchUserInfo } from '../../api/service';
 
 interface MyInfoInterface {
   nickname: string;
@@ -16,6 +15,7 @@ interface MyInfoInterface {
 }
 
 function MyPage() {
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editData, setEditData] = useState<MyInfoInterface>({
     nickname: '',
@@ -23,7 +23,42 @@ function MyPage() {
     email: '',
     password: '',
   });
-  const { data } = useQuery('getMyPageInfo', () => fakeData.getMyPageInfo());
+  const userInfoString = localStorage.getItem('userInfo');
+  const parsed = JSON.parse(userInfoString || '{}');
+  const { data } = useQuery('getMyPage', () => getUserInfo(parsed.userId));
+  const { mutate } = useMutation(
+    ['patchMyInfo', editData],
+    () => patchUserInfo(parsed.userId, editData),
+    {
+      onSuccess: (d: { user: MyInfoInterface }) => {
+        alert('저장되었습니다.');
+        setEditData(d.user);
+        setIsEditing(false);
+      },
+    },
+  );
+
+  const { mutate: deleteMutate } = useMutation(
+    'deleteUser',
+    () => deleteUser(parsed.userId),
+    {
+      onSuccess: () => {
+        alert('탈퇴되었습니다.');
+        try {
+          localStorage.removeItem('token');
+        } catch (e) {
+          console.error(e);
+        }
+        navigate('/');
+      },
+    },
+  );
+
+  useEffect(() => {
+    if (data) {
+      setEditData(data.user);
+    }
+  }, [data]);
 
   // useEffect(() => {
   //   // 토큰을 로컬 스토리지나 쿠키에서 가져오기
@@ -41,20 +76,8 @@ function MyPage() {
   //   }
   // }, []);
 
-  useEffect(() => {
-    if (data) {
-      setEditData(data.data.userInfo);
-    }
-  }, [data]);
-
   const onChange = (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
     setEditData({ ...editData, [key]: e.target.value });
-  };
-
-  const onSave = async () => {
-    // TODO: API 연결하기
-    await alert('저장되었습니다.');
-    setIsEditing(false);
   };
 
   const array = [
@@ -66,29 +89,28 @@ function MyPage() {
 
   return (
     <MyPageContainer>
-      <IoSettingsOutline size="20px" />
-      <ProfileImg src={profile}></ProfileImg>
+      <ProfileContainer>
+        <StyledIcon size="20px" />
+        <ProfileImg src={profile} />
+      </ProfileContainer>
       <InputContainer>
         {array.map(({ key, label }: { key: string; label: string }) => (
           <>
             <InputText>{label}</InputText>
-            {isEditing ? (
-              <Input
-                value={editData[key as keyof MyInfoInterface]}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  onChange(key, e)
-                }
-              />
-            ) : (
-              <div>{editData[key as keyof MyInfoInterface]}</div>
-            )}
+            <Input
+              value={editData[key as keyof MyInfoInterface]}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                onChange(key, e)
+              }
+              readOnly={isEditing ? false : true}
+            />
           </>
         ))}
       </InputContainer>
       <ButtonContainer>
-        <QuitButton>탈퇴</QuitButton>
+        <QuitButton onClick={deleteMutate}>탈퇴</QuitButton>
         {isEditing ? (
-          <EditButton onClick={onSave}>저장</EditButton>
+          <EditButton onClick={mutate}>저장</EditButton>
         ) : (
           <EditButton
             onClick={() => {
@@ -110,12 +132,23 @@ const MyPageContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 800px;
-  /* margin-top: 67px; */
+  margin-top: 67px;
+  margin-bottom: 200px;
 `;
 
 const ProfileImg = styled.img``;
+
+const ProfileContainer = styled.div`
+  display: block;
+  position: relative;
+  margin-top: 80px;
+`;
+
+const StyledIcon = styled(IoSettingsOutline)`
+  position: absolute;
+  right: 0;
+  margin: 4px;
+`;
 
 const InputContainer = styled.div`
   margin-top: 60px;
@@ -135,6 +168,10 @@ const Input = styled.input`
   box-shadow:
     0 0 0 0.3px #98dde3 inset,
     2px 2px 8px #98dde31a;
+
+  &:read-only:focus-visible {
+    outline: none;
+  }
 `;
 
 const ButtonContainer = styled.div`
