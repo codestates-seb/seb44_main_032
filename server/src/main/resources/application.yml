@@ -15,7 +15,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/planet?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: ${MYSQL_KEY}
+    password: root1234
 
 
 
@@ -57,19 +57,29 @@ spring.config.activate.on-profile: "profiles-local"
 spring:
   s3:
 
-    bucket: code-assembly
-    access-key: ${AWS_ACCESS_KEY}
-    secret-key: ${AWS_SECRET_ACCESS_KEY}
+    bucket: kongsbucket
+    access-key:
+    secret-key:
 
 ---
 # DEV 설정
 
 spring:
   s3:
-    bucket: code-assembly
-    access-key: ${AWS_ACCESS_KEY}
-    secret-key: ${AWS_SECRET_ACCESS_KEY}
+    bucket: kongsbucket
+    access-key:
+    secret-key:
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${G_CLIENT_ID}
+            clientSecret: ${G_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
 
 
 

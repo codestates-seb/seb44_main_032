@@ -29,24 +29,28 @@ public class User extends Auditable {
     @Column(nullable = false, unique = true, updatable = false)
     private String email;
 
-    @Column(nullable = false)
+    /**
+     * @Author 영범
+     * OAuth 로그인은 pw not null 이면 안된다.
+     * */
+    @Column
     private String password;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
+//    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String nickname;
 
     // user 권한 부여
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "user")
     private List<Community> communities = new ArrayList<>();
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Plan> plans = new ArrayList<>();
 
@@ -59,4 +63,9 @@ public class User extends Auditable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
+    public User(String email, String name, String nickname) {
+        this.email = email;
+        this.name = name;
+        this.nickname = nickname;
+    }
 }

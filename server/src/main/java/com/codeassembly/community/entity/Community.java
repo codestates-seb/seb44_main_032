@@ -3,6 +3,7 @@ package com.codeassembly.community.entity;
 import com.codeassembly.audit.Auditable;
 import com.codeassembly.communitylike.entity.LikeCommunity;
 import com.codeassembly.comment.entity.Comment;
+import com.codeassembly.s3.dto.S3FileDto;
 import com.codeassembly.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,13 +25,13 @@ public class Community extends Auditable {
     private String title;
     private String body;
     @Column(nullable = false)
-    private int views; //조회수
+    private long views; //조회수
     @ManyToOne(fetch = FetchType.LAZY) //유저와 n:1
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
     @Column(nullable = false)
-    private int liked; //조회수
+    private long liked; //좋아요
 
     private String category;
 

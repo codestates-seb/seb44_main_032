@@ -1,7 +1,7 @@
 package com.codeassembly.user.service;
 
 import com.codeassembly.audit.Auditable;
-import com.codeassembly.auth.CustomAuthorityUtils;
+import com.codeassembly.auth.util.CustomAuthorityUtils;
 import com.codeassembly.config.SecurityConfiguration;
 import com.codeassembly.exception.BusinessLogicException;
 import com.codeassembly.exception.ExceptionCode;
@@ -46,11 +46,15 @@ public class UserService extends Auditable {
         if (exists) throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
     }
 
-
     // userId로 확인하는 방법
     public User findByUserId(long userId) {
         return userRepository.findByUserId(userId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+    }
+    // userEmail 로 확인하는 방법
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.EMAIL_NOT_FOUND));
     }
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
@@ -74,15 +78,20 @@ public class UserService extends Auditable {
     @Transactional(readOnly = true)
     public User findVerifiedUser(long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
-        User findUser  = optionalUser.orElseThrow(()-> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        User findUser = optionalUser.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
         return findUser;
     }
 
     //회원 탈퇴
-    public void deleteUser(long userId) {
+    public User deleteUser(long userId) {
         verifyExistsUser(userId); // 회원이 존재하는지 확인
 
         User findUser = findUser(userId);
         userRepository.delete(findUser);
+
+        return findUser;
+
     }
+
+
 }

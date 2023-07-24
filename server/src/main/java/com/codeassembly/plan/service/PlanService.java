@@ -22,6 +22,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.codeassembly.exception.ExceptionCode.COMMUNITY_NOT_FOUND;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -40,27 +42,36 @@ public class PlanService {
         return planRepository.save(plan);
     }
 
-    public Plan updatePlan(Long userId, Plan plan) {
-        Plan findPlan = findVerifiedPlan(userId);
+    public Plan updatePlan(long planId, Plan plan, String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        Plan findPlan = findVerifiedPlan(planId);
+
+        validateWriter(findPlan, user);
+
         Optional.ofNullable(plan.getTitle())
                 .ifPresent(title -> findPlan.setTitle(title));
         Optional.ofNullable(plan.getBody())
                 .ifPresent(body -> findPlan.setBody(body));
+
         return planRepository.save(findPlan);
     }
 
     public Plan findVerifiedPlan(long planId) {
-        Optional<Plan> plan =
-                planRepository.findByPlanId(planId);
-        Plan findPlan =
-                plan.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PLAN_NOT_FOUND));
+        Optional<Plan> plan = planRepository.findByPlanId(planId);
+        Plan findPlan = plan.orElseThrow(() -> new BusinessLogicException(ExceptionCode.PLAN_NOT_FOUND));
 
         return findPlan;
     }
 
-    public void deletePlan(Long planId) {
+    private static void validateWriter(Plan plan, Optional<User> user) {
+        if (!user.isPresent() || !user.get().getUserId().equals(plan.getUser().getUserId())) {
+            throw new BusinessLogicException(ExceptionCode.UNMATCHED_PLAN_WRITER);
+        }
+    }
+    public Plan deletePlan(Long planId) {
         Plan findPlan = findVerifiedPlan(planId);
         planRepository.delete(findPlan);
+        return findPlan;
     }
 
     public Plan findPlan(Long planId) {
@@ -97,17 +108,16 @@ public class PlanService {
         Page<Plan> plansPageByCategory = planRepository.findByCategory(category, pageable);
         return plansPageByCategory;
     }
-//    public Page<Plan> findPlans(int page, int size) {
-//        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
-//        Page<Plan> plansPage = planRepository.findAll(pageable);
-//        return plansPage;
-//    }
+    public Page<Plan> findPlans(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Plan> plansPage = planRepository.findAll(pageable);
+        return plansPage;
+    }
 
 //    public Page<Plan> searchPlans(String query, int page, int size){
 //        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
 //        Page<Plan> plansPage = planRepository.findByTitleContainingIgnoreCase(query, pageable);
 //        return plansPage;
 //    }
-
 
 }

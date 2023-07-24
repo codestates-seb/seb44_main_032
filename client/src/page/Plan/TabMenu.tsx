@@ -4,7 +4,6 @@ import axios from 'axios';
 // import plans from '../../assets/data/dummyPlan';
 import PlanCards from '../../components/Plan/PlanCards';
 
-
 const TabButton = styled.button<{ active: boolean }>`
   background-color: #fff;
   color: ${({ active }) => (active ? '#98DDE3' : '#787878')};
@@ -12,7 +11,7 @@ const TabButton = styled.button<{ active: boolean }>`
   border-radius: 0;
   padding: 12px 16px; /* 탭의 패딩값 */
   font-size: 20px;
-  
+
   &:first-child {
     border-top-left-radius: 7px; /* 첫 번째 탭의 왼쪽 상단 레디어스 */
     border-bottom-left-radius: 7px; /* 첫 번째 탭의 왼쪽 하단 레디어스 */
@@ -31,11 +30,11 @@ const TabButton = styled.button<{ active: boolean }>`
       transform: translateY(-50%);
       width: 1px;
       height: 15px; /* 오른쪽 테두리 선의 높이 */
-      background-color: #98DDE3;
+      background-color: #98dde3;
     }
   }
   cursor: pointer; /* 누를때 표시 */
-`
+`;
 
 const TabMenuContainer = styled.div`
   margin-bottom: 20px;
@@ -46,10 +45,7 @@ const TabMenuContainer = styled.div`
   @media (max-width: 500px) {
     margin-left: 60px;
   }
-
 `;
-
-
 
 const TabContent = styled.div`
   /* padding: 20px; */
@@ -58,9 +54,6 @@ const TabContent = styled.div`
 
   display: flex;
   flex-wrap: wrap;
-
-
-  
 `;
 
 const PageContainer = styled.div`
@@ -71,15 +64,15 @@ const PageContainer = styled.div`
   /* width: 100vh; 와이드가 고정되면 글쓰기 버튼 및 탭 하단 일정카드가 고정됨 그래서 비활성화 */
   /* border: 1px solid blue;//임시 */
   @media (max-width: 500px) {
-     overflow: auto;
-     /* justify-content: center; */
+    overflow: auto;
+    /* justify-content: center; */
   }
 `;
 
 const ContentContainer = styled.div`
   flex-grow: 1;
-  
-  margin-left: 120px;//196에서 변경 
+
+  margin-left: 120px; //196에서 변경
   /* border: 1px solid pink;//임시 */
 
   flex-wrap: wrap;
@@ -102,10 +95,8 @@ type TabData = {
   result: PlanData[];
 }; 
 
-
-
 const TabMenu: React.FC = () => {
-  const [activeTab, setActiveTab] = useState("");
+  const [activeTab, setActiveTab] = useState('');
   const [tabData, setTabData] = useState<TabData>({ result: [] });
   // const [tabData, setTabData] = useState<PlanData[]>([]);
 
@@ -115,20 +106,20 @@ const TabMenu: React.FC = () => {
 
   const tab = [
     {
-      name: "당일치기",
-      value: "oneday",
+      name: '당일치기',
+      value: 'oneday',
     },
     {
-      name: "여행",
-      value: "tour",
+      name: '여행',
+      value: 'tour',
     },
     {
-      name: "일상",
-      value: "daily",
+      name: '일상',
+      value: 'daily',
     },
     {
-      name: "회사",
-      value: "company",
+      name: '회사',
+      value: 'company',
     },
   ];
 
@@ -156,12 +147,10 @@ const TabMenu: React.FC = () => {
   // const currentData = tabData.result.filter((data) => data.value === activeTab) || [];
   const currentData = tabData.result.filter((data) => data.value === activeTab);
 
-  
-
   return (
     <PageContainer>
       <TabMenuContainer>
-        {tab.map((data) => (
+        {tab.map(data => (
           <TabButton
             key={data.value}
             active={activeTab === data.value}
@@ -178,6 +167,7 @@ const TabMenu: React.FC = () => {
         ) : (
           <PlanCards plandata={currentData} />
         )}
+
         </TabContent>
       </ContentContainer>
     </PageContainer>

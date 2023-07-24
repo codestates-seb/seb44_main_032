@@ -1,6 +1,6 @@
 package com.codeassembly.audit;
 
-import com.codeassembly.auth.CustomAuthorityUtils;
+import com.codeassembly.auth.util.CustomAuthorityUtils;
 import com.codeassembly.auth.JwtTokenizer;
 import com.codeassembly.response.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,10 +48,30 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
     }
 
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+//        String authorizationHeader = request.getHeader("Authorization");
+//        if (authorizationHeader == null || authorizationHeader.isEmpty()) {
+//            // "Authorization" 헤더가 없는 경우 예외 처리
+//            final ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.UNAUTHORIZED, "Missing authorization header");
+//            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+//            response.getWriter().write(errorResponse.getMessage());
+//            return;
+//        }
+//
+//        try {
+//            Map<String, Object> claims = verifyJws(request);
+//            setAuthenticationToContext(claims);
+//            filterChain.doFilter(request, response);
+//        } catch (Exception e) {
+//            final ErrorResponse errorResponse = ErrorResponse.of(HttpStatus.BAD_REQUEST, "Token expired");
+//            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+//            response.getWriter().write(errorResponse.getMessage());
+//        }
+//    }
+
     private Map<String, Object> verifyJws(HttpServletRequest request) {
         String jws = request.getHeader("Authorization").replace("Bearer ", "");
-
-
 
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
         Map<String, Object> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();
