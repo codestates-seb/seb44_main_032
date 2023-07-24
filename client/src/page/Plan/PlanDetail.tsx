@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
-import { Viewer } from '@toast-ui/react-editor';
-import '@toast-ui/editor/dist/toastui-editor-viewer.css';​
+// import { Viewer } from '@toast-ui/react-editor';
+// import '@toast-ui/editor/dist/toastui-editor-viewer.css';​
 
 const DetailSection = styled.section`
   display: flex;
@@ -205,7 +205,8 @@ function PlanDetail() {
         </DetailInfo>
         {/* <DetSection> */}
           <DetailContent>
-            <Viewer initialValue={planData.body} />
+            <p>{planData.body}</p>
+            {/* <Viewer initialValue={planData.body} /> */}
           </DetailContent>
           <ButtonWrapper>
             <PostButton to={`/plan/edit/${planId}`}>수정</PostButton>
