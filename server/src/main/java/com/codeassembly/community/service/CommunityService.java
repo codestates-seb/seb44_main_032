@@ -51,12 +51,14 @@ public class CommunityService {
         Community findCommunity = findVerifiedCommunity(communityId);
 
         validateWriter(findCommunity, user);
-
+        findCommunity.setUser(user.get());
         Optional.ofNullable(community.getTitle())
-                .ifPresent(title -> community.setTitle(title));
+                .ifPresent(title -> findCommunity.setTitle(title));
         Optional.ofNullable(community.getBody())
-                .ifPresent(body -> community.setBody(body));
-        return communityRepository.save(community);
+                .ifPresent(body -> findCommunity.setBody(body));
+        Optional.ofNullable(community.getCategory())
+                .ifPresent(category -> findCommunity.setCategory(category));
+        return communityRepository.save(findCommunity);
     }
     private static void validateWriter(Community community1, User user) {
         if (user.getUserId() != community1.getUser().getUserId()) {
