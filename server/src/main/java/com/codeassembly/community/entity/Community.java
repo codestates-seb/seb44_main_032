@@ -3,6 +3,7 @@ package com.codeassembly.community.entity;
 import com.codeassembly.audit.Auditable;
 import com.codeassembly.communitylike.entity.LikeCommunity;
 import com.codeassembly.comment.entity.Comment;
+import com.codeassembly.s3.dto.S3FileDto;
 import com.codeassembly.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
