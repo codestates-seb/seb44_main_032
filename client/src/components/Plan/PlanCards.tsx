@@ -85,11 +85,6 @@ function PlanCards({
       .sort((a,b) => +new Date(b.startDate) - +new Date(a.startDate))
       .map((data) => (
         <PlanContainerLink key={data.planId} to={`/plan/${data.planId}`}>
-
-
-  
-      
-      {/* // {sortedData.map((data) => ( */}
           <PlanContainer>
             <PlanCardTitle>{data.title}</PlanCardTitle>
              <PlanCardDate>           
