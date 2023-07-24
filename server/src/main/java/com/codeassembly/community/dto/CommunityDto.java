@@ -2,6 +2,7 @@ package com.codeassembly.community.dto;
 
 import com.codeassembly.comment.entity.Comment;
 import com.codeassembly.community.entity.Community;
+import com.codeassembly.s3.dto.S3FileDto;
 import com.codeassembly.user.entity.User;
 import lombok.*;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class CommunityDto {
 
-    @AllArgsConstructor
+
     @Getter
     @Setter
     public static class Post{
@@ -19,6 +20,11 @@ public class CommunityDto {
         private String title;
         private String body;
         private String category;
+        public Post(String title, String body, String category) {
+            this.title = title;
+            this.body = body;
+            this.category = category;
+        }
 
 
     }
