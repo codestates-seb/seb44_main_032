@@ -17,7 +17,7 @@ spring:
 jwt:                                 #key 설정 및 토큰 만료 시간 설정
   key: ${{secrets.JWT_SECRET_KEY}}
   access-token-expiration-minutes: 30
-  refresh-token-expiration-minutes: 420
+  refresh-token-expiration-minutes: 600
 mail:
   address:
     admin: admin@gmail.com
