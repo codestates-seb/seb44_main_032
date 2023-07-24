@@ -52,6 +52,8 @@ const LandingForm = styled.div`
   align-items: center;
   max-width: 1186px;
   width: 100%;
+  max-height: 730px;
+  height: 100%;
 `;
 
 const MainTextContainer = styled.div`
