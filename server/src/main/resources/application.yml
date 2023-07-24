@@ -78,8 +78,8 @@ spring:
             clientId: ${G_CLIENT_ID}
             clientSecret: ${G_CLIENT_SECRET}
             scope:
-             - email
-             - profile
+              - email
+              - profile
 
 
 
