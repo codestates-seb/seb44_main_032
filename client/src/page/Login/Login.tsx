@@ -9,7 +9,7 @@ import { useMutation, UseMutationResult } from 'react-query';
 import axios from 'axios';
 
 console.log(process.env.REACT_APP_SERVER);
-const apiURL = `https://ec2-13-125-24-29.ap-northeast-2.compute.amazonaws.com`;
+const apiURL = `http://ec2-13-125-24-29.ap-northeast-2.compute.amazonaws.com`;
 // 로그인 요청과 응답을 위한 타입 정의
 type LoginRequest = {
   email: string;
