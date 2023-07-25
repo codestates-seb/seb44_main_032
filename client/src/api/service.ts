@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// axios.defaults.baseURL = process.env.REACT_APP_SERVER;
+axios.defaults.baseURL = import.meta.env.REACT_APP_SERVER;
 import dailyJson from '../../public/community/getCommunityCategoryList-DAILY.json'
 import dayTripJson from '../../public/community/getCommunityCategoryList-DAYTRIP.json'
 import companyJson from '../../public/community/getCommunityCategoryList-COMPANY.json'

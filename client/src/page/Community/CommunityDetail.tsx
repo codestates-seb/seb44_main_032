@@ -5,7 +5,7 @@ import likeIcon from '../../assets/likeIcon.png';
 import likeIconRed from '../../assets/likeIconRed.png';
 import axios from 'axios';
 
-const apiUrl = process.env.REACT_APP_SERVER;
+const apiUrl = import.meta.env.REACT_APP_SERVER;
 
 // CommunityPost와 UserInfo에 대한 타입 정의
 type CommunityPost = {
