@@ -10,7 +10,7 @@ import axios from 'axios';
 
 const apiUrl = process.env.REACT_APP_SERVER;
 console.log(process.env.REACT_APP_SERVER)
-const api=https://ec2-13-125-24-29.ap-northeast-2.compute.amazonaws.com 
+const apiURL=`https://ec2-13-125-24-29.ap-northeast-2.compute.amazonaws.com` 
 // 로그인 요청과 응답을 위한 타입 정의
 type LoginRequest = {
   email: string;
@@ -25,14 +25,14 @@ type LoginResponse = {
 
 // 특정 제공자의 인증 URL을 가져오는 함수
 async function getAuthUrl(provider: string) {
-  const response = await fetch(`${api}/auth/${provider}`);
+  const response = await fetch(`${apiURL}/auth/${provider}`);
   const data = await response.json();
   window.location.href = data.url; // 제공자의 인증 페이지로 이동
 }
 
 // 코드를 사용하여 토큰을 가져오는 함수
 async function getToken(code: string): Promise<LoginResponse> {
-  const response = await fetch(`${api}/auth/token?code=${code}`);
+  const response = await fetch(`${apiURL}/auth/token?code=${code}`);
   const data = await response.json();
   return data;
 }
@@ -64,7 +64,7 @@ function Login() {
 
   // 로그인 요청을 보내는 함수
   async function login(loginRequest: LoginRequest): Promise<LoginResponse> {
-    const response = await axios.post(`${api}/user/login`, loginRequest);
+    const response = await axios.post(`${apiURL}/user/login`, loginRequest);
     const { token, memberId, nickname } = response.data;
     saveUserInfo(memberId, nickname); // 사용자 정보 저장
     saveToken(token); // 토큰 저장
