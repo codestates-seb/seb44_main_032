@@ -9,7 +9,7 @@ import googleIcon from '../../assets/google.png';
 import kakaoIcon from '../../assets/kakao.png';
 import githubIcon from '../../assets/github.png';
 
-const apiUrl = import.meta.env.REACT_APP_SERVER;
+const apiUrl = import.meta.env.VITE_REACT_APP_SERVER;
 
 // 회원가입 요청과 응답을 위한 타입 정의
 type SignUpRequest = {

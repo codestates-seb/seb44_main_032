@@ -10,6 +10,7 @@ import getCommunityList2Json from '../../public/community/getCommunityList-page2
 import getCommunityList3Json from '../../public/community/getCommunityList-page3.json'
 import getMyPageJson from '../../public/mypage/getMyPage.json'
 import editMyPageJson from '../../public/mypage/editMyPage.json'
+axios.defaults.baseURL = import.meta.env.VITE_REACT_APP_SERVER;
 
 export const getCommunityList = async (query: {
     pageSize?: number

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import PostTab from '../../components/Community/PostTab';
 import PostEditor from '../../components/Community/PostEditor';
 
-const apiUrl = import.meta.env.REACT_APP_SERVER;
+const apiUrl = import.meta.env.VITE_REACT_APP_SERVER;
 
 type CommunityPostFormData = {
   title: string;
