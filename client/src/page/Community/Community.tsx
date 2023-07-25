@@ -41,7 +41,7 @@ function Community() {
         return getCommunityList({
           page: pageNum,
           search: currentKeyword,
-          category,
+          category: category || undefined,
         });
       },
       {
@@ -61,7 +61,7 @@ function Community() {
     data.pages.forEach((page: CommunityDataInterface) => {
       currentData = currentData.concat(page.data);
     });
-  } else if (data) {
+  } else if (data && Array.isArray(data)) {
     currentData = data.slice();
   }
 
