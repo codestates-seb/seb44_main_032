@@ -90,7 +90,7 @@ try {
 }
 };
 
-export const patchUserInfo = async (userId?: number, body: {
+export const patchUserInfo = async (userId: number, body: {
   name: string
   nickname: string
   password: string

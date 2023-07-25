@@ -28,7 +28,7 @@ function MyPage() {
   const { data } = useQuery('getMyPage', () => getUserInfo(parsed.userId));
   const { mutate } = useMutation(
     ['patchMyInfo', editData],
-    () => patchUserInfo(parsed.userId, editData),
+    () => patchUserInfo(parsed.userId || 1, editData),
     {
       onSuccess: (d: { user: MyInfoInterface }) => {
         alert('저장되었습니다.');
@@ -108,9 +108,9 @@ function MyPage() {
         ))}
       </InputContainer>
       <ButtonContainer>
-        <QuitButton onClick={deleteMutate}>탈퇴</QuitButton>
+        <QuitButton onClick={() => deleteMutate()}>탈퇴</QuitButton>
         {isEditing ? (
-          <EditButton onClick={mutate}>저장</EditButton>
+          <EditButton onClick={() => mutate()}>저장</EditButton>
         ) : (
           <EditButton
             onClick={() => {
