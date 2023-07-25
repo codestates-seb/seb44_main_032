@@ -11,7 +11,7 @@ import githubIcon from '../../assets/github.png';
 
 const apiUrl = process.env.REACT_APP_SERVER;
 console.log(process.env.REACT_APP_SERVER)
-const api=https://ec2-13-125-24-29.ap-northeast-2.compute.amazonaws.com 
+const apiURL=`https://ec2-13-125-24-29.ap-northeast-2.compute.amazonaws.com`
 
 // 회원가입 요청과 응답을 위한 타입 정의
 type SignUpRequest = {
@@ -32,14 +32,14 @@ type SignUpResponse = {
 
 // 소셜 미디어 인증 URL 가져오기
 async function getAuthUrl(provider: string) {
-  const response = await fetch(`${api}/auth/${provider}`);
+  const response = await fetch(`${apiURL}/auth/${provider}`);
   const data = await response.json();
   window.location.href = data.url;
 }
 
 // 인증 코드를 사용하여 토큰 가져오기
 async function getToken(code: string): Promise<SignUpResponse> {
-  const response = await fetch(`${api}/auth/token?code=${code}`);
+  const response = await fetch(`${apiURL}/auth/token?code=${code}`);
   const data = await response.json();
   return data;
 }
@@ -78,7 +78,7 @@ function SignUp() {
 
   // 회원가입 API 호출
   async function signUp(signUpRequest: SignUpRequest): Promise<SignUpResponse> {
-    const response = await axios.post(`${api}/user/join`, signUpRequest);
+    const response = await axios.post(`${apiURL}/user/join`, signUpRequest);
     const { token } = response.data;
     saveToken(token); // 토큰 저장
     navigate('/login'); // 회원 가입이 완료되면 로그인 페이지로 이동
