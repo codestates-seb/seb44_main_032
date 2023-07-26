@@ -10,6 +10,7 @@ import axios from 'axios';
 
 const apiUrl = import.meta.env.VITE_REACT_APP_SERVER;
 
+
 // 로그인 요청과 응답을 위한 타입 정의
 type LoginRequest = {
   email: string;
