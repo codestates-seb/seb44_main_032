@@ -5,6 +5,9 @@ import { LuCalendarDays } from "react-icons/lu";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import PostEditor from '../../components/Plan/PostEditor';
+import { useParams } from 'react-router-dom';
+
+const apiUrl = import.meta.env.VITE_REACT_APP_SERVER;
 
 const PostSection = styled.section`
   display: flex;
@@ -13,6 +16,7 @@ const PostSection = styled.section`
   width: 100%;
   justify-content: center;
   align-items: center;
+  margin: 67px 0 30px;
 `;
 
 const PlanForm = styled.form`
@@ -193,20 +197,23 @@ const ButtonWrapper = styled.div`
 `;
 
 type PlanPostFormData = {
+  planId?: number;
   title: string;
-  value: string;
+  category: string; //value
   startDate: string;
   endDate: string;
-  content: string;
-};
+  body: string; //content
+}; 
 
 function PlanPost() {
+  // const { planId } = useParams<{ planId: string }>();
+  const { userId } = useParams<{ userId: string }>();
   const [formData, setFormData] = useState<PlanPostFormData>({
     title: "",
-    value: "",
+    category: "",
     startDate: "",
     endDate: "",
-    content: "",
+    body: "",
   });
 
   const [isEditMode, setIsEditMode] = useState(false);
@@ -219,13 +226,13 @@ function PlanPost() {
   useEffect(() => {
     // 수정 모드일 때 초기 데이터 설정
     if (isEditMode) {
-      const postId = window.location.pathname.split("/").pop(); // 수정 대상 게시물 ID
+      const planId = window.location.pathname.split("/").pop(); // 수정 대상 게시물 ID
 
       axios
-        .get(`/plan/post/${postId}`)
+        .get(`${apiUrl}/plan/${planId}`)
         .then((response) => {
-          const { title, value, startDate, endDate, content } = response.data;
-          setFormData({ title, value, startDate, endDate, content });
+          const { title, category, startDate, endDate, body } = response.data;
+          setFormData({ title, category, startDate, endDate, body });
         })
         .catch((error) => {
           console.log(error);
@@ -261,10 +268,10 @@ function PlanPost() {
     }));
   };
 
-  const handleContentChange = (content: string) => {
+  const handleBodyChange = (body: string) => {
     setFormData((prevData) => ({
       ...prevData,
-      content: content,
+      body: body,
     }));
   };
 
@@ -276,7 +283,7 @@ function PlanPost() {
       return;
     }
 
-    if (formData.value.trim() === '') {
+    if (formData.category.trim() === '') {
       alert('카테고리를 선택해주세요.');
       return;
     }
@@ -291,23 +298,23 @@ function PlanPost() {
       return;
     }
 
-    if (formData.content.trim() === "") {
+    if (formData.body.trim() === "") {
       alert("내용을 입력해주세요.");
       return;
     }
 
     const data = {
       title: formData.title,
-      value: formData.value,
+      category: formData.category,
       startDate: formData.startDate,
       endDate: formData.endDate,
-      content: formData.content,
+      body: formData.body,
     };
 
     if (isEditMode) {
-      const postId = window.location.pathname.split("/").pop(); // 수정 대상 게시물 ID
+      const planId = window.location.pathname.split("/").pop(); // 수정 대상 게시물 ID
       axios
-        .put(`/plan/post/${postId}`, data)
+        .put(`${apiUrl}/plan/edit/${planId}`, data)
         .then(() => {
           window.location.href = "/plan";
         })
@@ -316,7 +323,7 @@ function PlanPost() {
         });
     } else {
       axios
-        .post("/plan/post", data)
+        .post(`${apiUrl}/plan/registration/${userId}`, data)
         .then(() => {
           window.location.href = "/plan";
         })
@@ -328,19 +335,19 @@ function PlanPost() {
 
     setFormData({
       title: "",
-      value: "",
+      category: "",
       startDate: "",
       endDate: "",
-      content: "",
+      body: "",
     });
   };
 
 
 
   //   if (isEditMode) {
-  //     const postId = window.location.pathname.split("/").pop(); // 수정 대상 게시물 ID
+  //     const planId = window.location.pathname.split("/").pop(); // 수정 대상 게시물 ID
   //     axios
-  //       .put(`/plan/post/${postId}`, formData)
+  //       .put(`/plan/post/${planId}`, formData)
   //       .then(() => {
   //         window.location.href = "/plan";
   //       })
@@ -359,13 +366,13 @@ function PlanPost() {
         </InputContainer>
         <PlanTitle>카테고리</PlanTitle>
         <TabButton
-          onCategorySelect={(value: string) =>
+          onCategorySelect={(category: string) =>
             setFormData(prevFormData => ({
               ...prevFormData,
-              value,
+              category,
             }))
           }
-          selectedCategory={formData.value}
+          selectedCategory={formData.category}
         />
         <DateContainer>
           <div>
@@ -398,8 +405,8 @@ function PlanPost() {
         <InputContainer>
           <PlanTitle>내용</PlanTitle>
           <PostEditor
-            content={formData.content}
-            getEditorContent={handleContentChange}
+            content={formData.body}
+            getEditorContent={handleBodyChange}
             isEditMode={isEditMode}
           
           />

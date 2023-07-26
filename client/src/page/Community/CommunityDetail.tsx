@@ -5,6 +5,8 @@ import likeIcon from '../../assets/likeIcon.png';
 import likeIconRed from '../../assets/likeIconRed.png';
 import axios from 'axios';
 
+const apiUrl = import.meta.env.VITE_REACT_APP_SERVER;
+
 // CommunityPost와 UserInfo에 대한 타입 정의
 type CommunityPost = {
   communityId: number;
@@ -37,11 +39,10 @@ function CommunityDetail() {
   const { communityId } = useParams<{ communityId: string }>();
   const [post, setPost] = useState<CommunityPost | null>(null);
   const [newCommentBody, setNewCommentBody] = useState('');
+  const [userCommentBody, setUserCommentBody] = useState('');
   const [editingCommentId, setEditingCommentId] = useState('');
-  const [nickname, setNickname] = useState('유닝');
-  const [profileImage, setProfileImage] = useState(
-    'https://via.placeholder.com/400',
-  );
+  const [nickname, setNickname] = useState('');
+  const [profileImage, setProfileImage] = useState('');
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [isLiked, setIsLiked] = useState(false);
   const [like, setLike] = useState(0);
@@ -58,45 +59,45 @@ function CommunityDetail() {
   // 게시물 가져오는 함수
   async function fetchPost() {
     try {
-      const communityPost: CommunityPost = {
-        communityId: 1,
-        title: '워터밤 가면 좋겠다',
-        content:
-          '워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고 투명한 내 맘 아래천천...워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고 투명한 내 맘 아래천천...',
-        category: '회사',
-        like: 3,
-        createdAt: '2023-07-15-12:00',
-        writer: {
-          memberId: 1,
-          nickname: '복실한 사모예드',
-        },
-        comments: [
-          {
-            commentId: '혜인',
-            commentBody: '몰라잉',
-            createdAt: '2023-07-15-13:00',
-            commenterImage: 'https://via.placeholder.com/400',
-            likes: 2,
-          },
-          {
-            commentId: '예리',
-            commentBody: '뭐라는겨',
-            createdAt: '2023-07-15-14:00',
-            commenterImage: 'https://via.placeholder.com/400',
-            likes: 1,
-          },
-          {
-            commentId: '지윤',
-            commentBody: '으윽;',
-            createdAt: '2023-07-16-15:00',
-            commenterImage: 'https://via.placeholder.com/400',
-            likes: 0,
-          },
-        ],
-      };
+      // const communityPost: CommunityPost = {
+      //   communityId: 1,
+      //   title: '워터밤 가면 좋겠다',
+      //   content:
+      //     '워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고 투명한 내 맘 아래천천...워터밤은 고글필수지 이번행사 라인업 보니까 존잼 차갑고 투명한 내 맘 아래천천...',
+      //   category: '회사',
+      //   like: 3,
+      //   createdAt: '2023-07-15-12:00',
+      //   writer: {
+      //     memberId: 1,
+      //     nickname: '복실한 사모예드',
+      //   },
+      //   comments: [
+      //     {
+      //       commentId: '혜인',
+      //       commentBody: '몰라잉',
+      //       createdAt: '2023-07-15-13:00',
+      //       commenterImage: 'https://via.placeholder.com/400',
+      //       likes: 2,
+      //     },
+      //     {
+      //       commentId: '예리',
+      //       commentBody: '뭐라는겨',
+      //       createdAt: '2023-07-15-14:00',
+      //       commenterImage: 'https://via.placeholder.com/400',
+      //       likes: 1,
+      //     },
+      //     {
+      //       commentId: '지윤',
+      //       commentBody: '으윽;',
+      //       createdAt: '2023-07-16-15:00',
+      //       commenterImage: 'https://via.placeholder.com/400',
+      //       likes: 0,
+      //     },
+      //   ],
+      // };
       // 서버에서 데이터 가져오는 요청
-      // const response = await axios.get(`/community/${communityId}`);
-      // const communityPost: CommunityPost = response.data;
+      const response = await axios.get(`${apiUrl}/community/${communityId}`);
+      const communityPost: CommunityPost = response.data;
       setPost(communityPost);
       setLike(communityPost.like);
       setCommentLikes(
@@ -137,13 +138,13 @@ function CommunityDetail() {
     try {
       // 서버로 댓글 데이터를 전송하는 요청
       const response = await axios.post(`/community/${communityId}/comments`, {
-        commentBody: newCommentBody,
+        commentBody: userCommentBody, // 새로운 상태 변수 사용
       });
 
       // 요청이 성공하면 게시물 데이터를 다시 가져오고, 댓글 입력 필드를 초기화
       if (response.status === 200) {
         fetchPost();
-        setNewCommentBody('');
+        setUserCommentBody(''); // 새로운 상태 변수 초기화
       }
     } catch (error) {
       console.error(error);
@@ -152,7 +153,7 @@ function CommunityDetail() {
 
   // 수정 버튼 클릭 처리 함수
   function handleEditButtonClick() {
-    navigate(`/community/${communityId}/edit`, { state: { post } });
+    navigate(`${apiUrl}/community/${communityId}/edit`, { state: { post } });
   }
 
   // 게시물 좋아요 클릭 처리 함수
@@ -161,7 +162,7 @@ function CommunityDetail() {
       setLike(prevLike => prevLike - 1);
       try {
         // 좋아요 취소 요청
-        await axios.delete(`/community/like/${communityId}`);
+        await axios.delete(`${apiUrl}/community/like/${communityId}`);
       } catch (error) {
         console.error(error);
       }
@@ -169,7 +170,7 @@ function CommunityDetail() {
       setLike(prevLike => prevLike + 1);
       try {
         // 좋아요 등록 요청
-        await axios.post(`/community/like/${communityId}`);
+        await axios.post(`${apiUrl}/community/like/${communityId}`);
       } catch (error) {
         console.error(error);
       }
@@ -210,7 +211,7 @@ function CommunityDetail() {
     if (commentLikes[commentId]) {
       // 좋아요 취소 요청
       axios
-        .delete(`/community/${communityId}/comments/like/${commentId}`)
+        .delete(`${apiUrl}/community/${communityId}/comments/like/${commentId}`)
         .then(response => {
           console.log(response.data);
         })
@@ -220,7 +221,7 @@ function CommunityDetail() {
     } else {
       // 좋아요 등록 요청
       axios
-        .post(`/community/${communityId}/comments/like/${commentId}`)
+        .post(`${apiUrl}/community/${communityId}/comments/like/${commentId}`)
         .then(response => {
           console.log(response.data);
         })
@@ -238,9 +239,12 @@ function CommunityDetail() {
     if (userInfo) {
       try {
         // 서버에 댓글 수정 요청
-        await axios.patch(`/community/${communityId}/comments/${commentId}`, {
-          commentBody: newCommentBody,
-        });
+        await axios.patch(
+          `${apiUrl}/community/${communityId}/comments/${commentId}`,
+          {
+            commentBody: newCommentBody,
+          },
+        );
         // 수정 후 게시물 데이터를 다시 가져오고, 현재 수정 중인 댓글 아이디를 초기화
         fetchPost();
         setEditingCommentId('');
@@ -255,7 +259,9 @@ function CommunityDetail() {
     if (userInfo) {
       try {
         // 서버에 댓글 삭제 요청
-        await axios.delete(`/community/${communityId}/comments/${commentId}`);
+        await axios.delete(
+          `${apiUrl}/community/${communityId}/comments/${commentId}`,
+        );
         // 삭제 후 게시물 데이터를 다시 가져옴
         fetchPost();
       } catch (error) {
@@ -413,9 +419,9 @@ function CommunityDetail() {
               <UserNickName>{nickname}</UserNickName>
               {/* 사용자 댓글 입력 필드 */}
               <UserCommentInput
-                value={newCommentBody}
+                value={userCommentBody}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setNewCommentBody(e.target.value)
+                  setUserCommentBody(e.target.value)
                 }
               />
               {/* 댓글 작성 버튼 */}
@@ -435,8 +441,8 @@ const DetailSection = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #f9f9f9;
-  padding-top: 87px;
-  padding-bottom: 87px;
+  padding-top: 90px;
+  padding-bottom: 60px;
 `;
 
 const EditSection = styled.div`
@@ -568,10 +574,6 @@ const CommentSection = styled.div`
   margin-top: 8px;
   margin-bottom: 16px;
   height: 95px;
-  &:hover {
-    border: 1px solid #98dde3;
-    border-radius: 8px;
-  }
 `;
 
 const CommenterImage = styled.img`
@@ -604,17 +606,17 @@ const DownText = styled.div`
 
 const CommentInput = styled.input`
   font-size: 16px;
-  height: 54px;
-  max-width: 450px;
+  height: 75px;
+  max-width: 430px;
   margin-bottom: 8px;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 2px solid #d9d9d9;
 `;
 
 const CommentLikeIcon = styled.img`
   height: 20px;
   width: 20px;
-  margin-top: 24px;
+  margin-top: 28px;
   margin-left: auto;
   margin-bottom: 8px;
   cursor: pointer;

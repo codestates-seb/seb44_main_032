@@ -5,40 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db898432-6345-42b7-8574-5df974117d3e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/assets/likeIconRed.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/assets/profile.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/test/java/com/codeassembly/server/JwtTokenizerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/assets/data/dummyPlan.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/assets/data/dummyPlan.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Community/PostTab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Community/PostTab.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Community/PostsCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Community/PostsCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Community/WriteButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Community/WriteButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Header/Header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Plan/PlanCards.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Plan/PlanCards.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/page/Community/Community.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/page/Community/Community.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/page/Community/CommunityDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/page/Community/CommunityDetail.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/page/MyPage/MyPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/page/MyPage/MyPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/page/Plan/PlanDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/page/Plan/PlanDetail.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/page/Plan/TabMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/page/Plan/TabMenu.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/audit/JwtVerificationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/audit/JwtVerificationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/auth/controller/JwtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/auth/controller/JwtController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/comment/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/comment/controller/CommentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/comment/dto/CommentDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/comment/dto/CommentDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/comment/entity/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/comment/entity/Comment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/comment/repository/CommentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/comment/repository/CommentRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/comment/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/comment/service/CommentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/community/controller/CommunityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/community/controller/CommunityController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/community/dto/CommunityDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/community/dto/CommunityDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/community/repository/CommunityRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/community/repository/CommunityRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/community/service/CommunityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/community/service/CommunityService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/exception/ExceptionCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/exception/ExceptionCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/plan/controller/PlanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/plan/controller/PlanController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/plan/repository/PlanRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/plan/repository/PlanRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/plan/service/PlanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/plan/service/PlanService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/user/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/user/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/user/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/test/java/com/codeassembly/server/CodeassembleApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/com/codeassembly/server/CodeassembleApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

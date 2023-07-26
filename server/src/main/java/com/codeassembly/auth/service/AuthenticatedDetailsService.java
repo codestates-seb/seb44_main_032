@@ -3,7 +3,7 @@ package com.codeassembly.auth.service;
 
 // 데이터베이스에서 조회한 User의 인증 정보를 기반으로 인증을 처리
 
-import com.codeassembly.auth.CustomAuthorityUtils;
+import com.codeassembly.auth.util.CustomAuthorityUtils;
 import com.codeassembly.exception.BusinessLogicException;
 import com.codeassembly.exception.ExceptionCode;
 import com.codeassembly.user.repository.UserRepository;

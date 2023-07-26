@@ -8,6 +8,9 @@ import githubIcon from '../../assets/github.png';
 import { useMutation, UseMutationResult } from 'react-query';
 import axios from 'axios';
 
+const apiUrl = import.meta.env.VITE_REACT_APP_SERVER;
+
+// 로그인 요청과 응답을 위한 타입 정의
 type LoginRequest = {
   email: string;
   password: string;
@@ -19,30 +22,32 @@ type LoginResponse = {
   nickname: string;
 };
 
+// 특정 제공자의 인증 URL을 가져오는 함수
 async function getAuthUrl(provider: string) {
-  // 해당 프로바이더의 인증 URL을 가져옴
-  const response = await fetch(`/api/auth/${provider}`);
+  const response = await fetch(`${apiUrl}/oauth2/authorization/${provider}`);
   const data = await response.json();
-  window.location.href = data.url;
+  window.location.href = data.url; // 제공자의 인증 페이지로 이동
 }
 
+// 코드를 사용하여 토큰을 가져오는 함수
 async function getToken(code: string): Promise<LoginResponse> {
-  // 코드를 사용하여 토큰을 가져옴
-  const response = await fetch(`/api/auth/token?code=${code}`);
+  const response = await fetch(`${apiUrl}/oauth2?access_token=${code}`);
   const data = await response.json();
   return data;
 }
 
+// Login 컴포넌트
 function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(''); // 이메일 상태
+  const [password, setPassword] = useState(''); // 비밀번호 상태
 
+  // 로그인 요청을 위한 useMutation 훅
   const loginMutation: UseMutationResult<LoginResponse, unknown, LoginRequest> =
     useMutation(login);
 
+  // 코드를 사용하여 토큰을 가져오고 저장하는 useEffect
   useEffect(() => {
-    // URL 매개변수에서 코드를 가져와 토큰을 얻음
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
     if (code) {
@@ -57,26 +62,18 @@ function Login() {
     }
   }, []);
 
+  // 로그인 요청을 보내는 함수
   async function login(loginRequest: LoginRequest): Promise<LoginResponse> {
-    // 로그인 요청을 보냄 (실제 백엔드 API 호출)
-    const response = await axios.post('/user/login', loginRequest);
-    // const response = {
-    //   data: {
-    //     memberId: 1,
-    //     password: 1234,
-    //     token: 'your_token_here',
-    //   },
-    // };
-
+    const response = await axios.post(`${apiUrl}/user/login`, loginRequest);
     const { token, memberId, nickname } = response.data;
-    saveUserInfo(memberId, nickname);
-    saveToken(token);
+    saveUserInfo(memberId, nickname); // 사용자 정보 저장
+    saveToken(token); // 토큰 저장
     navigate('/');
     return response.data;
   }
 
+  // 로그인 폼 제출 핸들러
   function formSubmitLoginHandler() {
-    // 폼 제출 시 유효성을 검사하고 로그인 요청을 보냄
     if (!email && !password) {
       alert('이메일과 비밀번호를 모두 입력해주세요.');
     } else if (!isValidEmail(email)) {
@@ -88,25 +85,23 @@ function Login() {
     }
   }
 
+  // 이메일 유효성 검사 함수
   function isValidEmail(email: string) {
-    // 이메일 유효성 검사 (정규식 사용)
-    console.log(email);
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     return emailRegex.test(email);
   }
 
+  // 비밀번호 유효성 검사 함수
   function isValidPassword(password: string) {
-    // 패스워드 유효성 검사
-    const isLongEnough = password.length >= 8; // 최소 8자 이상
-
+    const isLongEnough = password.length >= 8;
     const specialCharacterRegex = /[!@#$%^&*(),.?":{}|<>]/g;
     const specialCharacterCount = (password.match(specialCharacterRegex) || [])
       .length;
-    const hasEnoughSpecialCharacters = specialCharacterCount >= 2; // 최소 2개의 특수 문자
-
+    const hasEnoughSpecialCharacters = specialCharacterCount >= 2;
     return isLongEnough && hasEnoughSpecialCharacters;
   }
 
+  // 사용자 정보를 로컬 스토리지에 저장하는 함수
   function saveUserInfo(memberId: number, nickname: string): void {
     const userInfo = {
       memberId,
@@ -115,28 +110,35 @@ function Login() {
     localStorage.setItem('userInfo', JSON.stringify(userInfo));
   }
 
+  // 토큰을 로컬 스토리지에 저장하는 함수
   function saveToken(token: string): void {
-    // 토큰을 로컬 스토리지에 저장
     localStorage.setItem('token', token);
   }
 
+  // OAuth 로그인 핸들러
   function handleOAuthLogin(provider: string) {
-    // OAuth 로그인 버튼 클릭 시 해당 프로바이더의 인증 URL을 가져옴
     getAuthUrl(provider);
   }
 
   return (
     <LoginSection>
       <LoginFormSection>
+        {/* 로그인 폼 */}
         <LoginForm>
+          {/* 로고 이미지 */}
           <LogoImg src={Logo} alt="logo" />
+          {/* 입력 필드 섹션 */}
           <LoginInputSection>
+            {/* 이메일 입력 부분의 텍스트 */}
             <LoginInputText>이메일</LoginInputText>
+            {/* 이메일 입력란 */}
             <LoginInput
               value={email}
               onChange={(e: any) => setEmail(e.target.value)}
             />
+            {/* 비밀번호 입력 부분의 텍스트 */}
             <LoginInputText>비밀번호</LoginInputText>
+            {/* 비밀번호 입력란 */}
             <LoginInput
               type="password"
               value={password}
@@ -144,22 +146,29 @@ function Login() {
             />
           </LoginInputSection>
           <LoginBorder />
+          {/* 회원가입 및 로그인 버튼 섹션 */}
           <LoginButtonSection>
+            {/* 로그인 버튼 */}
             <LoginButton onClick={formSubmitLoginHandler}>로그인</LoginButton>
+            {/* 회원가입 버튼 */}
             <SignUpButton to="/signup">회원가입</SignUpButton>
           </LoginButtonSection>
-          <LoginOAuthSection>
-            <OAuthGoogle onClick={() => handleOAuthLogin('google')}>
-              Log in with Google
-            </OAuthGoogle>
-            <OAuthKakao onClick={() => handleOAuthLogin('kakao')}>
-              Log in with Kakao
-            </OAuthKakao>
-            <OAuthGithub onClick={() => handleOAuthLogin('github')}>
-              Log in with Github
-            </OAuthGithub>
-          </LoginOAuthSection>
         </LoginForm>
+        {/* 각 OAuth 서비스로 로그인 할 수 있는 버튼을 담고 있는 영역 */}
+        <LoginOAuthSection>
+          {/* Google을 통한 로그인 버튼 */}
+          <OAuthGoogle onClick={() => handleOAuthLogin('google')}>
+            Log in with Google
+          </OAuthGoogle>
+          {/* Kakao을 통한 로그인 버튼 */}
+          <OAuthKakao onClick={() => handleOAuthLogin('kakao')}>
+            Log in with Kakao
+          </OAuthKakao>
+          {/* Github을 통한 로그인 버튼 */}
+          <OAuthGithub onClick={() => handleOAuthLogin('github')}>
+            Log in with Github
+          </OAuthGithub>
+        </LoginOAuthSection>
       </LoginFormSection>
     </LoginSection>
   );
@@ -169,42 +178,44 @@ export default Login;
 
 const LoginSection = styled.div`
   background-color: white;
-  padding-top: 67px;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  width: 100%;
+  padding-top: 90px;
+  padding-bottom: 60px;
 `;
 
 const LoginFormSection = styled.div`
   display: flex;
-  height: 800px;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const LoginForm = styled.div`
   background-color: #fbfbfb;
   border-radius: 25px;
-  height: 420px;
+  height: 378px;
   max-width: 400px;
-  margin: 16px;
   width: 100%;
+  margin: 16px;
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-bottom: 60px;
   box-shadow: 3px 4px 4px rgb(152, 221, 227, 0.25);
 `;
 
 const LogoImg = styled.img`
   width: 176px;
-  margin-top: 20px;
-  padding: 24px;
+  margin-top: 16px;
+  padding: 20px;
 `;
 
 const LoginInputSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
-  margin-top: 16px;
 `;
 
 const LoginInputText = styled.div`
@@ -276,7 +287,7 @@ const SignUpButton = styled(Link)`
 const LoginOAuthSection = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 48px;
+  margin-top: 4px;
   padding: 16px;
 `;
 

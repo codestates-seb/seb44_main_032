@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import TabMenu from "./TabMenu";
-// import WriteButton from './WriteButton';
 import { PiPencilSimple } from "react-icons/pi";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+// import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
+const apiUrl = import.meta.env.VITE_REACT_APP_SERVER;
 
 
 const PlanSection = styled.div`//페이지 전체
@@ -13,7 +15,7 @@ const PlanSection = styled.div`//페이지 전체
     padding: 128px 0;//196px
     justify-content: flex-start; //고정
     align-items: center; //수직 가운데 정렬
-    /* border: 1px solid yellow;//임시 */
+    margin-top: 67px;
     /* flex-wrap: wrap; X */
      @media (max-width: 500px) {
      padding: 64px 0;
@@ -46,7 +48,7 @@ const WriteButtonContainer = styled.div`//글쓰기버튼
 
 `;
 
-const WriteButtonBtn = styled(Link)`
+const WriteButtonBtn = styled.div`
   width: 46px;
   height: 44px;
   display: flex;
@@ -59,26 +61,46 @@ const WriteButtonBtn = styled(Link)`
   color: white;
 `;
 
-function WriteButton() {
+// function WriteButton({ userId }: { userId: string }) {
+function WriteButton({ token }: { token: string | null }) {
+  const navigate = useNavigate();
+
+  // const handleWriteButtonClick = async () => {
+  //   if (userId) {
+  //     navigate(`${apiUrl}/plan/registration/${userId}`);
+  //   } else {
+  //     alert('사용자 ID가 없습니다. 로그인 후에 사용가능힙니다.');
+  //   }
+  // };
+  const handleWriteButtonClick = async () => {
+    if (token) {
+      navigate(`${apiUrl}/plan/registration/${token}`);
+    } else {
+      alert('로그인이 필요합니다.');
+      navigate('/login');
+    }
+  };
+
+
   return (
     <WriteButtonContainer>
-      <WriteButtonBtn to="/plan/post">
+      <WriteButtonBtn onClick={handleWriteButtonClick}>
         <PiPencilSimple />
       </WriteButtonBtn>
     </WriteButtonContainer>
   );
 }
 
-  
 
 function Plan (){
-    
-
+  // const { userId } = useParams<{ userId: string }>();
+  const token = localStorage.getItem('token');
     return (
         <PlanSection>
             <TabMenuWrapper>
               <TabMenu />
-                <WriteButton />
+                {/* <WriteButton userId={userId || ""} /> */}
+                <WriteButton token={token} />
             </TabMenuWrapper>
         </PlanSection>
     );
