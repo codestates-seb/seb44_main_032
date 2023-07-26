@@ -23,9 +23,9 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/community" element={<Community />} />
-        <Route path="/community/:id" element={<CommunityDetail />} />
-        <Route path="/community/:id/edit" element={<CommunityPostForm />} />
-        <Route path="/community/post" element={<CommunityPostForm />} />
+        <Route path="/community/detail/:id" element={<CommunityDetail />} />
+        <Route path="/community/edit/:id" element={<CommunityPostForm />} />
+        <Route path="/community/registration/:id" element={<CommunityPostForm />} />
         <Route path="/plan" element={<Plan />} />
         <Route path="/plan/:Id/" element={<PlanDetail />} />
         <Route path="/plan/registration/:id" element={<PlanPost />} />
