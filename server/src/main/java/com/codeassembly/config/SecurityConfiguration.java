@@ -64,8 +64,16 @@ public class SecurityConfiguration {
                                 .antMatchers(HttpMethod.POST, "/token").permitAll()
                                 .antMatchers(HttpMethod.POST, "/*/user/**").permitAll()
                                 .antMatchers(HttpMethod.GET, "/*/user/**").permitAll()
-                                .antMatchers(HttpMethod.POST, "/*/qna/**").authenticated()
-                                .antMatchers(HttpMethod.GET, "/*/qna/**").permitAll()
+                                .antMatchers(HttpMethod.POST, "/*/community/**").authenticated()
+                                .antMatchers(HttpMethod.PATCH, "/*/community/**").permitAll()
+                                .antMatchers(HttpMethod.GET, "/*/community/**").permitAll()
+                                .antMatchers(HttpMethod.PATCH, "/*/plan/**").authenticated()
+                                .antMatchers(HttpMethod.POST, "/*/plan/**").authenticated()
+                                .antMatchers(HttpMethod.GET, "/*/plan/**").permitAll()
+                                .antMatchers(HttpMethod.DELETE, "/*/plan/**").authenticated()
+                                .antMatchers(HttpMethod.POST, "/comment/**").authenticated()
+                                .antMatchers(HttpMethod.PATCH, "/comment/**").authenticated()
+                                .antMatchers(HttpMethod.DELETE, "/comment/**").authenticated()
                                 .antMatchers(HttpMethod.PATCH, "/**").authenticated()
                                 .antMatchers(HttpMethod.DELETE, "/**").authenticated()
 
@@ -94,7 +102,7 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("OPTIONS", "GET", "POST", "PATCH", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList(
                 "Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization",

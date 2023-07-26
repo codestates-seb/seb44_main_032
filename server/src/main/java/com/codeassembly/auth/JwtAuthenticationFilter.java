@@ -43,7 +43,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         // Username과 Password 정보를 포함한 UsernamePasswordAuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
+                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
 
         return authenticationManager.authenticate(authenticationToken); // 인증 처리 위임
     }
@@ -75,7 +75,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private String delegateAccessToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("username", user.getEmail());
+        claims.put("email", user.getEmail());
         claims.put("roles", user.getRoles());
 
         String subject = user.getEmail();
