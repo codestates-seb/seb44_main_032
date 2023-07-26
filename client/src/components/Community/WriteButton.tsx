@@ -7,10 +7,13 @@ function WriteButton() {
   const navigate = useNavigate();
 
   const onClick = async () => {
-    await alert('로그인이 필요합니다.');
+    if (!token) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
     navigate(token ? '/community/post' : '/login');
   };
-
+  
   return (
     <WriteButtonBtn onClick={onClick}>
       <PiPencilSimple size="22px" />
