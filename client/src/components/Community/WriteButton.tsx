@@ -3,7 +3,7 @@ import { PiPencilSimple } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
 
 function WriteButton() {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('isLogin');
   const navigate = useNavigate();
 
   // 토큰이 있으면 로그인 된 상태
@@ -14,9 +14,8 @@ function WriteButton() {
   const onClick = async () => {
     if (!token) {
       alert('로그인이 필요합니다.');
-      return;
     }
-    navigate(token ? '/community/post' : '/login');
+    navigate(token ? '/community/registration/0' : '/login');
   };
 
   return (
