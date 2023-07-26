@@ -33,14 +33,14 @@ type SignUpResponse = {
 
 // 소셜 미디어 인증 URL 가져오기
 async function getAuthUrl(provider: string) {
-  const response = await fetch(`${apiURL}/auth/${provider}`);
+  const response = await fetch(`${apiURL}/oauth2/authorization/${provider}`);
   const data = await response.json();
   window.location.href = data.url;
 }
 
 // 인증 코드를 사용하여 토큰 가져오기
 async function getToken(code: string): Promise<SignUpResponse> {
-  const response = await fetch(`${apiURL}/auth/token?code=${code}`);
+  const response = await fetch(`${apiURL}/oauth2?access_token=${code}`);
   const data = await response.json();
   return data;
 }
