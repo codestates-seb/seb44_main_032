@@ -131,10 +131,11 @@ const TabMenu: React.FC = () => {
         const response = await axios.get(`${apiUrl}/plan/all`); // 서버로부터 데이터를 받아오는 API 경로
         // const apiData: PlanData[][] = response.data; // 서버에서 반환되는 데이터 형식에 따라서 데이터를 추출하여 설정
         // setTabData({ result: apiData });
+        // console.log(response.data); // 받아온 데이터 콘솔에 출력
         const apiData: PlanData[] = response.data;
         setTabData({ result: apiData });
       } catch (error) {
-        console.error('API 호출 에러:', error);
+        // console.error('API 호출 에러:', error);
       }
     };
 
