@@ -5,6 +5,8 @@ import { Link, useParams } from 'react-router-dom';
 // import { Viewer } from '@toast-ui/react-editor';
 // import '@toast-ui/editor/dist/toastui-editor-viewer.css';​
 
+const apiUrl = import.meta.env.VITE_REACT_APP_SERVER;
+
 const DetailSection = styled.section`
   display: flex;
   background-color: #f9f9f9;
@@ -158,7 +160,7 @@ function PlanDetail() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/plan/${planId}`);
+        const response = await axios.get(`${apiUrl}/plan/${planId}`);
         setPlanData(response.data);
         // 가져온 데이터의 category 값(카테고리)을 selectedCategory로 설정합니다.
         setSelectedCategory(response.data.category);

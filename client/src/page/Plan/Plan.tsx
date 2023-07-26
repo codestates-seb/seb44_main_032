@@ -4,7 +4,7 @@ import { PiPencilSimple } from "react-icons/pi";
 // import { Link } from "react-router-dom";
 import { useNavigate,useParams } from "react-router-dom";
 
-
+const apiUrl = import.meta.env.VITE_REACT_APP_SERVER;
 
 
 const PlanSection = styled.div`//페이지 전체
@@ -65,7 +65,7 @@ function WriteButton({ userId }: { userId: string }) {
 
   const handleWriteButtonClick = async () => {
     if (userId) {
-      navigate(`/plan/registration/${userId}`);
+      navigate(`${apiUrl}/plan/registration/${userId}`);
     } else {
       alert('사용자 ID가 없습니다. 로그인 후에 사용가능힙니다.');
     }
