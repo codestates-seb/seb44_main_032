@@ -13,11 +13,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/planet?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: ${MYSQL_KEY}
+    password: ${{secrets.MYSQL_KEY}}
 jwt:                                 #key 설정 및 토큰 만료 시간 설정
-  key: ${JWT_SECRET_KEY}
+  key: ${{secrets.JWT_SECRET_KEY}}
   access-token-expiration-minutes: 30
-  refresh-token-expiration-minutes: 420
+  refresh-token-expiration-minutes: 600
 mail:
   address:
     admin: admin@gmail.com
@@ -47,22 +47,22 @@ spring.config.activate.on-profile: "profiles-local"
 spring:
   s3:
     bucket: code-assembly
-    access-key: ${AWS_ACCESS_KEY}
-    secret-key: ${AWS_SECRET_ACCESS_KEY}
+    access-key: ${{secrets.AWS_ACCESS_KEY}}
+    secret-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
 ---
 # DEV 설정
 spring:
   s3:
     bucket: code-assembly
-    access-key: ${AWS_ACCESS_KEY}
-    secret-key: ${AWS_SECRET_ACCESS_KEY}
+    access-key: ${{secrets.AWS_ACCESS_KEY}}
+    secret-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
   security:
     oauth2:
       client:
         registration:
           google:
-            clientId: ${G_CLIENT_ID}
-            clientSecret: ${G_CLIENT_SECRET}
+            clientId: ${{secrets.G_CLIENT_ID}}
+            clientSecret: ${{secrets.G_CLIENT_SECRET}}
             scope:
               - email
               - profile

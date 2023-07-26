@@ -8,6 +8,7 @@ import lombok.*;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommunityDto {
@@ -16,7 +17,7 @@ public class CommunityDto {
     @Getter
     @Setter
     public static class Post{
-       // private Long userId;
+        // private Long userId;
         private String title;
         private String body;
         private String category;
@@ -44,7 +45,9 @@ public class CommunityDto {
         private UserInfo userInfo;
         private Long views;
         private Long liked;
-        private List<Comment> comments;
+        //        private List<Comment> comments;
+        private List<CommentInfo> comments;
+
 
         public Response(Community community, UserInfo userInfo) {
             this.communityId = community.getCommunityId();
@@ -56,7 +59,24 @@ public class CommunityDto {
             this.userInfo = userInfo; // 받은 userInfo를 설정
             this.views = community.getViews();
             this.liked = community.getLiked();
-            this.comments = community.getComments();
+            this.comments = new ArrayList<>();
+            for (Comment comment : community.getComments()) {
+                this.comments.add(new CommentInfo(comment.getCommentId(), comment.getCommentBody()));
+            }
+        }
+
+        // 단순화된 댓글 정보를 담기 위한 내부 클래스
+        @Getter
+        @Setter
+        @NoArgsConstructor
+        public static class CommentInfo {
+            private Long commentId;
+            private String commentBody;
+
+            public CommentInfo(Long commentId, String commentBody) {
+                this.commentId = commentId;
+                this.commentBody = commentBody;
+            }
         }
     }
 
