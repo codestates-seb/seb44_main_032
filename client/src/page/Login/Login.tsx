@@ -24,14 +24,14 @@ type LoginResponse = {
 
 // 특정 제공자의 인증 URL을 가져오는 함수
 async function getAuthUrl(provider: string) {
-  const response = await fetch(`${apiURL}/auth/${provider}`);
+  const response = await fetch(`${apiURL}/oauth2/authorization/${provider}`);
   const data = await response.json();
   window.location.href = data.url; // 제공자의 인증 페이지로 이동
 }
 
 // 코드를 사용하여 토큰을 가져오는 함수
 async function getToken(code: string): Promise<LoginResponse> {
-  const response = await fetch(`${apiURL}/auth/token?code=${code}`);
+  const response = await fetch(`${apiURL}/oauth2?access_token=${code}`);
   const data = await response.json();
   return data;
 }
