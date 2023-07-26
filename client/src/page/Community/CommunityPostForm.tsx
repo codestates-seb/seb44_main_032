@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import PostTab from '../../components/Community/PostTab';
 import PostEditor from '../../components/Community/PostEditor';
 
+const apiUrl = import.meta.env.VITE_REACT_APP_SERVER;
+
 type CommunityPostFormData = {
   title: string;
   category: string;
@@ -95,7 +97,7 @@ function CommunityPostForm() {
     // 수정 모드일 경우, 수정 요청
     if (isEditMode && editedPost) {
       axios
-        .put(`/community/${editedPost.communityId}`, formData, {
+        .put(`${apiUrl}/community/${editedPost.communityId}`, formData, {
           headers: {
             Auth: token,
           },
@@ -109,7 +111,7 @@ function CommunityPostForm() {
     } else {
       // 등록 모드일 경우, 등록 요청
       axios
-        .post(`/community/registration/${userId}`, formData, {
+        .post(`${apiUrl}/community/registration/${userId}`, formData, {
           headers: {
             Auth: token,
           },

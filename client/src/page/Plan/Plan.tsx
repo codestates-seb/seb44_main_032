@@ -2,9 +2,10 @@ import styled from "styled-components";
 import TabMenu from "./TabMenu";
 import { PiPencilSimple } from "react-icons/pi";
 // import { Link } from "react-router-dom";
-import { useNavigate,useParams } from "react-router-dom";
+// import { useNavigate,useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-
+const apiUrl = import.meta.env.VITE_REACT_APP_SERVER;
 
 
 const PlanSection = styled.div`//페이지 전체
@@ -60,14 +61,23 @@ const WriteButtonBtn = styled.div`
   color: white;
 `;
 
-function WriteButton({ userId }: { userId: string }) {
+// function WriteButton({ userId }: { userId: string }) {
+function WriteButton({ token }: { token: string | null }) {
   const navigate = useNavigate();
 
+  // const handleWriteButtonClick = async () => {
+  //   if (userId) {
+  //     navigate(`${apiUrl}/plan/registration/${userId}`);
+  //   } else {
+  //     alert('사용자 ID가 없습니다. 로그인 후에 사용가능힙니다.');
+  //   }
+  // };
   const handleWriteButtonClick = async () => {
-    if (userId) {
-      navigate(`/plan/registration/${userId}`);
+    if (token) {
+      navigate(`${apiUrl}/plan/registration/${token}`);
     } else {
-      alert('사용자 ID가 없습니다. 로그인 후에 사용가능힙니다.');
+      alert('로그인이 필요합니다.');
+      navigate('/login');
     }
   };
 
@@ -80,24 +90,17 @@ function WriteButton({ userId }: { userId: string }) {
     </WriteButtonContainer>
   );
 }
-// function WriteButton() {
-//   return (
-//     <WriteButtonContainer>
-//       <WriteButtonBtn to="/plan/post">
-//         <PiPencilSimple />
-//       </WriteButtonBtn>
-//     </WriteButtonContainer>
-//   );
-// }
 
 
 function Plan (){
-  const { userId } = useParams<{ userId: string }>();
+  // const { userId } = useParams<{ userId: string }>();
+  const token = localStorage.getItem('token');
     return (
         <PlanSection>
             <TabMenuWrapper>
               <TabMenu />
-                <WriteButton userId={userId || ""} />
+                {/* <WriteButton userId={userId || ""} /> */}
+                <WriteButton token={token} />
             </TabMenuWrapper>
         </PlanSection>
     );

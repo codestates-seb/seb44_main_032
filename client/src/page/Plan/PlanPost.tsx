@@ -7,6 +7,7 @@ import axios from 'axios';
 import PostEditor from '../../components/Plan/PostEditor';
 import { useParams } from 'react-router-dom';
 
+const apiUrl = import.meta.env.VITE_REACT_APP_SERVER;
 
 const PostSection = styled.section`
   display: flex;
@@ -228,7 +229,7 @@ function PlanPost() {
       const planId = window.location.pathname.split("/").pop(); // 수정 대상 게시물 ID
 
       axios
-        .get(`/plan/${planId}`)
+        .get(`${apiUrl}/plan/${planId}`)
         .then((response) => {
           const { title, category, startDate, endDate, body } = response.data;
           setFormData({ title, category, startDate, endDate, body });
@@ -313,7 +314,7 @@ function PlanPost() {
     if (isEditMode) {
       const planId = window.location.pathname.split("/").pop(); // 수정 대상 게시물 ID
       axios
-        .put(`/plan/edit/${planId}`, data)
+        .put(`${apiUrl}/plan/edit/${planId}`, data)
         .then(() => {
           window.location.href = "/plan";
         })
@@ -322,7 +323,7 @@ function PlanPost() {
         });
     } else {
       axios
-        .post(`/plan/registration/${userId}`, data)
+        .post(`${apiUrl}/plan/registration/${userId}`, data)
         .then(() => {
           window.location.href = "/plan";
         })

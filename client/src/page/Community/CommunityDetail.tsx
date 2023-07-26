@@ -5,6 +5,8 @@ import likeIcon from '../../assets/likeIcon.png';
 import likeIconRed from '../../assets/likeIconRed.png';
 import axios from 'axios';
 
+const apiUrl = import.meta.env.VITE_REACT_APP_SERVER;
+
 // CommunityPost와 UserInfo에 대한 타입 정의
 type CommunityPost = {
   communityId: number;
@@ -94,7 +96,7 @@ function CommunityDetail() {
       //   ],
       // };
       // 서버에서 데이터 가져오는 요청
-      const response = await axios.get(`/community/${communityId}`);
+      const response = await axios.get(`${apiUrl}/community/${communityId}`);
       const communityPost: CommunityPost = response.data;
       setPost(communityPost);
       setLike(communityPost.like);
@@ -151,7 +153,7 @@ function CommunityDetail() {
 
   // 수정 버튼 클릭 처리 함수
   function handleEditButtonClick() {
-    navigate(`/community/${communityId}/edit`, { state: { post } });
+    navigate(`${apiUrl}/community/${communityId}/edit`, { state: { post } });
   }
 
   // 게시물 좋아요 클릭 처리 함수
@@ -160,7 +162,7 @@ function CommunityDetail() {
       setLike(prevLike => prevLike - 1);
       try {
         // 좋아요 취소 요청
-        await axios.delete(`/community/like/${communityId}`);
+        await axios.delete(`${apiUrl}/community/like/${communityId}`);
       } catch (error) {
         console.error(error);
       }
@@ -209,7 +211,7 @@ function CommunityDetail() {
     if (commentLikes[commentId]) {
       // 좋아요 취소 요청
       axios
-        .delete(`/community/${communityId}/comments/like/${commentId}`)
+        .delete(`${apiUrl}/community/${communityId}/comments/like/${commentId}`)
         .then(response => {
           console.log(response.data);
         })
@@ -219,7 +221,7 @@ function CommunityDetail() {
     } else {
       // 좋아요 등록 요청
       axios
-        .post(`/community/${communityId}/comments/like/${commentId}`)
+        .post(`${apiUrl}/community/${communityId}/comments/like/${commentId}`)
         .then(response => {
           console.log(response.data);
         })
@@ -237,9 +239,12 @@ function CommunityDetail() {
     if (userInfo) {
       try {
         // 서버에 댓글 수정 요청
-        await axios.patch(`/community/${communityId}/comments/${commentId}`, {
-          commentBody: newCommentBody,
-        });
+        await axios.patch(
+          `${apiUrl}/community/${communityId}/comments/${commentId}`,
+          {
+            commentBody: newCommentBody,
+          },
+        );
         // 수정 후 게시물 데이터를 다시 가져오고, 현재 수정 중인 댓글 아이디를 초기화
         fetchPost();
         setEditingCommentId('');
@@ -254,7 +259,9 @@ function CommunityDetail() {
     if (userInfo) {
       try {
         // 서버에 댓글 삭제 요청
-        await axios.delete(`/community/${communityId}/comments/${commentId}`);
+        await axios.delete(
+          `${apiUrl}/community/${communityId}/comments/${commentId}`,
+        );
         // 삭제 후 게시물 데이터를 다시 가져옴
         fetchPost();
       } catch (error) {

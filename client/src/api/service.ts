@@ -1,15 +1,6 @@
 import axios from 'axios';
 
-// axios.defaults.baseURL = process.env.REACT_APP_SERVER;
-import dailyJson from '../../public/community/getCommunityCategoryList-DAILY.json'
-import dayTripJson from '../../public/community/getCommunityCategoryList-DAYTRIP.json'
-import companyJson from '../../public/community/getCommunityCategoryList-COMPANY.json'
-import travelJson from '../../public/community/getCommunityCategoryList-TRAVEL.json'
-import getCommunityList1Json from '../../public/community/getCommunityList-page1.json'
-import getCommunityList2Json from '../../public/community/getCommunityList-page2.json'
-import getCommunityList3Json from '../../public/community/getCommunityList-page3.json'
-import getMyPageJson from '../../public/mypage/getMyPage.json'
-import editMyPageJson from '../../public/mypage/editMyPage.json'
+axios.defaults.baseURL = import.meta.env.VITE_REACT_APP_SERVER;
 
 export const getCommunityList = async (query: {
     pageSize?: number
@@ -32,33 +23,7 @@ export const getCommunityList = async (query: {
     );
     return response.data;
   } catch (error) {
-    // TODO: dummy 제거
-    if (category) {
-      if (category === 'DAILY') {
-        return dailyJson
-      }
-      if (category === 'DAYTRIP') {
-        return dayTripJson
-      }
-      if (category === 'TRAVEL') {
-        return travelJson
-      }
-      if (category === 'COMPANY') {
-        return companyJson
-      }
-
-      return getCommunityList1Json
-    }
-
-    if (page === 2) {
-      return getCommunityList2Json
-    }
-    if (page === 3) {
-      return getCommunityList3Json
-    }
-
-    return getCommunityList1Json
-    // return error;
+    return error;
   }
 };
 
@@ -85,8 +50,7 @@ try {
 
   return response.data;
 } catch (error) {
-  return getMyPageJson.data // TODO: dummy 제거
-  // return error;
+  return error;
 }
 };
 
@@ -104,7 +68,6 @@ try {
 
   return response.data;
 } catch (error) {
-  return editMyPageJson.data // TODO: dummy 제거
-  // return error;
+  return error;
 }
 };

@@ -5,13 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db898432-6345-42b7-8574-5df974117d3e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/server/src/main/resources/static/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/.env" beforeDir="false" afterPath="$PROJECT_DIR$/client/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/auth/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/auth/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/config/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/user/dto/LoginDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codeassembly/user/dto/LoginDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/community/getCommunityCategoryList-COMPANY.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/community/getCommunityCategoryList-DAYTRIP.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/community/getCommunityCategoryList-TRAVEL.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/community/getCommunityCategoryList-daily.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/community/getCommunityCategoryList.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/community/getCommunityDetail.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/community/getCommunityList-page1.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/community/getCommunityList-page2.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/community/getCommunityList-page3.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/community/getCommunityList.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/community/search.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/mypage/deleteMyPage.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/mypage/editMyPage.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/public/mypage/getMyPage.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/api/service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/api/service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/page/Community/CommunityDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/page/Community/CommunityDetail.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/page/Community/CommunityPostForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/page/Community/CommunityPostForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/page/Login/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/page/Login/Login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/page/MyPage/MyPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/page/MyPage/MyPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/page/Plan/Plan.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/page/Plan/Plan.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/page/Plan/PlanDetail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/page/Plan/PlanDetail.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/page/Plan/PlanPost.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/page/Plan/PlanPost.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/page/Plan/TabMenu.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/page/Plan/TabMenu.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/page/SignUp/SignUp.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/page/SignUp/SignUp.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
