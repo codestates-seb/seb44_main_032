@@ -205,7 +205,16 @@ type PlanPostFormData = {
   body: string; //content
 }; 
 
-function PlanPost() {
+type PlanData = {
+  planId: number;
+  title: string;
+  category: string;
+  startDate: string;
+  endDate: string;
+  body: string;
+};
+
+function PlanPost({ planData }: { planData?: PlanData | null }) {
   // const { planId } = useParams<{ planId: string }>();
   const { userId } = useParams<{ userId: string }>();
   const [formData, setFormData] = useState<PlanPostFormData>({
@@ -224,21 +233,29 @@ function PlanPost() {
   }, []);
 
   useEffect(() => {
-    // 수정 모드일 때 초기 데이터 설정
-    if (isEditMode) {
-      const planId = window.location.pathname.split("/").pop(); // 수정 대상 게시물 ID
-
-      axios
-        .get(`${apiUrl}/plan/${planId}`)
-        .then((response) => {
-          const { title, category, startDate, endDate, body } = response.data;
-          setFormData({ title, category, startDate, endDate, body });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    // 기존 데이터가 존재하면 폼 데이터에 설정
+    if (planData) {
+      const { title, category, startDate, endDate, body } = planData;
+      setFormData({ title, category, startDate, endDate, body });
     }
-  }, [isEditMode]);
+  }, [planData]);
+
+  // useEffect(() => {
+  //   // 수정 모드일 때 초기 데이터 설정
+  //   if (isEditMode) {
+  //     const planId = window.location.pathname.split("/").pop(); // 수정 대상 게시물 ID
+
+  //     axios
+  //       .get(`${apiUrl}/plan/${planId}`)
+  //       .then((response) => {
+  //         const { title, category, startDate, endDate, body } = response.data;
+  //         setFormData({ title, category, startDate, endDate, body });
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   }
+  // }, [isEditMode]);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevData) => ({
@@ -246,13 +263,6 @@ function PlanPost() {
       title: e.target.value,
     }));
   };
-
-  // const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     value: e.target.value,
-  //   }));
-  // };
 
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevData) => ({
@@ -283,7 +293,7 @@ function PlanPost() {
       return;
     }
 
-    if (formData.category.trim() === '') {
+    if (formData.category.trim() === "") {
       alert('카테고리를 선택해주세요.');
       return;
     }
@@ -303,18 +313,18 @@ function PlanPost() {
       return;
     }
 
-    const data = {
-      title: formData.title,
-      category: formData.category,
-      startDate: formData.startDate,
-      endDate: formData.endDate,
-      body: formData.body,
-    };
+    // const data = {
+    //   title: formData.title,
+    //   category: formData.category,
+    //   startDate: formData.startDate,
+    //   endDate: formData.endDate,
+    //   body: formData.body,
+    // };
 
     if (isEditMode) {
       const planId = window.location.pathname.split("/").pop(); // 수정 대상 게시물 ID
       axios
-        .put(`${apiUrl}/plan/edit/${planId}`, data)
+        .patch(`${apiUrl}/plan/edit/${planId}`, formData)
         .then(() => {
           window.location.href = "/plan";
         })
@@ -323,7 +333,7 @@ function PlanPost() {
         });
     } else {
       axios
-        .post(`${apiUrl}/plan/registration/${userId}`, data)
+        .post(`${apiUrl}/plan/registration/${userId}`, formData)
         .then(() => {
           window.location.href = "/plan";
         })

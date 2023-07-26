@@ -160,7 +160,7 @@ function PlanDetail() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/plan/${planId}`);
+        const response = await axios.get(`${apiUrl}/plan/detail/${planId}`);
         setPlanData(response.data);
         // 가져온 데이터의 category 값(카테고리)을 selectedCategory로 설정합니다.
         setSelectedCategory(response.data.category);
@@ -171,6 +171,7 @@ function PlanDetail() {
 
     fetchData();
   }, [planId]);
+  
   // 더미데이터를 사용합니다.
   //   setPlanData(dummyPlanData);
   // }, [planId]);
