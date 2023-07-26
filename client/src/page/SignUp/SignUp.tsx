@@ -30,14 +30,14 @@ type SignUpResponse = {
 
 // 소셜 미디어 인증 URL 가져오기
 async function getAuthUrl(provider: string) {
-  const response = await fetch(`${apiURL}/oauth2/authorization/${provider}`);
+  const response = await fetch(`${apiUrl}/oauth2/authorization/${provider}`);
   const data = await response.json();
   window.location.href = data.url;
 }
 
 // 인증 코드를 사용하여 토큰 가져오기
 async function getToken(code: string): Promise<SignUpResponse> {
-  const response = await fetch(`${apiURL}/oauth2?access_token=${code}`);
+  const response = await fetch(`${apiUrl}/oauth2?access_token=${code}`);
   const data = await response.json();
   return data;
 }
@@ -76,7 +76,7 @@ function SignUp() {
 
   // 회원가입 API 호출
   async function signUp(signUpRequest: SignUpRequest): Promise<SignUpResponse> {
-    const response = await axios.post(`${apiURL}/user/join`, signUpRequest);
+    const response = await axios.post(`${apiUrl}/user/join`, signUpRequest);
     const { token } = response.data;
     saveToken(token); // 토큰 저장
     navigate('/login'); // 회원 가입이 완료되면 로그인 페이지로 이동
