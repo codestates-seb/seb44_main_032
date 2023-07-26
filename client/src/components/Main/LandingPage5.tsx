@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import commentIcon from '../../assets/commentIcon.png';
+import landingComment from '../../assets/landingComment.png';
 import ContentIcon from '../../assets/ContentIcon.png';
 import landingCommunityIphone from '../../assets/landingCommunityIphone.png';
 import { useNavigate } from 'react-router';
@@ -22,7 +22,7 @@ function LandingPage5() {
       </MainTextContainer>
       <ContentContainer>
         <ImgContainer>
-          <OverlayImageLeft src={commentIcon} />
+          <OverlayImageLeft src={landingComment} />
           <OverlayImageRight src={ContentIcon} />
           <BackgroundImage src={landingCommunityIphone} />
         </ImgContainer>
