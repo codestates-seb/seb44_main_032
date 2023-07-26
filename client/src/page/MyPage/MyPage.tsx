@@ -25,14 +25,14 @@ function MyPage() {
   });
   const userInfoString = localStorage.getItem('userInfo');
   const parsed = JSON.parse(userInfoString || '{}');
-  const { data } = useQuery('getMyPage', () => getUserInfo(parsed.memberId));
+  const { data } = useQuery('getMyPage', () => getUserInfo(parsed.userId));
   const { mutate } = useMutation(
     ['patchMyInfo', editData],
-    () => patchUserInfo(parsed.memberId || 1, editData),
+    () => patchUserInfo(parsed.userId || 1, editData),
     {
-      onSuccess: (d: { user: MyInfoInterface }) => {
+      onSuccess: (d: { data: { user: MyInfoInterface } }) => {
         alert('저장되었습니다.');
-        setEditData(d.user);
+        setEditData(d.data.user);
         setIsEditing(false);
       },
     },
@@ -40,7 +40,7 @@ function MyPage() {
 
   const { mutate: deleteMutate } = useMutation(
     'deleteUser',
-    () => deleteUser(parsed.memberId),
+    () => deleteUser(parsed.userId),
     {
       onSuccess: () => {
         alert('탈퇴되었습니다.');
@@ -56,7 +56,7 @@ function MyPage() {
 
   useEffect(() => {
     if (data) {
-      setEditData(data.user);
+      setEditData(data.data.user);
     }
   }, [data]);
 

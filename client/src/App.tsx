@@ -13,7 +13,6 @@ import PlanPost from './page/Plan/PlanPost';
 import MyPage from './page/MyPage/MyPage';
 
 function App() {
-
   return (
     <>
       <Header />
@@ -23,13 +22,19 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/community" element={<Community />} />
-        <Route path="/community/detail/:id" element={<CommunityDetail />} />
+        <Route
+          path="/community/detail/:communityId"
+          element={<CommunityDetail />}
+        />
         <Route path="/community/edit/:id" element={<CommunityPostForm />} />
-        <Route path="/community/registration/:id" element={<CommunityPostForm />} />
+        <Route
+          path="/community/registration/:id"
+          element={<CommunityPostForm />}
+        />
         <Route path="/plan" element={<Plan />} />
         <Route path="/plan/detail/:planId" element={<PlanDetail />} />
         <Route path="/plan/registration/:userId" element={<PlanPost />} />
-        <Route path="/plan/edit/:planId" element={<PlanPost/>} />
+        <Route path="/plan/edit/:planId" element={<PlanPost />} />
       </Routes>
       <Footer />
     </>

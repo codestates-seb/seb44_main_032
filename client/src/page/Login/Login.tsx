@@ -66,12 +66,11 @@ function Login() {
   async function login(loginRequest: LoginRequest): Promise<LoginResponse> {
     const response = await axios.post(`${apiUrl}/user/login`, loginRequest);
     const {
-      token,
       data: { userId },
       nickname,
     } = response.data;
     saveUserInfo(userId, nickname); // 사용자 정보 저장
-    saveToken(token); // 토큰 저장
+    saveToken(response.headers.authorization);
     navigate('/');
     return response.data;
   }
