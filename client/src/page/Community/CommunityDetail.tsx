@@ -170,7 +170,7 @@ function CommunityDetail() {
       setLike(prevLike => prevLike + 1);
       try {
         // 좋아요 등록 요청
-        await axios.post(`/community/like/${communityId}`);
+        await axios.post(`${apiUrl}/community/like/${communityId}`);
       } catch (error) {
         console.error(error);
       }
