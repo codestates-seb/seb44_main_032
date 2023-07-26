@@ -97,7 +97,7 @@ function CommunityPostForm() {
     // 수정 모드일 경우, 수정 요청
     if (isEditMode && editedPost) {
       axios
-        .put(`${apiUrl}/community/${editedPost.communityId}`, formData, {
+        .patch(`${apiUrl}/community/${editedPost.communityId}`, formData, {
           headers: {
             Auth: token,
           },
