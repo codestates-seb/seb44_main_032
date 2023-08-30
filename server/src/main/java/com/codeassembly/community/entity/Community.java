@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
@@ -29,7 +30,8 @@ public class Community extends Auditable {
     @ManyToOne(fetch = FetchType.LAZY) //유저와 n:1
     @JoinColumn(name = "userId", nullable = false)
     private User user;
-
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommunityUploadFile> uploadFiles = new ArrayList<>();
     @Column(nullable = false)
     private long liked; //좋아요
 

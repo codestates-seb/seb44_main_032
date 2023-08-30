@@ -3,6 +3,7 @@ package com.codeassembly.community.controller;
 import com.codeassembly.auth.JwtTokenizer;
 import com.codeassembly.community.dto.CommunityDto;
 import com.codeassembly.community.entity.Community;
+import com.codeassembly.community.entity.CommunityUploadFile;
 import com.codeassembly.community.mapper.CommunityMapper;
 import com.codeassembly.community.service.CommunityService;
 import com.codeassembly.response.MultiResponseDto;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/community")
@@ -41,7 +43,7 @@ public class CommunityController {
     @PostMapping("/registration/{userId}")
     public ResponseEntity<Object> createCommunityWithFiles(
             @PathVariable("userId") Long userId,
-            @RequestPart(value = "files", required = false) List<MultipartFile> multipartFiles,
+            @RequestPart(value = "files", required = false) List<MultipartFile> multipartFiles, //이미지파일
             @Valid CommunityDto.Post requestBody,
             @RequestHeader("Authorization") String token,
             @RequestParam(value = "fileType", required = false) String fileType) {
@@ -54,10 +56,19 @@ public class CommunityController {
             // 파일이 전송된 경우에만 파일 업로드를 처리
             uploadedFileUrls = amazon3SService.uploadFiles(fileType, multipartFiles);
         }
+        // 업로드된 파일 정보를 CommunityUploadFile 엔티티로 변환하고 저장
+        List<CommunityUploadFile> communityUploadFiles = uploadedFileUrls.stream()
+                .map(url -> mapper.s3FileDtoToCommunityUploadFile(url))
+                .collect(Collectors.toList());
+
+        // Community 엔티티와 연관시켜 저장
+        Community community = mapper.communityPostDtoToCommunity(requestBody);
+        community.getUploadFiles().addAll(communityUploadFiles); // 연관 관계 설정
+
+        // Community 엔티티 저장
+        Community createdCommunity = communityService.createdCommunity(userId, community);
 
         // 게시판 생성 처리
-        Community community = mapper.communityPostDtoToCommunity(requestBody);
-        Community createdCommunity = communityService.createdCommunity(userId, community);
         CommunityDto.Response response = mapper.communityToResponseDto(createdCommunity);
         response.setUserInfo(new CommunityDto.UserInfo(createdCommunity.getUser())); // userInfo 설정
 
@@ -78,8 +89,8 @@ public class CommunityController {
             @RequestPart(value = "files", required = false) List<MultipartFile> multipartFiles,
             @RequestParam(value = "fileType", required = false) String fileType,
             @RequestParam(value = "deleteFile", required = false) boolean deleteFile,
-            @RequestParam(value = "uploadFilePath", required = false) String uploadFilePath,
-            @RequestParam(value = "uuidFileName", required = false) String uuidFileName,
+            @RequestParam(value = "uploadFilePath", required = false) String uploadFilePath, //삭제파일 위치
+            @RequestParam(value = "uuidFileName", required = false) String uuidFileName, //삭제파일 이름
             @Valid  CommunityDto.Patch requestBody,
             @RequestHeader("Authorization") String token) {
 
@@ -96,9 +107,13 @@ public class CommunityController {
         if (multipartFiles != null && !multipartFiles.isEmpty()) {
             uploadedFileUrls = amazon3SService.uploadFiles(fileType, multipartFiles);
         }
-
+        // 업로드된 파일 정보를 CommunityUploadFile 엔티티로 변환하고 저장
+        List<CommunityUploadFile> communityUploadFiles = uploadedFileUrls.stream()
+                .map(url -> mapper.s3FileDtoToCommunityUploadFile(url))
+                .collect(Collectors.toList());
         // 게시글 수정 처리
         Community community = mapper.communityPatchDtoToCommunity(requestBody);
+        community.getUploadFiles().addAll(communityUploadFiles);
         Community updateCommunity = communityService.updateCommunity(communityId, community, getToken);
         CommunityDto.Response response = mapper.communityToResponseDto(updateCommunity);
 
